@@ -1,6 +1,7 @@
 package com.group2bootcamp23.demo.entity.hotel;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
@@ -15,9 +16,13 @@ public class RoomFacility {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "id")
+    private Long id;
 
 
+    @NonNull
+    @NotBlank
+    @Column(name = "facility")
     private String facility;
 
     @ManyToMany
@@ -26,5 +31,6 @@ public class RoomFacility {
             joinColumns = @JoinColumn(name = "room_facility_id"),
             inverseJoinColumns = @JoinColumn(name = "room_id")
     )
+    @Column(name = "rooms")
     private List<Room> rooms;
 }
