@@ -1,4 +1,4 @@
-package com.group2bootcamp23.demo.entity.hotel;
+package com.group2bootcamp23.moonlight.entity.hotel;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -47,7 +47,6 @@ public class RoomReservation {
 
     @ManyToOne
     @JsonManagedReference
-    @Column(name = "room")
     @NotNull(message = "To make room reservation you need room")
     private Room room;
 

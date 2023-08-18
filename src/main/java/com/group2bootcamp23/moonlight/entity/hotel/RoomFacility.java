@@ -1,4 +1,4 @@
-package com.group2bootcamp23.demo.entity.hotel;
+package com.group2bootcamp23.moonlight.entity.hotel;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -19,7 +19,6 @@ public class RoomFacility {
     @Column(name = "id")
     private Long id;
 
-
     @NonNull
     @NotBlank
     @Column(name = "facility")
@@ -31,6 +30,5 @@ public class RoomFacility {
             joinColumns = @JoinColumn(name = "room_facility_id"),
             inverseJoinColumns = @JoinColumn(name = "room_id")
     )
-    @Column(name = "rooms")
     private List<Room> rooms;
 }

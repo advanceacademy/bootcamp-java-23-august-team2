@@ -1,4 +1,4 @@
-package com.group2bootcamp23.demo.entity.hotel;
+package com.group2bootcamp23.moonlight.entity.hotel;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
@@ -13,10 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Room {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
+
     @Column(name = "room_number")
     @Min(value = 1)
     @NotNull(message = "Room should have room number")
