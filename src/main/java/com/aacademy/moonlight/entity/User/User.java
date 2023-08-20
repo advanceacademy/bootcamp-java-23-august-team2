@@ -7,11 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,6 +19,8 @@ import java.util.Date;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, name = "id")
+    @NotNull
     private Long id;
 
     @Column(name = "first_name")
@@ -61,5 +61,6 @@ public class User {
 
     @ManyToOne
     @JsonManagedReference
+    @JoinColumn(name = "user_role_id")
     private UserRole userRole;
 }
