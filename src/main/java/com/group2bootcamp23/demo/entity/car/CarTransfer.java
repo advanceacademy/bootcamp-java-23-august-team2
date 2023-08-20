@@ -30,10 +30,10 @@ public class CarTransfer {
     @NotBlank
     private LocalDate date;
 
-
     @NotNull
     @NotBlank
     @Min(value = 600)
+    @Column(name = "price")
     private Double price;
     //will take this value from price_per_day from category
 
@@ -47,7 +47,7 @@ public class CarTransfer {
 //    @JsonManagedReference
 //    @JoinColumn(name = "user_id")
 //    private User user;
- // Enable when we have User
+// Enable when we have User
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonManagedReference

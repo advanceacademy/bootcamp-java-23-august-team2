@@ -2,6 +2,8 @@ package com.group2bootcamp23.demo.entity.car;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -22,13 +24,20 @@ public class Car {
     @Column(name = "car_id")
     private Long id;
 
-    @Column(name = "brand_and_model")
-    @NotNull(message = "The car should have brand and model")
+    @Column(name = "brand")
+    @NotNull(message = "The car should have brand")
+    @NotBlank
+    private String brand;
+
+    @Column(name = "model")
+    @NotNull(message = "The car should have model")
+    @NotBlank
     private String model;
 
     @Column(name = "year")
     @NotNull
-    private String manufacturingYear;
+    @Min(value = 2015)
+    private Integer manufacturingYear;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_categories")
