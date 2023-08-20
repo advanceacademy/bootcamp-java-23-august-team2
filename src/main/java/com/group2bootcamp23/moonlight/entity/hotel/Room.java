@@ -1,10 +1,12 @@
 package com.group2bootcamp23.moonlight.entity.hotel;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "rooms")
 @Setter
@@ -43,4 +45,9 @@ public class Room {
     @Column(name = "facilities")
     @NotNull()
     private List<RoomFacility> facilities;
+
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @JsonBackReference
+    @Column(name = "room_reservations")
+    private Set<RoomReservation> roomReservations;
 }
