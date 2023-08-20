@@ -27,7 +27,6 @@ public class FileResourcesForCar {
     private Byte[] photo;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "cars_id")
     @JsonManagedReference
     private Car car;
 

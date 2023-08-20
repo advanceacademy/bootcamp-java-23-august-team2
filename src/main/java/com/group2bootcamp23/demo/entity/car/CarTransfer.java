@@ -51,7 +51,6 @@ public class CarTransfer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonManagedReference
-    @Column(name = "cars_id")
     @NotNull
     @NotBlank
     private Car car;

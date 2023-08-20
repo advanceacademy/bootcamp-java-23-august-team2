@@ -24,6 +24,7 @@ public class CarCategory {
 
     @NotNull
     @Min(value = 2)
+    @Column(name = "seats")
     private Integer seats;
     //Here we can add some connection with carType to fill the value automatic
 
