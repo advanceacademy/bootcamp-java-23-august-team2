@@ -1,7 +1,6 @@
 package com.group2bootcamp23.demo.entity.car;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -16,20 +15,21 @@ public class FileResourcesForCar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "resources_id")
     private Long id;
 
     @Column(name = "image_name")
     @NotNull
-    @NotBlank
     private String imageName;
 
     @Lob
     @Column(name = "photo", columnDefinition="BLOB")
     private Byte[] photo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cars")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cars_id")
     @JsonManagedReference
     private Car car;
+
+    //private List<FileResourcesForCar> fileResourcesForCar = new ArrayList<>();
 }

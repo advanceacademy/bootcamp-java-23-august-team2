@@ -1,5 +1,5 @@
 package com.group2bootcamp23.demo.entity.car;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.Min;
@@ -21,7 +21,7 @@ public class CarTransfer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "transfer_id")
     private Long id;
 
     @Column(name = "date")
@@ -43,14 +43,14 @@ public class CarTransfer {
     private PaymentStatusForCar status;
 
 
-//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//    @ManyToOne(fetch = FetchType.LAZY)
 //    @JsonManagedReference
 //    @JoinColumn(name = "user_id")
 //    private User user;
  // Enable when we have User
 
-    @OneToMany(mappedBy = "cars", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
     @Column(name = "cars_id")
     @NotNull
     @NotBlank

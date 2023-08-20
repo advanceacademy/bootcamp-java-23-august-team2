@@ -2,7 +2,6 @@ package com.group2bootcamp23.demo.entity.car;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -20,17 +19,16 @@ public class Car {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "car_id")
     private Long id;
 
     @Column(name = "brand_and_model")
-    @NotNull
-    @NotBlank(message = "The car should have brand and model")
+    @NotNull(message = "The car should have brand and model")
     private String model;
 
     @Column(name = "year")
     @NotNull
-    private Long manufacturingYear;
+    private String manufacturingYear;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_categories")
@@ -41,10 +39,10 @@ public class Car {
     @OneToMany(mappedBy = "cars", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     private List<FileResourcesForCar> fileResourcesForCar;
+    // I am wondering if it is good to be used this: property orphanRemoval = true - if Admin decides to delete some car
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cars")
-    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY)
+    @JsonBackReference
     @NotNull
     private List<CarTransfer> carTransfer;
 }
