@@ -15,7 +15,7 @@ public class FileResourcesForCar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "resources_id")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "image_name")

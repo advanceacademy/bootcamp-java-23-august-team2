@@ -14,7 +14,7 @@ import lombok.*;
 public class CarCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "categories_id")
+    @Column(name = "id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
