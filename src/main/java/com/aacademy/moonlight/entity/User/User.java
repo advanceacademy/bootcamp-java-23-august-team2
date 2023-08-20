@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -53,11 +54,12 @@ public class User {
     private String password;
 
     @Column(name = "created_date")
-    @NotNull
-    //---------to find annotation for valid date ---Not Null
+    @NotNull(message = "Enter valid date")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    //@JsonFormat(pattern = "dd/MM/yyyy") - if we need to serialize Date
     private LocalDate createdDate;
 
     @ManyToOne
-    //@JsonManagedReference --- do we need this annotation
+    @JsonManagedReference
     private UserRole userRole;
 }
