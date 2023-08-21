@@ -1,4 +1,4 @@
-package com.group2bootcamp23.moonlight.entity.hotel;
+package com.aacademy.moonlight.entity.hotel;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

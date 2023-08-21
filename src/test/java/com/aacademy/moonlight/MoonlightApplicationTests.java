@@ -1,4 +1,4 @@
-package com.group2bootcamp23.moonlight;
+package com.aacademy.moonlight;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

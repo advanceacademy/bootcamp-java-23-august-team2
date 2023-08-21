@@ -1,4 +1,4 @@
-package com.group2bootcamp23.moonlight.entity.hotel;
+package com.aacademy.moonlight.entity.hotel;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
