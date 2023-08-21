@@ -16,10 +16,10 @@ import lombok.Setter;
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull
-    @Column(unique = true, name = "id")
+    @Column(name = "id")
     private Long id;
 
-    @Column(name = "user_role")
+    @Column(unique = true, name = "user_role")
+    @NotNull
     private String userRole;
 }
