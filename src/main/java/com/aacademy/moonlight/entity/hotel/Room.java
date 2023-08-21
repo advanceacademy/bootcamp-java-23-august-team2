@@ -17,37 +17,37 @@ import java.util.Set;
 public class Room {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "room_number")
+    @Column(name = "room_number",nullable = false)
     @Min(value = 1)
     @NotNull(message = "Room should have room number")
     private Integer roomNumber;
 
-    @Column(name = "price")
-    @Min(value = 220)
+    @Column(name = "price",nullable = false)
+    @Min(value = 220) // Need to be modified
     @NotNull(message = "Room should have price")
     private Double price;
 
+    @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
     @NotNull()
     private RoomType type;
 
+    @Column(name = "view", nullable = false)
     @Enumerated(EnumType.STRING)
-    @Column(name = "view")
     @NotNull()
     private RoomView view;
 
+    @Column(name = "facilities", nullable = false)
     @ManyToMany(mappedBy = "rooms")
-    @Column(name = "facilities")
     @NotNull()
     private List<RoomFacility> facilities;
 
+    @Column(name = "room_reservations")
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     @JsonBackReference
-    @Column(name = "room_reservations")
     private Set<RoomReservation> roomReservations;
 }

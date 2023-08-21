@@ -1,5 +1,6 @@
 package com.aacademy.moonlight.entity.hotel;
 
+import com.aacademy.moonlight.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
@@ -17,8 +18,8 @@ import java.time.LocalDate;
 public class RoomReservation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "start_date")
@@ -32,8 +33,8 @@ public class RoomReservation {
     private LocalDate endDate;
 
     @Column(name = "total_price")
-    @Min(value = 220)
-    @NotNull
+    @Min(value = 220) // need to be modified
+    @NotNull()
     private Double totalPrice;
 
     @Column(name = "adults")
@@ -50,12 +51,11 @@ public class RoomReservation {
     @NotNull(message = "To make room reservation you need room")
     private Room room;
 
-    /**Remains to remove the comment once the user entity is created
-     * and if necessary to be rewritten*/
-//    @ManyToOne()
-//    @JoinColumn(name = "user_id")
-//    @JsonManagedReference
-//    private User user;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    @JsonManagedReference
+    private User user;
 
     @Column(name = "payment_status")
     private boolean paymentStatus;

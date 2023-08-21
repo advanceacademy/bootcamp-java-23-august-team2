@@ -2,6 +2,7 @@ package com.aacademy.moonlight.entity.hotel;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.List;
@@ -15,13 +16,12 @@ import java.util.List;
 public class RoomFacility {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
-    @NotBlank
-    @Column(name = "facility")
+    @Column(name = "facility",nullable = false)
+    @NotEmpty(message = "Enter facility")
     private String facility;
 
     @ManyToMany
