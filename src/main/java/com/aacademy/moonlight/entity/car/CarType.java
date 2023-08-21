@@ -1,4 +1,4 @@
-package com.group2bootcamp23.demo.entity.car;
+package com.aacademy.moonlight.entity.car;
 
 public enum CarType {
     SPORT,
