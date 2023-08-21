@@ -1,4 +1,4 @@
-package com.aacademy.moonlight.entity.User;
+package com.aacademy.moonlight.entity.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "user_role")
+@Entity(name = "user_roles")
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

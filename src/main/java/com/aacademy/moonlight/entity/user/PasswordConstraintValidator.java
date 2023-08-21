@@ -1,4 +1,4 @@
-package com.aacademy.moonlight.entity.User;
+package com.aacademy.moonlight.entity.user;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
