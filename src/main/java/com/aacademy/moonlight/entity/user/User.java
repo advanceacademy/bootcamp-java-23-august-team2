@@ -15,7 +15,8 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Data
 @Builder
-@Entity(name = "users")
+@Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,33 +24,33 @@ public class User {
     private Long id;
 
     @Column(name = "first_name")
-    @Size(min = 2, max = 255)
     @NotEmpty(message = "Enter your first name")
+    @Size(min = 2, max = 255)
     private String firstName;
 
     @Column(name = "last_name")
-    @Size(min = 2, max = 255)
     @NotEmpty(message = "Enter your last name")
+    @Size(min = 2, max = 255)
     private String lastName;
 
-    @Email
     @Column(unique = true, name = "email")
     //@Size(min = 5, max = 255) ---- @Email check this
     @NotBlank(message = "Enter valid email")
+    @Email
     private String email;
 
     @Column(name = "phone_number")
+    @NotBlank(message = "Enter your phone number")
     @Pattern(regexp = "^(\\+|00)[0-9\\-]{10,15}$")
     @Size(min = 10, max = 15)
-    @NotBlank(message = "Enter your phone number")
     private String phoneNumber;
 
+    @Column(name = "password")
     @NotBlank(message = "Enter password")
     @ValidPassword //Custom annotation
     //Another option for password validation
     //regexp = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).*$"
     // @Size(min = 7)
-    @Column(name = "password")
     private String password;
 
     @Column(name = "created_date")
