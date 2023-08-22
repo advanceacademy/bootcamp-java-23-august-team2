@@ -75,6 +75,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<finalName>bootcamp-java-23-team2</finalName>
 	</build>
 
 </project>
