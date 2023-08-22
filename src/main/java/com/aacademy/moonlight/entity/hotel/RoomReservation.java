@@ -9,12 +9,13 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "reservations")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "reservations")
 public class RoomReservation {
 
     @Id

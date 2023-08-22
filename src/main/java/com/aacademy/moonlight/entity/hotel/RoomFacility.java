@@ -7,12 +7,13 @@ import lombok.*;
 
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+@Entity
+@Table(name = "room_facilities")
 @Getter
 @Setter
-@Entity(name = "room_facilities")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class RoomFacility {
 
     @Id
