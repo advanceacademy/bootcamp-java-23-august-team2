@@ -4,7 +4,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-@Entity(name = "car_categories")
+@Entity
+@Table(name = "car_categories")
 @Getter
 @Setter
 @Builder
@@ -12,6 +13,7 @@ import lombok.*;
 @NoArgsConstructor
 
 public class CarCategory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -22,15 +24,15 @@ public class CarCategory {
     @NotNull()
     private CarType type;
 
+    @Column(name = "seats")
     @NotNull
     @Min(value = 2)
-    @Column(name = "seats")
     private Integer seats;
     //Here we can add some connection with carType to fill the value automatic
 
     @Column(name = "price_per_day")
-    @Min(value = 600)
     @NotNull(message = "Car should have price")
+    @Min(value = 600)
     private Double price;
     //Here we can add some connection with carType to fill the value automatic
 }

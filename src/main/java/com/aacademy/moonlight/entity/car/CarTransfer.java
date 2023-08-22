@@ -1,4 +1,5 @@
 package com.aacademy.moonlight.entity.car;
+import com.aacademy.moonlight.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
@@ -10,12 +11,14 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "car_transfers")
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity(name = "car_transfers")
+
 
 public class CarTransfer {
 
@@ -25,9 +28,9 @@ public class CarTransfer {
     private Long id;
 
     @Column(name = "date")
-    @Future(message = "The transfer can not be booked in the past moment")
     @NotNull
     @NotBlank
+    @Future(message = "The transfer can not be booked in the past moment")
     private LocalDate date;
 
     @NotNull
@@ -37,17 +40,17 @@ public class CarTransfer {
     private Double price;
     //will take this value from price_per_day from category
 
-    @Enumerated(EnumType.STRING)
+
     @Column(name = "payment_status")
     @NotNull
-    private PaymentStatusForCar status;
+    private boolean status;
 
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JsonManagedReference
-//    @JoinColumn(name = "user_id")
-//    private User user;
-// Enable when we have User
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @JoinColumn(name = "user_id")
+    private User user;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JsonManagedReference

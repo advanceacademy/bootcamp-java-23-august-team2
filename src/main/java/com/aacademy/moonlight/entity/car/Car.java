@@ -10,7 +10,8 @@ import lombok.*;
 import java.util.List;
 
 
-@Entity(name = "cars")
+@Entity
+@Table(name = "cars")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -39,10 +40,10 @@ public class Car {
     @Min(value = 2015)
     private Integer manufacturingYear;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_categories")
     @JsonManagedReference
-    @NotNull
     private CarCategory carCategory;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -50,8 +51,8 @@ public class Car {
     private List<FileResourcesForCar> fileResourcesForCar;
     // I am wondering if it is good to be used this: property orphanRemoval = true - if Admin decides to delete some car
 
+    @NotNull
     @OneToMany(fetch = FetchType.LAZY)
     @JsonBackReference
-    @NotNull
     private List<CarTransfer> carTransfer;
 }
