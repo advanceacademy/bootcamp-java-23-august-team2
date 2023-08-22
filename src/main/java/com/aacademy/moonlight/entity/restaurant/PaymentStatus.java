@@ -1,4 +1,4 @@
-package com.group2bootcamp23.demo.Restaurant;
+package com.aacademy.moonlight.entity.restaurant;
 
 public enum PaymentStatus {
     PAID,
