@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
-@Table(name = "hotel_name")
+@Table(name = "contact_forms")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -13,28 +13,27 @@ import lombok.*;
 @Builder
 public class ContactForm {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "user_name", nullable = false)
+    @NotEmpty
     @Size(min = 2, max = 255,message = "First name length must be between {min} and {max} characters")
-    @NotNull
     private String userName;
 
+    @Column(name = "user_email", nullable = false, unique = true)
+    @Email( message = "Email must be valid")
     @NotNull
-    @Column(name = "email", nullable = false, unique = true)
-    @Size(min = 5, max = 255, message = "Email must be between {min} and {max} characters")
-    @Email(regexp = "^[^ @]+@[^ @]+\\.[^ @]+$", message = "Email must be valid")
     private String userEmail;
 
-    @Column(name = "phone_number", nullable = false)
-    @NotBlank(message = "Enter your phone number")
+    @Column(name = "user_phone_number", nullable = false)
+    @NotEmpty(message = "Enter your phone number")
     @Pattern(regexp = "^(\\+|00)[0-9\\-]{10,15}$")
     @Size(min = 10, max = 15)
-    @NotNull
     private String userPhoneNumber;
 
+    @Column(name = "message", nullable = false)
     @NotNull
     @NotBlank(message = "You have to write your comment")
     private String message;
