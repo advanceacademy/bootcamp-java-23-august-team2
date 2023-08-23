@@ -6,9 +6,9 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/hotel_moonlight?createDatabaseIfNotExist=true
     username: root
-    password: Hades101
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update  
+      ddl-auto: update
     show-sql: true

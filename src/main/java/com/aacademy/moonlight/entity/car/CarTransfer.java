@@ -18,44 +18,36 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
-
 public class CarTransfer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "date")
+    @Column(name = "date",nullable = false)
     @NotNull
-    @NotBlank
     @Future(message = "The transfer can not be booked in the past moment")
     private LocalDate date;
 
+    @Column(name = "price",nullable = false)
     @NotNull
-    @NotBlank
     @Min(value = 600)
-    @Column(name = "price")
     private Double price;
     //will take this value from price_per_day from category
 
-
     @Column(name = "payment_status")
-    @NotNull
     private boolean status;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonManagedReference
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonManagedReference
-    @NotNull
-    @NotBlank
+    @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
 }

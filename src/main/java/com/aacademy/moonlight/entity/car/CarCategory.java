@@ -11,7 +11,6 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class CarCategory {
 
     @Id
@@ -19,18 +18,18 @@ public class CarCategory {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "car_type")
     @Enumerated(EnumType.STRING)
-    @Column(name = "type")
     @NotNull()
     private CarType type;
 
-    @Column(name = "seats")
+    @Column(name = "seats",nullable = false)
     @NotNull
     @Min(value = 2)
     private Integer seats;
     //Here we can add some connection with carType to fill the value automatic
 
-    @Column(name = "price_per_day")
+    @Column(name = "price_per_day",nullable = false)
     @NotNull(message = "Car should have price")
     @Min(value = 600)
     private Double price;
