@@ -19,11 +19,11 @@ public class ContactForm {
 
     @Column(name = "user_name", nullable = false)
     @NotEmpty
-    @Size(min = 2, max = 255,message = "First name length must be between {min} and {max} characters")
+    @Size(min = 2, max = 255, message = "First name length must be between {min} and {max} characters")
     private String userName;
 
-    @Column(name = "user_email", nullable = false, unique = true)
-    @Email( message = "Email must be valid")
+    @Column(name = "user_email", nullable = false)
+    @Email(message = "Email must be valid")
     @NotNull
     private String userEmail;
 
