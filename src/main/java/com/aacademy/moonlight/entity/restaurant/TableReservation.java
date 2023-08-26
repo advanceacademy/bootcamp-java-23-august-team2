@@ -42,19 +42,17 @@ public class TableReservation {
     @NotNull(message = "Missing price")
     private Double totalPrice;
 
-    @Column(name = "table_restaurant")
+    @JoinColumn(name = "table_restaurant")
     @ManyToOne
     private TableRestaurant tableRestaurant;
 
-    @Column(name = "user")
+    @JoinColumn(name = "user")
     @ManyToOne
     @NotNull
     private User User;
 
     @Column(name = "payment_status")
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "Please select a payment status")
-    private PaymentStatus paymentStatus;
+    private boolean paymentStatus;
 
 }
 
