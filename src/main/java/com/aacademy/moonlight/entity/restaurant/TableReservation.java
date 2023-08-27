@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
-@Table(name = "reservations")
+@Table(name = "table_reservations")
 @Data
 @Builder
 @NoArgsConstructor
