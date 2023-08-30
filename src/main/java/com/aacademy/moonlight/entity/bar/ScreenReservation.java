@@ -1,6 +1,7 @@
 package com.aacademy.moonlight.entity.bar;
 
 import com.aacademy.moonlight.entity.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Future;
@@ -43,7 +44,7 @@ public class ScreenReservation {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @JsonManagedReference
+    @JsonBackReference
     private User user;
 
     @Column(name = "payment_status")
