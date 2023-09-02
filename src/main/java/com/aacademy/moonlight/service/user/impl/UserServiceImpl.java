@@ -2,6 +2,7 @@ package com.aacademy.moonlight.service.user.impl;
 import com.aacademy.moonlight.converter.user.UserConverter;
 import com.aacademy.moonlight.dto.user.UserRequest;
 import com.aacademy.moonlight.dto.user.UserResponse;
+import com.aacademy.moonlight.dto.user.UserUpDatePassword;
 import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.repository.user.UserRepository;
 import com.aacademy.moonlight.service.user.UserService;
@@ -57,6 +58,21 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getAllUsers() {
         return null;
+    }
+
+    @Override
+    public UserResponse upDatePassword(Long id, UserUpDatePassword password) {
+        return null;
+    }
+
+    @Override
+    public UserResponse upDateUser(UserRequest request, Long id) {
+        return null;
+    }
+
+    @Override
+    public void randomPassword(String email) {
+
     }
 
 }
