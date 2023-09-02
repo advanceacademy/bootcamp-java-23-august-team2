@@ -1,5 +1,7 @@
 package com.aacademy.moonlight.entity.user;
 
+import com.aacademy.moonlight.entity.bar.ScreenEvent;
+import com.aacademy.moonlight.entity.bar.ScreenReservation;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -10,6 +12,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -63,4 +66,8 @@ public class User {
     @JsonManagedReference
     @JoinColumn(name = "user_role_id")
     private UserRole userRole;
+
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private Set<ScreenReservation> screenReservationSet;
 }
