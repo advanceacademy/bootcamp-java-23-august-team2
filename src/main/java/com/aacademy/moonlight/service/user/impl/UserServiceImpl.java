@@ -8,6 +8,8 @@ import com.aacademy.moonlight.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -18,12 +20,6 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository repository, UserConverter converter) {
         this.repository = repository;
         this.converter = converter;
-    }
-
-
-    @Override
-    public UserResponse registerUser(UserRequest request) {
-        return null;
     }
 
     @Override
@@ -47,15 +43,20 @@ public class UserServiceImpl implements UserService {
         return converter.toUserResponse(user);
     }
 
-    @Override
-    public UserResponse findUserByEmail(String email) {
-        User user = repository.findByEmail(email).orElseThrow(()-> new RuntimeException("User not found"));
-        return converter.toUserResponse(user);
-    }
+//    @Override
+//    public UserResponse findUserByEmail(String email) {
+//        User user = repository.findByEmail(email).orElseThrow(()-> new RuntimeException("User not found"));
+//        return converter.toUserResponse(user);
+//    }
 
     @Override
     public boolean existUserByEmail(String email) {
         return repository.findAll().stream().anyMatch(user -> user.getEmail().equals(email));
+    }
+
+    @Override
+    public List<UserResponse> getAllUsers() {
+        return null;
     }
 
 }
