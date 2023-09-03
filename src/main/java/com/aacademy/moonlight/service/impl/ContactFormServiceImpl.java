@@ -24,7 +24,7 @@ public class ContactFormServiceImpl implements ContactFormService {
 
     @Override
     public ContactFormResponse createContactForm(ContactFormRequest request) {
-        ContactForm contactForm = converter.createContactForm(request);
+        ContactForm contactForm = converter.toContactForm(request);
         ContactForm savedContactForm = repository.save(contactForm);
 
         return converter.toResponse(savedContactForm);

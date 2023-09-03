@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ContactFormConverter {
 
-    public ContactForm createContactForm(ContactFormRequest request){
+    public ContactForm toContactForm(ContactFormRequest request){
         return ContactForm.builder()
                 .userName(request.getUserName())
                 .userEmail(request.getUserEmail())
