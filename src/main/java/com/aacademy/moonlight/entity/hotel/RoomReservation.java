@@ -1,5 +1,4 @@
 package com.aacademy.moonlight.entity.hotel;
-
 import com.aacademy.moonlight.entity.user.User;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

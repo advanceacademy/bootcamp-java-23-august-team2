@@ -12,3 +12,19 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+
+          # For testing purposes
+# spring:
+ #   error:
+  #  include-message: always
+   # include-binding-errors: always
+  #datasource:
+  #  url: jdbc:mysql://localhost:3306/rent_a_car?createDatabaseIfNotExist=true
+   # username: root
+   # password: root
+   # driver-class-name: com.mysql.cj.jdbc.Driver
+  #jpa:
+  #  hibernate:
+  #    ddl-auto: update
+   # show-sql: true
