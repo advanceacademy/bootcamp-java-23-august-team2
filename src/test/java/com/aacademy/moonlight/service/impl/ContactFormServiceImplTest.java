@@ -3,6 +3,7 @@ package com.aacademy.moonlight.service.impl;
 import com.aacademy.moonlight.converter.contactForm.ContactFormConverter;
 import com.aacademy.moonlight.dto.contactForm.ContactFormRequest;
 import com.aacademy.moonlight.dto.contactForm.ContactFormResponse;
+import com.aacademy.moonlight.dto.contactForm.ContactFormUpdate;
 import com.aacademy.moonlight.entity.contactUsForm.ContactForm;
 import com.aacademy.moonlight.repository.contactUsForm.ContactUsFormRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -14,10 +15,13 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
+
 @ExtendWith(MockitoExtension.class)
 class ContactFormServiceImplTest {
     @InjectMocks
@@ -37,32 +41,35 @@ class ContactFormServiceImplTest {
 
     @AfterEach
     void tearDown() throws Exception {
+        //to prevent memory leaks
         autoCloseable.close();
     }
 
     @Test
     void createContactForm() {
         //given
-        ContactFormRequest request = new ContactFormRequest();
-        request.setUserName("Plamen Ivanov");
-        request.setUserEmail("plamen.ivanov@example.com");
-        request.setUserPhoneNumber("+35912345678");
-        request.setMessage("Hello, I'm contacting you about the test.");
+        ContactFormRequest request = ContactFormRequest.builder()
+                .userName("Plamen Ivanov")
+                .userEmail("plamen.ivanov@example.com")
+                .userPhoneNumber("+35912345678")
+                .message("Hello, I'm contacting you about the test.")
+                .build();
 
-        ContactForm contactForm = new ContactForm();
-        contactForm.setId(1L);
-        contactForm.setUserName(request.getUserName());
-        contactForm.setUserEmail(request.getUserEmail());
-        contactForm.setUserPhoneNumber(request.getUserPhoneNumber());
-        contactForm.setMessage(request.getMessage());
+        ContactForm contactForm = ContactForm.builder()
+                .id(1L)
+                .userName(request.getUserName())
+                .userEmail(request.getUserEmail())
+                .userPhoneNumber(request.getUserPhoneNumber())
+                .message(request.getMessage())
+                .build();
 
-        //when
         when(contactFormConverter.toContactForm(request)).thenReturn(contactForm);
-        when(contactUsFormRepository.save(any(ContactForm.class))).thenReturn(contactForm);
+        when(contactUsFormRepository.save(contactForm)).thenReturn(contactForm);
 
         ContactFormResponse expectedResponse = new ContactFormResponse();
         when(contactFormConverter.toResponse(contactForm)).thenReturn(expectedResponse);
 
+        //when
         ContactFormResponse response = contactFormService.createContactForm(request);
 
         //then
@@ -79,20 +86,76 @@ class ContactFormServiceImplTest {
 
     @Test
     void findContactFormById() {
+        //given
+        Long contactFormId = 1L;
 
+        ContactForm contactForm = ContactForm.builder()
+                .id(contactFormId)
+                .userName("Plamen Ivanov")
+                .userEmail("plamen.ivanov@example.com")
+                .userPhoneNumber("+35912345678")
+                .message("Hello, I'm contacting you about the test.")
+                .build();
+
+        when(contactUsFormRepository.findById(contactFormId)).thenReturn(Optional.of(contactForm));
+
+        ContactFormResponse expectedResponse = new ContactFormResponse();
+        when(contactFormConverter.toResponse(contactForm)).thenReturn(expectedResponse);
+
+        //when
+        ContactFormResponse response = contactFormService.findContactFormById(contactFormId);
+
+        //then
+        assertNotNull(response);
+        verify(contactUsFormRepository, times(1)).findById(contactFormId);
+        verify(contactFormConverter, times(1)).toResponse(contactForm);
+
+        assertEquals(expectedResponse, response);
     }
 
     @Test
     void updateContactForm() {
+        //given
+        ContactFormRequest request = ContactFormRequest.builder()
+                .userName("Updated Name")
+                .userEmail("updated.emai@example.com")
+                .userPhoneNumber("+87654321953")
+                .message("Updated message")
+                .build();
 
+        Long contactFormId = 1L;
+        ContactForm existingContactForm = ContactForm.builder()
+                .id(contactFormId)
+                .userName("Plamen Ivanov")
+                .userEmail("plamen.ivanov@example.com")
+                .userPhoneNumber("+35912345678")
+                .message("Hello, I'm contacting you about the test.")
+                .build();
+
+        when(contactUsFormRepository.findById(contactFormId)).thenReturn(Optional.of(existingContactForm));
+        when(contactUsFormRepository.save(existingContactForm)).thenReturn(existingContactForm);
+
+        ContactFormResponse expectedResponse = new ContactFormResponse();
+        when(contactFormConverter.toResponse(existingContactForm)).thenReturn(expectedResponse);
+
+        //when
+        ContactFormResponse response = contactFormService.updateContactForm(request, contactFormId);
+
+        //then
+        assertNotNull(response);
+
+        verify(contactUsFormRepository, times(1)).findById(contactFormId);
+        verify(contactUsFormRepository, times(1)).save(existingContactForm);
+        verify(contactFormConverter, times(1)).toResponse(existingContactForm);
+        assertEquals(expectedResponse, response);
     }
 
     @Test
     void deleteContactFormById() {
-        doNothing().when(contactUsFormRepository).deleteById(1L);
+        Long contactFormId = 1L;
 
-        contactFormService.deleteContactFormById(1L);
+        contactFormService.deleteContactFormById(contactFormId);
 
-        verify(contactUsFormRepository, times(1)).deleteById(1L);
+        verify(contactUsFormRepository, times(1)).deleteById(contactFormId);
     }
 }
