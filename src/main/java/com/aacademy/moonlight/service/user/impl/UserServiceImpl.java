@@ -9,6 +9,7 @@ import com.aacademy.moonlight.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -57,17 +58,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponse> getAllUsers() {
-        return null;
+        List<User> userList = repository.findAll();
+        List<UserResponse> allUsers = new ArrayList<>();
+                for(User a : userList){
+                    UserResponse response = converter.toUserResponse(a);
+                    allUsers.add(response);
+                }
+        return allUsers;
     }
 
     @Override
     public UserResponse upDatePassword(Long id, UserUpDatePassword password) {
-        return null;
+        User user = repository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
+        user.setPassword(password.getPassword());
+        User savedUserPassword = repository.save(user);
+        return converter.toUserResponse(savedUserPassword);
     }
 
     @Override
     public UserResponse upDateUser(UserRequest request, Long id) {
-        return null;
+        User user = repository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setEmail(request.getEmail());
+        user.setPhoneNumber(request.getPhoneNumber());
+
+        User savedUser = repository.save(user);
+        return converter.toUserResponse(savedUser);
     }
 
     @Override
