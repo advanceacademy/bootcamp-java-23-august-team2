@@ -1,11 +1,10 @@
-package com.aacademy.moonlight.service;
+package com.aacademy.moonlight.service.impl;
 
 import com.aacademy.moonlight.converter.contactForm.ContactFormConverter;
 import com.aacademy.moonlight.dto.contactForm.ContactFormRequest;
 import com.aacademy.moonlight.dto.contactForm.ContactFormResponse;
 import com.aacademy.moonlight.entity.contactUsForm.ContactForm;
 import com.aacademy.moonlight.repository.contactUsForm.ContactUsFormRepository;
-import com.aacademy.moonlight.service.impl.ContactFormServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,13 +14,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-
+import static org.mockito.Mockito.times;
 @ExtendWith(MockitoExtension.class)
-public class ContactFormServiceTest {
+class ContactFormServiceImplTest {
     @InjectMocks
     private ContactFormServiceImpl contactFormService;
     @Mock
@@ -44,6 +42,7 @@ public class ContactFormServiceTest {
 
     @Test
     void createContactForm() {
+        //given
         ContactFormRequest request = new ContactFormRequest();
         request.setUserName("Plamen Ivanov");
         request.setUserEmail("plamen.ivanov@example.com");
@@ -57,19 +56,24 @@ public class ContactFormServiceTest {
         contactForm.setUserPhoneNumber(request.getUserPhoneNumber());
         contactForm.setMessage(request.getMessage());
 
+        //when
         when(contactFormConverter.toContactForm(request)).thenReturn(contactForm);
-        when(contactFormConverter.toResponse(contactForm)).thenReturn(new ContactFormResponse());
+        when(contactUsFormRepository.save(any(ContactForm.class))).thenReturn(contactForm);
 
-        when(contactUsFormRepository.save(any())).thenReturn(contactForm);
+        ContactFormResponse expectedResponse = new ContactFormResponse();
+        when(contactFormConverter.toResponse(contactForm)).thenReturn(expectedResponse);
 
         ContactFormResponse response = contactFormService.createContactForm(request);
 
+        //then
         assertNotNull(response);
 
+        verify(contactUsFormRepository, times(1)).save(any(ContactForm.class));
         verify(contactFormConverter, times(1)).toContactForm(request);
         verify(contactFormConverter, times(1)).toResponse(contactForm);
 
-        verify(contactUsFormRepository, times(1)).save(any());
+
+        assertEquals(expectedResponse, response);
 
     }
 
