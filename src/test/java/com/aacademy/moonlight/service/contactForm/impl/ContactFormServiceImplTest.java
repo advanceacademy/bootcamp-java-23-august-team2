@@ -1,9 +1,8 @@
-package com.aacademy.moonlight.service.impl;
+package com.aacademy.moonlight.service.contactForm.impl;
 
 import com.aacademy.moonlight.converter.contactForm.ContactFormConverter;
 import com.aacademy.moonlight.dto.contactForm.ContactFormRequest;
 import com.aacademy.moonlight.dto.contactForm.ContactFormResponse;
-import com.aacademy.moonlight.dto.contactForm.ContactFormUpdate;
 import com.aacademy.moonlight.entity.contactUsForm.ContactForm;
 import com.aacademy.moonlight.repository.contactUsForm.ContactUsFormRepository;
 import org.junit.jupiter.api.AfterEach;

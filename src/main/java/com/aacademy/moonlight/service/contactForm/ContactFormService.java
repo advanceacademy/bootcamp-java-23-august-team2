@@ -1,4 +1,4 @@
-package com.aacademy.moonlight.service;
+package com.aacademy.moonlight.service.contactForm;
 
 import com.aacademy.moonlight.dto.contactForm.ContactFormRequest;
 import com.aacademy.moonlight.dto.contactForm.ContactFormResponse;

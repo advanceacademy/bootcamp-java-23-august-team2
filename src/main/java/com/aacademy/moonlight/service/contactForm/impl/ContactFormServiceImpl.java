@@ -1,11 +1,11 @@
-package com.aacademy.moonlight.service.impl;
+package com.aacademy.moonlight.service.contactForm.impl;
 
 import com.aacademy.moonlight.converter.contactForm.ContactFormConverter;
 import com.aacademy.moonlight.dto.contactForm.ContactFormRequest;
 import com.aacademy.moonlight.dto.contactForm.ContactFormResponse;
 import com.aacademy.moonlight.entity.contactUsForm.ContactForm;
 import com.aacademy.moonlight.repository.contactUsForm.ContactUsFormRepository;
-import com.aacademy.moonlight.service.ContactFormService;
+import com.aacademy.moonlight.service.contactForm.ContactFormService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
