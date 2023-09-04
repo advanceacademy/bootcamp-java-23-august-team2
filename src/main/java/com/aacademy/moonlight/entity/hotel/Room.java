@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -45,10 +47,11 @@ public class Room {
     @Column(name = "facilities", nullable = false)
     @ManyToMany(mappedBy = "rooms")
     @NotNull()
-    private List<RoomFacility> facilities;
+    private List<RoomFacility> facilities = new ArrayList<>();
 
     @Column(name = "room_reservations")
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     @JsonBackReference
+
     private Set<RoomReservation> roomReservations;
 }

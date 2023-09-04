@@ -6,6 +6,7 @@ import com.aacademy.moonlight.repository.hotel.RoomFacilityRepository;
 import com.aacademy.moonlight.service.hotel.RoomFacilityService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
 
 
     @Override
+    @Transactional
     public RoomFacility saveRoomFacility(@Valid RoomFacilityRequest roomFacilityRequest) {
         // Create a new RoomFacility entity from the request
         RoomFacility roomFacility = new RoomFacility();
@@ -29,11 +31,13 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Optional<RoomFacility> getRoomFacility(Long id) {
         return roomFacilityRepository.findById(id);
     }
 
     @Override
+    @Transactional
     public void deleteRoomFacility(Long id) {
         roomFacilityRepository.deleteById(id);
     }
