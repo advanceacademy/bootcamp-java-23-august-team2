@@ -1,6 +1,5 @@
 package com.aacademy.moonlight.entity.user;
 
-import com.aacademy.moonlight.entity.bar.ScreenEvent;
 import com.aacademy.moonlight.entity.bar.ScreenReservation;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

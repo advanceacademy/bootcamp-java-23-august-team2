@@ -12,6 +12,6 @@ import lombok.Setter;
 @Setter
 public class RoomFacilityRequest {
 
-    @NotEmpty
+    @NotEmpty(message = "Facility should have name ")
     private String facility;
 }

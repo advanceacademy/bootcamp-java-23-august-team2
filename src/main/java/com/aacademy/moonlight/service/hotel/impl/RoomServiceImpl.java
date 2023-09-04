@@ -6,9 +6,8 @@ import com.aacademy.moonlight.entity.hotel.RoomFacility;
 import com.aacademy.moonlight.repository.hotel.RoomFacilityRepository;
 import com.aacademy.moonlight.repository.hotel.RoomRepository;
 import com.aacademy.moonlight.service.hotel.RoomService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,15 +17,13 @@ public class RoomServiceImpl implements RoomService {
     private final RoomRepository roomRepository;
     private final RoomFacilityRepository roomFacilityRepository;
 
-    @Autowired
     public RoomServiceImpl(RoomRepository roomRepository, RoomFacilityRepository roomFacilityRepository) {
         this.roomRepository = roomRepository;
         this.roomFacilityRepository = roomFacilityRepository;
     }
 
     @Override
-    @Transactional
-    public Room saveRoom(RoomRequest roomRequest) {
+    public Room saveRoom( @Valid RoomRequest roomRequest) {
         // Create a new Room entity and set its properties
         Room room = new Room();
         room.setRoomNumber(roomRequest.getRoomNumber());
@@ -44,13 +41,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Room> getRoom(Long id) {
         return roomRepository.findById(id);
     }
 
     @Override
-    @Transactional
     public void deleteRoom(Long id) {
         roomRepository.deleteById(id);
     }
