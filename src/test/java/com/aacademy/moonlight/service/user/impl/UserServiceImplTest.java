@@ -1,5 +1,4 @@
 package com.aacademy.moonlight.service.user.impl;
-
 import com.aacademy.moonlight.converter.user.UserConverter;
 import com.aacademy.moonlight.dto.user.UserRequest;
 import com.aacademy.moonlight.dto.user.UserResponse;
@@ -9,14 +8,15 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.util.Optional;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -28,7 +28,7 @@ class UserServiceImplTest {
     @Mock
     private UserConverter converter;
 
-    @Mock
+    @InjectMocks
     private UserServiceImpl userService;
 
     private AutoCloseable autoCloseable;
@@ -49,56 +49,103 @@ class UserServiceImplTest {
         //given
         User user = new User(1L, "Georgi");
         UserRequest request = new UserRequest();
-        when(converter.createUser(any())).thenReturn(user);
+        when(converter.createUser(request)).thenReturn(user);
         when(repository.save(user)).thenReturn(user);
         when(converter.toUserResponse(user)).thenReturn(new UserResponse());
 
         //when
 
-        userService.createUser(request);
-        verify(converter, times(1)).createUser(any());
-        verify(repository, times(1)).save(user);
-        verify(converter,times(1)).toUserResponse(user);
+       UserResponse response = userService.createUser(request);
 
         //then
 
+        assertNotNull(response);
+        verify(converter, times(1)).createUser(request);
+        verify(repository, times(1)).save(user);
+        verify(converter,times(1)).toUserResponse(user);
     }
 
     @Test
     void deleteUserById() {
+        Long userId = 1L;
+        userService.deleteUserById(userId);
+        verify(repository, times(1)).deleteById(userId);
     }
 
     @Test
     void findUserById() {
+        //given
+        Long userId = 1L;
 
-        when(repository.findById(anyLong())).thenReturn(Optional.ofNullable(null));
+        User user = new User(userId, "Georgi");
+
+
+        //when
+        when(repository.findById(userId)).thenReturn(Optional.of(user));
+
+        UserResponse expectedResponse = new UserResponse();
+        when(converter.toUserResponse(user)).thenReturn(expectedResponse);
 
         assertThatThrownBy(()->userService.findUserById(anyLong()))
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("User with this id was not found");
 
-        verify(converter, times(0)).toUserResponse(any());
+        //when
+        UserResponse response = userService.findUserById(userId);
+        //then
+        assertNotNull(response);
+        verify(converter, times(1)).toUserResponse(user);
+        assertEquals(expectedResponse,response);
     }
-
-
-
-    @Test
-    void existUserByEmail() {
-    }
-
-    @Test
-    void getAllUsers() {
-    }
-
-    @Test
-    void upDatePassword() {
-    }
-
     @Test
     void upDateUser() {
+        //given
+
+        UserRequest request = UserRequest.builder()
+                .firstName("Ivan")
+                .lastName("Georgiev")
+                .phoneNumber("1234567")
+                .email("alabalanica@abv.bg")
+                .build();
+
+        Long userId = 1L;
+        User existingUser = User.builder()
+                .firstName("Georgi")
+                .lastName("Petkov")
+                .phoneNumber("7654321")
+                .email("newemail@gmail.com")
+                .build();
+        when(repository.findById(userId)).thenReturn(Optional.of(existingUser));
+        when(repository.save(existingUser)).thenReturn(existingUser);
+
+        UserResponse expectedResponse = new UserResponse();
+        when(converter.toUserResponse(existingUser)).thenReturn(expectedResponse);
+
+        //when
+        UserResponse response = userService.upDateUser(request,userId);
+        //then
+        assertNotNull(response);
+        verify(repository,times(1)).findById(userId);
+        verify(repository,times(1)).save(existingUser);
+        verify(converter,times(1)).toUserResponse(existingUser);
+        assertEquals(expectedResponse,response);
     }
 
-    @Test
-    void randomPassword() {
-    }
+
+
+//    @Test
+//    void existUserByEmail() {
+//    }
+
+//    @Test
+//    void getAllUsers() {
+//    }
+
+//    @Test
+//    void upDatePassword() {
+//    }
+
+//    @Test
+//    void randomPassword() {
+//    }
 }
