@@ -45,7 +45,8 @@ public class RoomReservation {
 
     @Column(name = "children")
     @Min(value = 0)
-    private int children;
+    @NotNull
+    private Integer children;
 
     @ManyToOne
     @JsonManagedReference
@@ -59,6 +60,7 @@ public class RoomReservation {
     private User user;
 
     @Column(name = "payment_status")
-    private boolean paymentStatus;
+    @NotNull
+    private Boolean paymentStatus;
 }
 
