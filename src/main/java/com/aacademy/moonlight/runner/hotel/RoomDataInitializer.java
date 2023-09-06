@@ -6,12 +6,13 @@ import com.aacademy.moonlight.entity.hotel.RoomType;
 import com.aacademy.moonlight.entity.hotel.RoomView;
 import com.aacademy.moonlight.repository.hotel.RoomFacilityRepository;
 import com.aacademy.moonlight.repository.hotel.RoomRepository;
+import com.aacademy.moonlight.service.hotel.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class RoomDataInitializer implements CommandLineRunner {
@@ -22,15 +23,18 @@ public class RoomDataInitializer implements CommandLineRunner {
     @Autowired
     RoomFacilityRepository roomFacilityRepository;
 
+    private final RoomService roomService;
+
     @Autowired
-    public RoomDataInitializer(RoomRepository roomRepository, RoomFacilityRepository roomFacilityRepository) {
+    public RoomDataInitializer(RoomRepository roomRepository, RoomFacilityRepository roomFacilityRepository, RoomService roomService) {
         this.roomRepository = roomRepository;
         this.roomFacilityRepository = roomFacilityRepository;
+        this.roomService = roomService;
     }
 
     @Override
     public void run(String... args) throws Exception {
-
+//TODO FIX FACILITY DUPLICATE
         if (roomRepository.count() > 0 && roomFacilityRepository.count() > 0) {
             System.out.println("Data already exists. Skipping initialization.");
             return;
@@ -53,6 +57,7 @@ public class RoomDataInitializer implements CommandLineRunner {
 
         // Save facilities to the database
         roomFacilityRepository.saveAll(List.of(lounge, TV, phone, toiletries, kettle, internet, mattress, minibar, safe, hairDryer, terrace, spaAccessories, sofaBed));
+
         List<Long> standardRoomFacilities =  List.of(TV.getId(), phone.getId(), toiletries.getId(), kettle.getId(), internet.getId(),
                 mattress.getId(), minibar.getId(), safe.getId(), hairDryer.getId(), spaAccessories.getId());
         List<Long> studioRoomFacilities = List.of(TV.getId(), phone.getId(), toiletries.getId(), kettle.getId(), internet.getId(),
@@ -103,7 +108,11 @@ public class RoomDataInitializer implements CommandLineRunner {
                     .facilities(roomFacilityRepository.findAllById(facilityIds))
                     .view(view)
                     .build();
-            roomRepository.save(room);
+
+            Room foundRoom = roomService.findByNumber(room.getRoomNumber());
+            if (Objects.isNull(foundRoom)){
+                roomRepository.save(room);
+            }
         }
     }
 }

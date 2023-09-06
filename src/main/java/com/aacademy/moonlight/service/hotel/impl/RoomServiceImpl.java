@@ -3,6 +3,7 @@ package com.aacademy.moonlight.service.hotel.impl;
 import com.aacademy.moonlight.dto.hotel.RoomRequest;
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomFacility;
+import com.aacademy.moonlight.entity.hotel.RoomType;
 import com.aacademy.moonlight.repository.hotel.RoomFacilityRepository;
 import com.aacademy.moonlight.repository.hotel.RoomRepository;
 import com.aacademy.moonlight.service.hotel.RoomService;
@@ -10,6 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -39,6 +41,19 @@ public class RoomServiceImpl implements RoomService {
         }
 
         return roomRepository.save(room);
+    }
+
+    @Override
+    public Room findByNumber(Integer roomNumber) {
+        List<Room> rooms = roomRepository.findAll();
+        Room currentRoom = null;
+
+        for (Room room : rooms){
+            if (Objects.equals(room.getRoomNumber(), roomNumber)){
+                currentRoom = room;
+            }
+        }
+        return currentRoom;
     }
 
     @Override
