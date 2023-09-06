@@ -108,105 +108,88 @@ public class RoomDataInitializer implements CommandLineRunner {
 
         //standard rooms
         Room standardRoom1 = standardRoomBuilder
-                .id(1L)
                 .roomNumber(1)
                 .view(RoomView.SEA)
                 .build();
 
         Room standardRoom2 = standardRoomBuilder
-                .id(2L)
                 .roomNumber(2)
                 .view(RoomView.SEA)
                 .build();
 
         Room standardRoom3 = standardRoomBuilder
-                .id(3L)
                 .roomNumber(3)
                 .view(RoomView.POOL)
                 .build();
 
         Room standardRoom4 = standardRoomBuilder
-                .id(4L)
                 .roomNumber(4)
                 .view(RoomView.POOL)
                 .build();
 
         Room standardRoom5 = standardRoomBuilder
-                .id(5L)
                 .roomNumber(5)
                 .view(RoomView.GARDEN)
                 .build();
 
         Room standardRoom6 = standardRoomBuilder
-                .id(6L)
                 .roomNumber(6)
                 .view(RoomView.GARDEN)
                 .build();
 
         Room standardRoom7 = standardRoomBuilder
-                .id(7L)
                 .roomNumber(7)
                 .view(RoomView.GARDEN)
                 .build();
 
         Room standardRoom8 = standardRoomBuilder
-                .id(8L)
                 .roomNumber(8)
                 .view(RoomView.GARDEN)
                 .build();
 
         //studio rooms
         Room studioRoom1 = studioRoomBuilder
-                .id(9L)
                 .roomNumber(9)
                 .view(RoomView.SEA)
                 .build();
 
         Room studioRoom2 = studioRoomBuilder
-                .id(10L)
                 .roomNumber(10)
                 .view(RoomView.SEA)
                 .build();
 
         Room studioRoom3 = studioRoomBuilder
-                .id(11L)
                 .roomNumber(11)
                 .view(RoomView.POOL)
                 .build();
 
         Room studioRoom4 = studioRoomBuilder
-                .id(12L)
                 .roomNumber(12)
                 .view(RoomView.POOL)
                 .build();
 
         Room studioRoom5 = studioRoomBuilder
-                .id(13L)
                 .roomNumber(13)
                 .view(RoomView.GARDEN)
                 .build();
 
         Room studioRoom6 = studioRoomBuilder
-                .id(14L)
                 .roomNumber(14)
                 .view(RoomView.GARDEN)
                 .build();
 
         //apartments
         Room apartment1 = apartmentRoomBuilder
-                .id(15L)
                 .roomNumber(15)
                 .view(RoomView.SEA)
                 .build();
 
         Room apartment2 = apartmentRoomBuilder
-                .id(16L)
                 .roomNumber(16)
                 .view(RoomView.SEA)
                 .build();
 
         Room apartment3 = apartmentRoomBuilder
-                .id(17L)
                 .roomNumber(17)
                 .view(RoomView.POOL)
                 .build();
