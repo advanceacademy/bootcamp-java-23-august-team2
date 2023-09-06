@@ -26,6 +26,7 @@ public class RoomServiceImpl implements RoomService {
     public Room saveRoom( @Valid RoomRequest roomRequest) {
         // Create a new Room entity and set its properties
         Room room = new Room();
+        room.setArea(roomRequest.getArea());
         room.setRoomNumber(roomRequest.getRoomNumber());
         room.setPrice(roomRequest.getPrice());
         room.setType(roomRequest.getType());

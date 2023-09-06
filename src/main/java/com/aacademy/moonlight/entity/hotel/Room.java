@@ -34,6 +34,10 @@ public class Room {
     @NotNull(message = "Room should have price")
     private Double price;
 
+    @Column(name = "area", nullable = false)
+    @NotNull(message = "Room should have an area in square meters")
+    private Integer area;
+
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     @NotNull()

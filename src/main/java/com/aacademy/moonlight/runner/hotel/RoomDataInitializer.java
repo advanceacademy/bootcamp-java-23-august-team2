@@ -30,6 +30,11 @@ public class RoomDataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        if (roomRepository.count() > 0 && roomFacilityRepository.count() > 0) {
+            System.out.println("Data already exists. Skipping initialization.");
+            return;
+        }
+
         RoomFacility lounge = RoomFacility.builder()
                 .facility("Lounge area")
                 .build();
@@ -93,114 +98,66 @@ public class RoomDataInitializer implements CommandLineRunner {
 //TODO ADD ROOM SIZES IN ENTITY
         Room.RoomBuilder standardRoomBuilder = Room.builder()
                 .price(220.0)
+                .area(24)
                 .type(RoomType.STANDARD)
                 .facilities(standardRoomFacilities);
 
         Room.RoomBuilder studioRoomBuilder = Room.builder()
                 .price(320.0)
+                .area(34)
                 .type(RoomType.STUDIO)
                 .facilities(studioRoomFacilities);
 
         Room.RoomBuilder apartmentRoomBuilder = Room.builder()
                 .price(520.0)
+                .area(56)
                 .type(RoomType.APARTMENT)
                 .facilities(apartmentRoomFacilities);
 
         //standard rooms
-        Room standardRoom1 = standardRoomBuilder
-                .roomNumber(1)
-                .view(RoomView.SEA)
-                .build();
-
-        Room standardRoom2 = standardRoomBuilder
-                .roomNumber(2)
-                .view(RoomView.SEA)
-                .build();
-
-        Room standardRoom3 = standardRoomBuilder
-                .roomNumber(3)
-                .view(RoomView.POOL)
-                .build();
-
-        Room standardRoom4 = standardRoomBuilder
-                .roomNumber(4)
-                .view(RoomView.POOL)
-                .build();
-
-        Room standardRoom5 = standardRoomBuilder
-                .roomNumber(5)
-                .view(RoomView.GARDEN)
-                .build();
-
-        Room standardRoom6 = standardRoomBuilder
-                .roomNumber(6)
-                .view(RoomView.GARDEN)
-                .build();
-
-        Room standardRoom7 = standardRoomBuilder
-                .roomNumber(7)
-                .view(RoomView.GARDEN)
-                .build();
-
-        Room standardRoom8 = standardRoomBuilder
-                .roomNumber(8)
-                .view(RoomView.GARDEN)
-                .build();
+        for (int i = 1; i <= 8; i++) {
+            Room standardRoom = standardRoomBuilder
+                    .roomNumber(i)
+                    .build();
+            if (i <= 2) {
+                standardRoom.setView(RoomView.SEA);
+            } else if (i <= 4) {
+                standardRoom.setView(RoomView.POOL);
+            } else {
+                standardRoom.setView(RoomView.GARDEN);
+            }
+            roomRepository.save(standardRoom);
+        }
 
         //studio rooms
-        Room studioRoom1 = studioRoomBuilder
-                .roomNumber(9)
-                .view(RoomView.SEA)
-                .build();
+        for (int i = 9; i <= 14; i++) {
+            Room studioRoom = studioRoomBuilder
+                    .roomNumber(i)
+                    .build();
+            if (i <= 10) {
+                studioRoom.setView(RoomView.SEA);
 
-        Room studioRoom2 = studioRoomBuilder
-                .roomNumber(10)
-                .view(RoomView.SEA)
-                .build();
-
-        Room studioRoom3 = studioRoomBuilder
-                .roomNumber(11)
-                .view(RoomView.POOL)
-                .build();
-
-        Room studioRoom4 = studioRoomBuilder
-                .roomNumber(12)
-                .view(RoomView.POOL)
-                .build();
-
-        Room studioRoom5 = studioRoomBuilder
-                .roomNumber(13)
-                .view(RoomView.GARDEN)
-                .build();
-
-        Room studioRoom6 = studioRoomBuilder
-                .roomNumber(14)
-                .view(RoomView.GARDEN)
-                .build();
+            } else if (i <= 12) {
+                studioRoom.setView(RoomView.POOL);
+            } else {
+                studioRoom.setView(RoomView.GARDEN);
+            }
+            roomRepository.save(studioRoom);
+        }
 
         //apartments
-        Room apartment1 = apartmentRoomBuilder
-                .roomNumber(15)
-                .view(RoomView.SEA)
-                .build();
+        for (int i = 15; i <= 17; i++) {
+            Room apartmentRoom = apartmentRoomBuilder
+                    .roomNumber(i)
+                    .build();
+            if (i <= 16) {
+                apartmentRoom.setView(RoomView.SEA);
 
-        Room apartment2 = apartmentRoomBuilder
-                .roomNumber(16)
-                .view(RoomView.SEA)
-                .build();
-
-        Room apartment3 = apartmentRoomBuilder
-                .roomNumber(17)
-                .view(RoomView.POOL)
-                .build();
-
-        List<Room> standardRooms = List.of(standardRoom1, standardRoom2, standardRoom3, standardRoom4, standardRoom5, standardRoom6, standardRoom7, standardRoom8);
-        List<Room> studioRooms = List.of(studioRoom1, studioRoom2, studioRoom3, studioRoom4, studioRoom5, studioRoom6);
-        List<Room> apartmentRooms = List.of(apartment1, apartment2, apartment3);
-
-        roomRepository.saveAll(standardRooms);
-        roomRepository.saveAll(studioRooms);
-        roomRepository.saveAll(apartmentRooms);
+            } else {
+                apartmentRoom.setView(RoomView.POOL);
+            }
+            roomRepository.save(apartmentRoom);
+        }
 
     }
 }
