@@ -34,7 +34,7 @@ public class RoomDataInitializer implements CommandLineRunner {
             System.out.println("Data already exists. Skipping initialization.");
             return;
         }
-
+//TODO COMPACT THE ROOM FACILITIES BUILDERS
         RoomFacility lounge = RoomFacility.builder()
                 .facility("Lounge area")
                 .build();
@@ -95,7 +95,6 @@ public class RoomDataInitializer implements CommandLineRunner {
         roomFacilityRepository.saveAll(studioRoomFacilities);
         roomFacilityRepository.saveAll(apartmentRoomFacilities);
 
-//TODO ADD ROOM SIZES IN ENTITY
         Room.RoomBuilder standardRoomBuilder = Room.builder()
                 .price(220.0)
                 .area(24)

@@ -48,10 +48,13 @@ public class Room {
     @NotNull()
     private RoomView view;
 
-    @Column(name = "facilities", nullable = false)
-    @ManyToMany(mappedBy = "rooms")
-    @NotNull()
-    private List<RoomFacility> facilities = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "room_facility_mapping",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_facility_id")
+    )
+    private List<RoomFacility> facilities;
 
     @Column(name = "room_reservations")
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
