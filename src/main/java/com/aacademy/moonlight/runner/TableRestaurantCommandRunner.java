@@ -25,8 +25,6 @@ public class TableRestaurantCommandRunner  implements CommandLineRunner{
     @Override
     public void run(String... args) throws Exception {
 
-       // createBarSeats();
-
         // Creating Bar seats
         createTables(TableZone.BAR,1, 1, 11, false);
 
