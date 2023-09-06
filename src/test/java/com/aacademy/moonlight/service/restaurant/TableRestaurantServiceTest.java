@@ -68,12 +68,13 @@ public class TableRestaurantServiceTest {
         List<TableRestaurant> tables = new ArrayList<>();
         TableRestaurant table1 = new TableRestaurant();
         table1.setTableNumber(tableNumberToFind);
+        table1.setTableZone(TableZone.BAR);
         tables.add(table1);
 
         when(repository.findAll()).thenReturn(tables);
 
         // Act
-        TableRestaurant foundTable = tableRestaurantService.findByNumber(tableNumberToFind);
+        TableRestaurant foundTable = tableRestaurantService.findByNumber(tableNumberToFind,TableZone.BAR);
 
         // Assert
         assertNotNull(foundTable);
