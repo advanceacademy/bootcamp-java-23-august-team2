@@ -63,9 +63,4 @@ public class User {
     @JsonManagedReference
     @JoinColumn(name = "user_role_id")
     private UserRole userRole;
-
-    public User(Long id, String firstName) {
-        this.id = id;
-        this.firstName = firstName;
-    }
 }

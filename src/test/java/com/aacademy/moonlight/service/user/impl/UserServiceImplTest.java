@@ -47,8 +47,13 @@ class UserServiceImplTest {
     @Test
     void createUser() {
         //given
-        User user = new User(1L, "Georgi");
+
+        User user = new User();
+        user.setId(1L);
+        user.setFirstName("Georgi");
         UserRequest request = new UserRequest();
+
+
         when(converter.createUser(request)).thenReturn(user);
         when(repository.save(user)).thenReturn(user);
         when(converter.toUserResponse(user)).thenReturn(new UserResponse());
@@ -76,7 +81,9 @@ class UserServiceImplTest {
     void findUserById() {
         //given
         Long userId = 1L;
-        User user = new User(userId, "Georgi");
+        User user = new User();
+        user.setId(userId);
+        user.setFirstName("Georgi");
 
         UserResponse expectedResponse = new UserResponse();
 
