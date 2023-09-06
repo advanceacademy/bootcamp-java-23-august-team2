@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -34,129 +35,75 @@ public class RoomDataInitializer implements CommandLineRunner {
             System.out.println("Data already exists. Skipping initialization.");
             return;
         }
-//TODO COMPACT THE ROOM FACILITIES BUILDERS
-        RoomFacility lounge = RoomFacility.builder()
-                .facility("Lounge area")
+
+        // Create facilities only once
+        RoomFacility lounge = createFacility("Lounge area");
+        RoomFacility TV = createFacility("Flat screen TV");
+        RoomFacility phone = createFacility("Telephone");
+        RoomFacility toiletries = createFacility("Toiletries");
+        RoomFacility kettle = createFacility("Electric kettle");
+        RoomFacility internet = createFacility("Wired and wireless internet");
+        RoomFacility mattress = createFacility("Comfortable mattress");
+        RoomFacility minibar = createFacility("Minibar");
+        RoomFacility safe = createFacility("Safe");
+        RoomFacility hairDryer = createFacility("HairDryer");
+        RoomFacility terrace = createFacility("Terrace");
+        RoomFacility spaAccessories = createFacility("Bathrobe and spa slippers");
+        RoomFacility sofaBed = createFacility("Sofa bed");
+
+        // Save facilities to the database
+        roomFacilityRepository.saveAll(List.of(lounge, TV, phone, toiletries, kettle, internet, mattress, minibar, safe, hairDryer, terrace, spaAccessories, sofaBed));
+        List<Long> standardRoomFacilities =  List.of(TV.getId(), phone.getId(), toiletries.getId(), kettle.getId(), internet.getId(),
+                mattress.getId(), minibar.getId(), safe.getId(), hairDryer.getId(), spaAccessories.getId());
+        List<Long> studioRoomFacilities = List.of(TV.getId(), phone.getId(), toiletries.getId(), kettle.getId(), internet.getId(),
+                mattress.getId(), minibar.getId(), safe.getId(), hairDryer.getId(), spaAccessories.getId(), sofaBed.getId());
+        List<Long> apartmentRoomFacilities = List.of(lounge.getId(), TV.getId(), phone.getId(), toiletries.getId(), kettle.getId(), internet.getId(),
+                mattress.getId(), minibar.getId(), safe.getId(), hairDryer.getId(), terrace.getId(), spaAccessories.getId());
+        // Create and save standard rooms
+        createAndSaveRooms(1, 2, 220.0, 24, RoomType.STANDARD,
+                standardRoomFacilities, RoomView.SEA);
+        createAndSaveRooms(3, 4, 220.0, 24, RoomType.STANDARD,
+                standardRoomFacilities, RoomView.POOL);
+        createAndSaveRooms(5, 8, 220.0, 24, RoomType.STANDARD,
+                standardRoomFacilities, RoomView.GARDEN);
+
+        // Create and save studio rooms
+        createAndSaveRooms(9, 10, 320.0, 34, RoomType.STUDIO,
+                studioRoomFacilities,
+                RoomView.SEA);
+        createAndSaveRooms(11, 12, 320.0, 34, RoomType.STUDIO,
+                studioRoomFacilities,
+                RoomView.POOL);
+        createAndSaveRooms(13, 14, 320.0, 34, RoomType.STUDIO,
+                studioRoomFacilities,
+                RoomView.GARDEN);
+
+        // Create and save apartment rooms
+        createAndSaveRooms(15, 16, 520.0, 56, RoomType.APARTMENT,
+                apartmentRoomFacilities,
+                RoomView.SEA);
+        createAndSaveRooms(17, 17, 520.0, 56, RoomType.APARTMENT,
+                apartmentRoomFacilities,
+                RoomView.POOL);
+    }
+
+    private RoomFacility createFacility(String facilityName) {
+        return RoomFacility.builder()
+                .facility(facilityName)
                 .build();
+    }
 
-        RoomFacility TV = RoomFacility.builder()
-                .facility("Flat screen TV")
-                .build();
-
-        RoomFacility phone = RoomFacility.builder()
-                .facility("Telephone")
-                .build();
-
-        RoomFacility toiletries = RoomFacility.builder()
-                .facility("Toiletries")
-                .build();
-
-        RoomFacility kettle = RoomFacility.builder()
-                .facility("Electric kettle")
-                .build();
-
-        RoomFacility internet = RoomFacility.builder()
-                .facility("Wired and wireless internet")
-                .build();
-
-        RoomFacility mattress = RoomFacility.builder()
-                .facility("Comfortable mattress")
-                .build();
-
-        RoomFacility minibar = RoomFacility.builder()
-                .facility("Minibar")
-                .build();
-
-        RoomFacility safe = RoomFacility.builder()
-                .facility("Safe")
-                .build();
-
-        RoomFacility hairDryer = RoomFacility.builder()
-                .facility("HairDryer")
-                .build();
-
-        RoomFacility terrace = RoomFacility.builder()
-                .facility("Terrace")
-                .build();
-
-        RoomFacility spaAccessories = RoomFacility.builder()
-                .facility("Bathrobe and spa slippers")
-                .build();
-
-        RoomFacility sofaBed = RoomFacility.builder()
-                .facility("Sofa bed")
-                .build();
-
-        List<RoomFacility> standardRoomFacilities = List.of(TV, phone, toiletries, kettle, internet, mattress, minibar, safe, hairDryer, spaAccessories);
-        List<RoomFacility> studioRoomFacilities = List.of(TV, phone, toiletries, kettle, internet, mattress, minibar, safe, hairDryer, spaAccessories, sofaBed);
-        List<RoomFacility> apartmentRoomFacilities = List.of(lounge, TV, phone, toiletries, kettle, internet, mattress, minibar, safe, hairDryer, terrace, spaAccessories);
-
-        roomFacilityRepository.saveAll(standardRoomFacilities);
-        roomFacilityRepository.saveAll(studioRoomFacilities);
-        roomFacilityRepository.saveAll(apartmentRoomFacilities);
-
-        Room.RoomBuilder standardRoomBuilder = Room.builder()
-                .price(220.0)
-                .area(24)
-                .type(RoomType.STANDARD)
-                .facilities(standardRoomFacilities);
-
-        Room.RoomBuilder studioRoomBuilder = Room.builder()
-                .price(320.0)
-                .area(34)
-                .type(RoomType.STUDIO)
-                .facilities(studioRoomFacilities);
-
-        Room.RoomBuilder apartmentRoomBuilder = Room.builder()
-                .price(520.0)
-                .area(56)
-                .type(RoomType.APARTMENT)
-                .facilities(apartmentRoomFacilities);
-
-        //standard rooms
-        for (int i = 1; i <= 8; i++) {
-            Room standardRoom = standardRoomBuilder
+    private void createAndSaveRooms(int startRoomNumber, int endRoomNumber, double price, int area, RoomType roomType, List<Long> facilityIds, RoomView view) {
+        for (int i = startRoomNumber; i <= endRoomNumber; i++) {
+            Room room = Room.builder()
                     .roomNumber(i)
+                    .price(price)
+                    .area(area)
+                    .type(roomType)
+                    .facilities(roomFacilityRepository.findAllById(facilityIds))
+                    .view(view)
                     .build();
-            if (i <= 2) {
-                standardRoom.setView(RoomView.SEA);
-            } else if (i <= 4) {
-                standardRoom.setView(RoomView.POOL);
-            } else {
-                standardRoom.setView(RoomView.GARDEN);
-            }
-            roomRepository.save(standardRoom);
+            roomRepository.save(room);
         }
-
-        //studio rooms
-        for (int i = 9; i <= 14; i++) {
-            Room studioRoom = studioRoomBuilder
-                    .roomNumber(i)
-                    .build();
-            if (i <= 10) {
-                studioRoom.setView(RoomView.SEA);
-
-            } else if (i <= 12) {
-                studioRoom.setView(RoomView.POOL);
-            } else {
-                studioRoom.setView(RoomView.GARDEN);
-            }
-            roomRepository.save(studioRoom);
-        }
-
-        //apartments
-        for (int i = 15; i <= 17; i++) {
-            Room apartmentRoom = apartmentRoomBuilder
-                    .roomNumber(i)
-                    .build();
-            if (i <= 16) {
-                apartmentRoom.setView(RoomView.SEA);
-
-            } else {
-                apartmentRoom.setView(RoomView.POOL);
-            }
-            roomRepository.save(apartmentRoom);
-        }
-
     }
 }
