@@ -12,7 +12,7 @@ public interface UserService {
     UserResponse createUser(UserRequest request);
     void deleteUserById (Long id);
     UserResponse findUserById(Long id);
- // UserResponse findUserByEmail(String email);
+    UserResponse findUserByEmail(String email);
  // security included
     boolean existUserByEmail(String email);
     List<UserResponse> getAllUsers();

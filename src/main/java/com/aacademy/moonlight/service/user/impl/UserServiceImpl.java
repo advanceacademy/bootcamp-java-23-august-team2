@@ -45,11 +45,11 @@ public class UserServiceImpl implements UserService {
         return converter.toUserResponse(user);
     }
 
-//    @Override
-//    public UserResponse findUserByEmail(String email) {
-//        User user = repository.findByEmail(email).orElseThrow(()-> new RuntimeException("User not found"));
-//        return converter.toUserResponse(user);
-//    }
+    @Override
+         public UserResponse findUserByEmail(String email) {
+        User user = repository.findByEmail(email).orElseThrow(()-> new RuntimeException("User not found"));
+        return converter.toUserResponse(user);
+    }
 
     @Override
     public boolean existUserByEmail(String email) {

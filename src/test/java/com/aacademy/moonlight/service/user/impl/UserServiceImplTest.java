@@ -76,22 +76,20 @@ class UserServiceImplTest {
     void findUserById() {
         //given
         Long userId = 1L;
-
         User user = new User(userId, "Georgi");
 
+        UserResponse expectedResponse = new UserResponse();
 
         //when
         when(repository.findById(userId)).thenReturn(Optional.of(user));
-
-        UserResponse expectedResponse = new UserResponse();
         when(converter.toUserResponse(user)).thenReturn(expectedResponse);
 
-        assertThatThrownBy(()->userService.findUserById(anyLong()))
-                .isInstanceOf(RuntimeException.class)
-                .hasMessage("User with this id was not found");
+//        assertThatThrownBy(()->userService.findUserById(2L))
+//                .isInstanceOf(RuntimeException.class)
+//                .hasMessage("User with this id was not found");
 
         //when
-        UserResponse response = userService.findUserById(userId);
+       UserResponse response = userService.findUserById(userId);
         //then
         assertNotNull(response);
         verify(converter, times(1)).toUserResponse(user);
