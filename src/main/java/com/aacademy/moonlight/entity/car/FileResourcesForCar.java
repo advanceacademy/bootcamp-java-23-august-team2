@@ -1,4 +1,5 @@
 package com.aacademy.moonlight.entity.car;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -28,7 +29,7 @@ public class FileResourcesForCar {
     private Byte[] photo;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonManagedReference
+    @JsonBackReference
     private Car car;
 
     //private List<FileResourcesForCar> fileResourcesForCar = new ArrayList<>();

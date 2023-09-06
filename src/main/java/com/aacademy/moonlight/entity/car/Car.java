@@ -42,7 +42,7 @@ public class Car {
     private CarCategory carCategory;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonBackReference
+    @JsonManagedReference
     private List<FileResourcesForCar> fileResourcesForCar;
     // I am wondering if it is good to be used this: property orphanRemoval = true - if Admin decides to delete some car
 
