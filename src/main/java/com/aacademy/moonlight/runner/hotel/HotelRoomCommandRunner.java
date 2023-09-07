@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class RoomDataInitializer implements CommandLineRunner {
+public class HotelRoomCommandRunner implements CommandLineRunner {
 
     @Autowired
     RoomRepository roomRepository;
@@ -26,7 +26,7 @@ public class RoomDataInitializer implements CommandLineRunner {
     private final RoomService roomService;
 
     @Autowired
-    public RoomDataInitializer(RoomRepository roomRepository, RoomFacilityRepository roomFacilityRepository, RoomService roomService) {
+    public HotelRoomCommandRunner(RoomRepository roomRepository, RoomFacilityRepository roomFacilityRepository, RoomService roomService) {
         this.roomRepository = roomRepository;
         this.roomFacilityRepository = roomFacilityRepository;
         this.roomService = roomService;
@@ -34,13 +34,7 @@ public class RoomDataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-//TODO FIX FACILITY DUPLICATE
-        if (roomRepository.count() > 0 && roomFacilityRepository.count() > 0) {
-            System.out.println("Data already exists. Skipping initialization.");
-            return;
-        }
-
-        // Create facilities only once
+        // Create facilities
         RoomFacility lounge = createFacility("Lounge area");
         RoomFacility TV = createFacility("Flat screen TV");
         RoomFacility phone = createFacility("Telephone");
@@ -55,62 +49,71 @@ public class RoomDataInitializer implements CommandLineRunner {
         RoomFacility spaAccessories = createFacility("Bathrobe and spa slippers");
         RoomFacility sofaBed = createFacility("Sofa bed");
 
-        // Save facilities to the database
-        roomFacilityRepository.saveAll(List.of(lounge, TV, phone, toiletries, kettle, internet, mattress, minibar, safe, hairDryer, terrace, spaAccessories, sofaBed));
+        //Create facility groups for different room types
+        List<RoomFacility> standardRoomFacilities = List.of(TV, phone, toiletries, kettle, internet,
+                mattress, minibar, safe, hairDryer, spaAccessories);
+        List<RoomFacility> studioRoomFacilities = List.of(TV, phone, toiletries, kettle, internet,
+                mattress, minibar, safe, hairDryer, spaAccessories, sofaBed);
+        List<RoomFacility> apartmentRoomFacilities = List.of(lounge, TV, phone, toiletries, kettle, internet,
+                mattress, minibar, safe, hairDryer, terrace, spaAccessories);
 
-        List<Long> standardRoomFacilities =  List.of(TV.getId(), phone.getId(), toiletries.getId(), kettle.getId(), internet.getId(),
-                mattress.getId(), minibar.getId(), safe.getId(), hairDryer.getId(), spaAccessories.getId());
-        List<Long> studioRoomFacilities = List.of(TV.getId(), phone.getId(), toiletries.getId(), kettle.getId(), internet.getId(),
-                mattress.getId(), minibar.getId(), safe.getId(), hairDryer.getId(), spaAccessories.getId(), sofaBed.getId());
-        List<Long> apartmentRoomFacilities = List.of(lounge.getId(), TV.getId(), phone.getId(), toiletries.getId(), kettle.getId(), internet.getId(),
-                mattress.getId(), minibar.getId(), safe.getId(), hairDryer.getId(), terrace.getId(), spaAccessories.getId());
         // Create and save standard rooms
-        createAndSaveRooms(1, 2, 220.0, 24, RoomType.STANDARD,
+        createAndSaveRooms(101, 102, 220.0, 24, RoomType.STANDARD,
                 standardRoomFacilities, RoomView.SEA);
-        createAndSaveRooms(3, 4, 220.0, 24, RoomType.STANDARD,
+        createAndSaveRooms(103, 104, 220.0, 24, RoomType.STANDARD,
                 standardRoomFacilities, RoomView.POOL);
-        createAndSaveRooms(5, 8, 220.0, 24, RoomType.STANDARD,
+        createAndSaveRooms(105, 108, 220.0, 24, RoomType.STANDARD,
                 standardRoomFacilities, RoomView.GARDEN);
 
         // Create and save studio rooms
-        createAndSaveRooms(9, 10, 320.0, 34, RoomType.STUDIO,
+        createAndSaveRooms(201, 202, 320.0, 34, RoomType.STUDIO,
                 studioRoomFacilities,
                 RoomView.SEA);
-        createAndSaveRooms(11, 12, 320.0, 34, RoomType.STUDIO,
+        createAndSaveRooms(203, 204, 320.0, 34, RoomType.STUDIO,
                 studioRoomFacilities,
                 RoomView.POOL);
-        createAndSaveRooms(13, 14, 320.0, 34, RoomType.STUDIO,
+        createAndSaveRooms(205, 206, 320.0, 34, RoomType.STUDIO,
                 studioRoomFacilities,
                 RoomView.GARDEN);
 
         // Create and save apartment rooms
-        createAndSaveRooms(15, 16, 520.0, 56, RoomType.APARTMENT,
+        createAndSaveRooms(301, 302, 520.0, 56, RoomType.APARTMENT,
                 apartmentRoomFacilities,
                 RoomView.SEA);
-        createAndSaveRooms(17, 17, 520.0, 56, RoomType.APARTMENT,
+        createAndSaveRooms(303, 303, 520.0, 56, RoomType.APARTMENT,
                 apartmentRoomFacilities,
                 RoomView.POOL);
     }
 
     private RoomFacility createFacility(String facilityName) {
-        return RoomFacility.builder()
+        List<RoomFacility> existingFacilities = roomFacilityRepository.findAll();
+
+        for (RoomFacility facility : existingFacilities){
+            if (facilityName.equals(facility.getFacility())){
+                return facility;
+            }
+        }
+
+        RoomFacility newFacility = RoomFacility.builder()
                 .facility(facilityName)
                 .build();
+
+        return roomFacilityRepository.save(newFacility);
     }
 
-    private void createAndSaveRooms(int startRoomNumber, int endRoomNumber, double price, int area, RoomType roomType, List<Long> facilityIds, RoomView view) {
+    private void createAndSaveRooms(int startRoomNumber, int endRoomNumber, double price, int area, RoomType roomType, List<RoomFacility> facilities, RoomView view) {
         for (int i = startRoomNumber; i <= endRoomNumber; i++) {
             Room room = Room.builder()
                     .roomNumber(i)
                     .price(price)
                     .area(area)
                     .type(roomType)
-                    .facilities(roomFacilityRepository.findAllById(facilityIds))
+                    .facilities(facilities)
                     .view(view)
                     .build();
 
             Room foundRoom = roomService.findByNumber(room.getRoomNumber());
-            if (Objects.isNull(foundRoom)){
+            if (Objects.isNull(foundRoom)) {
                 roomRepository.save(room);
             }
         }
