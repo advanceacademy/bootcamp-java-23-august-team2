@@ -25,7 +25,6 @@ public class HotelRoomCommandRunner implements CommandLineRunner {
 
     private final RoomService roomService;
 
-    @Autowired
     public HotelRoomCommandRunner(RoomRepository roomRepository, RoomFacilityRepository roomFacilityRepository, RoomService roomService) {
         this.roomRepository = roomRepository;
         this.roomFacilityRepository = roomFacilityRepository;
