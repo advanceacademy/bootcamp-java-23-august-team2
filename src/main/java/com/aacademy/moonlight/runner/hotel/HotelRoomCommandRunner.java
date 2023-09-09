@@ -17,11 +17,9 @@ import java.util.Objects;
 @Component
 public class HotelRoomCommandRunner implements CommandLineRunner {
 
-    @Autowired
-    RoomRepository roomRepository;
+    private final RoomRepository roomRepository;
 
-    @Autowired
-    RoomFacilityRepository roomFacilityRepository;
+    private final RoomFacilityRepository roomFacilityRepository;
 
     private final RoomService roomService;
 
