@@ -7,7 +7,6 @@ import com.aacademy.moonlight.entity.hotel.RoomView;
 import com.aacademy.moonlight.repository.hotel.RoomFacilityRepository;
 import com.aacademy.moonlight.repository.hotel.RoomRepository;
 import com.aacademy.moonlight.service.hotel.RoomService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
