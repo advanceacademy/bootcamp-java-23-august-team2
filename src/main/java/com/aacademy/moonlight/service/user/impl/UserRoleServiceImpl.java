@@ -50,11 +50,6 @@ public class UserRoleServiceImpl implements UserRoleService {
     public void deleteUserRoleById(Long id) {
         repository.deleteById(id);
     }
-
-    @Override
-    public UserRole findUserRoleByRole(String userRole) {
-        return repository.findByUserRole(userRole).orElseThrow(() -> new RuntimeException("User role not found"));
-    }
 }
 
 
