@@ -2,8 +2,7 @@ package com.aacademy.moonlight.service.user.impl;
 
 
 
-import com.aacademy.moonlight.converter.UserRoleConverter;
-import com.aacademy.moonlight.dto.user.UserRequest;
+import com.aacademy.moonlight.converter.user.UserRoleConverter;
 import com.aacademy.moonlight.dto.user.UserRoleRequest;
 import com.aacademy.moonlight.entity.user.UserRole;
 import com.aacademy.moonlight.repository.user.UserRoleRepository;
@@ -28,6 +27,28 @@ public class UserRoleServiceImpl implements UserRoleService {
     public UserRole createUserRole(UserRoleRequest roleRequest) {
             UserRole userRole = converter.toUserRole(roleRequest);
             return repository.save(userRole);
+    }
+
+    @Override
+    public UserRole findUserRoleById(Long id) {
+        UserRole userRole = repository.findById(id).orElseThrow(() -> new RuntimeException("User role not found"));
+        return userRole;
+    }
+
+    @Override
+    public UserRole updateUserRole(Long id, UserRoleRequest request) {
+        UserRole userRole = repository.findById(id).orElseThrow(() -> new RuntimeException("User role not found"));
+        if(request.getUserRoleName() != null)
+        {
+            userRole.setUserRole(request.getUserRoleName());
+        }
+        UserRole updatedUserRole = repository.save(userRole);
+        return updatedUserRole;
+    }
+
+    @Override
+    public void deleteUserRoleById(Long id) {
+        repository.deleteById(id);
     }
 }
 

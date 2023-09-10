@@ -10,6 +10,7 @@ import lombok.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

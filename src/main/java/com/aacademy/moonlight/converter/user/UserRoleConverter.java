@@ -1,4 +1,4 @@
-package com.aacademy.moonlight.converter;
+package com.aacademy.moonlight.converter.user;
 
 import com.aacademy.moonlight.dto.user.UserRoleRequest;
 import com.aacademy.moonlight.entity.user.UserRole;

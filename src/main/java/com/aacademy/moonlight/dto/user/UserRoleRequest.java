@@ -10,8 +10,6 @@ import lombok.*;
 @Setter
 
 public class UserRoleRequest {
-
-
     @NotBlank
     private String userRoleName;
 }
