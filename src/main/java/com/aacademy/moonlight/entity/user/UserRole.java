@@ -8,8 +8,12 @@ import lombok.*;
 @Entity
 @Table(name = "user_roles")
 @Data
+@Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +23,6 @@ public class UserRole {
     @Column(name = "user_role", unique = true, nullable = false)
     @NotBlank
     private String userRole;
+
+
 }

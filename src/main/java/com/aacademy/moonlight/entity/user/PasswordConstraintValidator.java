@@ -18,7 +18,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
         PasswordValidator validator = new PasswordValidator(Arrays.asList(
                 // at least 8 characters
-                new LengthRule(8, 30),
+                new LengthRule(8, 255),
 
                 // at least one upper-case character
                 new CharacterRule(EnglishCharacterData.UpperCase, 1),
@@ -36,6 +36,7 @@ public class PasswordConstraintValidator implements ConstraintValidator<ValidPas
                 new WhitespaceRule()
 
         ));
+
         RuleResult result = validator.validate(new PasswordData(s));
         if (result.isValid()) {
             return true;
