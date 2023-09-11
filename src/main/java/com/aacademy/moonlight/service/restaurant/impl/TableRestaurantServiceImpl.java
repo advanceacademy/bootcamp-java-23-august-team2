@@ -3,6 +3,7 @@ package com.aacademy.moonlight.service.restaurant.impl;
 import com.aacademy.moonlight.converter.restaurant.TableRestaurantConverter;
 import com.aacademy.moonlight.dto.restaurant.TableRestaurantRequest;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
+import com.aacademy.moonlight.entity.restaurant.TableZone;
 import com.aacademy.moonlight.repository.restaurant.TableRestaurantRepository;
 import com.aacademy.moonlight.service.restaurant.TableRestaurantService;
 import org.springframework.stereotype.Service;
@@ -27,11 +28,11 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
     }
 
     @Override
-    public TableRestaurant findByNumber(Integer tableNumber) {
+    public TableRestaurant findByNumber(Integer tableNumber, TableZone tableZone) {
         List<TableRestaurant> tables = repository.findAll();
         TableRestaurant tableRestaurant = null;
         for (TableRestaurant table: tables) {
-            if(table.getTableNumber() == tableNumber){
+            if(table.getTableNumber() == tableNumber && table.getTableZone()== tableZone){
                 tableRestaurant = table;
             }
         }
