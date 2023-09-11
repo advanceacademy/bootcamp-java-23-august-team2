@@ -11,5 +11,6 @@ public interface UserRoleService {
     UserRole findUserRoleById(Long id);
     UserRole updateUserRole(Long id, UserRoleRequest request);
     void deleteUserRoleById(Long id);
+    UserRole findUserRoleByRole(String userRole);
 
 }

@@ -1,6 +1,8 @@
 package com.aacademy.moonlight.runner;
 
 
+import com.aacademy.moonlight.dto.user.UserRequest;
+import com.aacademy.moonlight.dto.user.UserRoleRequest;
 import com.aacademy.moonlight.entity.user.UserRole;
 import com.aacademy.moonlight.repository.user.UserRepository;
 import com.aacademy.moonlight.repository.user.UserRoleRepository;
@@ -31,31 +33,36 @@ public class AddAdminAndClientRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        UserRole clientRole = new UserRole();
-        clientRole.setUserRole("CLIENT");
-        userRoleRepository.save(clientRole);
-        UserRole savedUserRole;
+            createUserRole("admin");
+            createUserRole("client");
 
-        UserRole adminRole = new UserRole();
-        adminRole.setUserRole("ADMIN");
-        savedUserRole = userRoleRepository.save(adminRole);
+            createUser("vetko.manqka@gmail.com");
 
-        if (savedUserRole != null) {
-            System.out.println("Role successfully created and saved in database");
-        } else {
-            System.out.println("There was a problem creating and saving the role.");
+
+
+    }
+
+    private void createUserRole(String userRole) {
+        UserRoleRequest userRoleRequest = new UserRoleRequest();
+        userRoleRequest.setUserRoleName(userRole.toUpperCase());
+
+        if (userRoleRepository.findByUserRole(userRoleRequest.getUserRoleName()).isEmpty()) {
+            userRoleService.createUserRole(userRoleRequest);
         }
+    }
+    // TO DO the rest  +
+    private void createUser (String email) {
+        UserRequest userRequest =  UserRequest.builder()
+                .email(email)
+                .firstName("Vetko")
+                .lastName("Arabadjiev")
+                .phoneNumber("+359892222222")
+                .password("Adm!n54321")
+                .userRole(userRoleRepository.findByUserRole("admin").orElseThrow())
+                .build();
 
-        if (adminRole != null && adminRole.getUserRole().equals("Admin")) {
-            System.out.println("The role 'Admin' was successfully created and saved in the repository.");
-        } else {
-            System.out.println("There was a problem creating and saving the 'Admin' role, or the role is not 'Admin'.");
-        }
-
-
-
-
-
-
+       if (userRepository.findByEmail(email).isEmpty()) {
+           userService.createUser(userRequest);
+       }
     }
 }
