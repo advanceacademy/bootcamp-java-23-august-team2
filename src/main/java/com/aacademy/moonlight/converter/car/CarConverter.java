@@ -14,6 +14,8 @@ public class CarConverter {
                 .model(request.getModel())
                 .manufacturingYear(request.getManufacturingYear())
                 .carCategory(request.getCarCategory())
+                .type(request.getType())
+                .fileResourcesForCar(request.getFileResourcesForCar())
                 .build();
     }
 }

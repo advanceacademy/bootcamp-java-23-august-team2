@@ -39,6 +39,7 @@ public class CarServiceImpl implements CarService {
         car.setModel(request.getModel());
         car.setManufacturingYear(request.getManufacturingYear());
         car.setCarCategory(request.getCarCategory());
+        car.setType(request.getType());
         car.setFileResourcesForCar(request.getFileResourcesForCar());
 
         return repository.save(car);

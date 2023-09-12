@@ -41,6 +41,11 @@ public class Car {
     @JsonManagedReference
     private CarCategory carCategory;
 
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private CarType type;
+
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<FileResourcesForCar> fileResourcesForCar;
