@@ -22,7 +22,7 @@ public class GlobalExceptionHandler {
         Map<String, String> fieldErrors = new HashMap<>();
         fieldErrors.put("exceptionDetails", ex.getMessage());
 
-        ErrorMessage errorMessage = new ErrorMessage("Internal Server Error", null);
+        ErrorMessage errorMessage = new ErrorMessage("Internal Server Error", fieldErrors);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
     }
 
@@ -38,8 +38,6 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorMessage> handleValidationException(MethodArgumentNotValidException ex) {
-
-        MethodArgumentNotValidException exception = ex;
 
         Map<String, String> fieldsErrors = new HashMap<>();
         for (FieldError error : ex.getFieldErrors()) {
