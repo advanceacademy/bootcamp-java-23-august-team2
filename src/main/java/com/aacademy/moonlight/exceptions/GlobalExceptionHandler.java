@@ -2,11 +2,15 @@ package com.aacademy.moonlight.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashMap;
+import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -20,27 +24,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @ExceptionHandler(CreatedException.class)
-    public ResponseEntity<ErrorMessage> handleCreatedException(CreatedException ex) {
-        ErrorMessage errorMessage = new ErrorMessage();
-        errorMessage.setMessage(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.CREATED).body(errorMessage);
-    }
-    @ResponseStatus(HttpStatus.FOUND)
-    @ExceptionHandler(FoundException.class)
-    public ResponseEntity<ErrorMessage> handleFoundException(FoundException ex) {
-        ErrorMessage errorMessage = new ErrorMessage();
-        errorMessage.setMessage(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.FOUND).body(errorMessage);
-    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorMessage> handleValidationException(MethodArgumentNotValidException ex){
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    @ExceptionHandler(AcceptedException.class)
-    public ResponseEntity<ErrorMessage> handleAcceptedException(AcceptedException ex) {
+        MethodArgumentNotValidException exception = ex;
+
+        Map<String,String> fieldsErrors = new HashMap<>();
+        for(FieldError error: ex.getFieldErrors()){
+            fieldsErrors.put(error.getField(),error.getDefaultMessage());
+        }
         ErrorMessage errorMessage = new ErrorMessage();
-        errorMessage.setMessage(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(errorMessage);
+        errorMessage.setMessage("There are some violations");
+        errorMessage.setFieldsViolated(fieldsErrors);
+
+        return ResponseEntity.badRequest().body(errorMessage);
     }
 
 
