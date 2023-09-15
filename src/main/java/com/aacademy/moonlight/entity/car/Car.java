@@ -1,5 +1,4 @@
 package com.aacademy.moonlight.entity.car;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
@@ -40,6 +39,11 @@ public class Car {
     @JoinColumn(name = "car_categories")
     @JsonManagedReference
     private CarCategory carCategory;
+
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private CarType type;
 
     @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference
