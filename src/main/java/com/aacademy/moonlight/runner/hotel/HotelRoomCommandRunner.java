@@ -97,7 +97,8 @@ public class HotelRoomCommandRunner implements CommandLineRunner {
         return roomFacilityRepository.save(newFacility);
     }
 
-    private void createAndSaveRooms(int startRoomNumber, int endRoomNumber, double price, int area, RoomType roomType, List<RoomFacility> facilities, RoomView view) {
+    private void createAndSaveRooms(int startRoomNumber, int endRoomNumber, double price, int area,
+                                    RoomType roomType, List<RoomFacility> facilities, RoomView view) {
         for (int i = startRoomNumber; i <= endRoomNumber; i++) {
             Room room = Room.builder()
                     .roomNumber(i)
