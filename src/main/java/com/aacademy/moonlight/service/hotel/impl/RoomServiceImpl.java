@@ -57,6 +57,8 @@ public class RoomServiceImpl implements RoomService {
         return responses;
     }
 
+
+
     @Override
     public RoomResponse getRoomById(Long id) {
         Room room = roomRepository.findById(id).orElseThrow(()-> new RuntimeException("Room not found!"));

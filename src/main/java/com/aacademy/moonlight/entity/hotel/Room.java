@@ -26,7 +26,7 @@ public class Room {
     @Column(name = "room_number",nullable = false)
     @Min(value = 1)
     @NotNull(message = "Room should have room number")
-    private Integer roomNumber;
+    private Long roomNumber;
 
     @Column(name = "price",nullable = false)
     @Min(value = 220) // Need to be modified
