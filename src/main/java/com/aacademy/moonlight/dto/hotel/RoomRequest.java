@@ -1,5 +1,7 @@
 package com.aacademy.moonlight.dto.hotel;
 
+import com.aacademy.moonlight.entity.hotel.RoomFacility;
+import com.aacademy.moonlight.entity.hotel.RoomReservation;
 import com.aacademy.moonlight.entity.hotel.RoomType;
 import com.aacademy.moonlight.entity.hotel.RoomView;
 import jakarta.validation.constraints.Min;
@@ -9,7 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,5 +40,7 @@ public class RoomRequest {
 
     @NotNull
     private List<Long> facilityIds;
+
+    private Set<RoomReservation> reservationSet;
 
 }

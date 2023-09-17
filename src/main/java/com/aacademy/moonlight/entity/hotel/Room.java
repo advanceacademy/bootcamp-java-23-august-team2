@@ -58,6 +58,5 @@ public class Room {
     @Column(name = "room_reservations")
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     @JsonBackReference
-
     private Set<RoomReservation> roomReservations;
 }

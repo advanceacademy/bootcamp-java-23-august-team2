@@ -3,7 +3,6 @@ package com.aacademy.moonlight.service.hotel.impl;
 import com.aacademy.moonlight.dto.hotel.RoomRequest;
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomFacility;
-import com.aacademy.moonlight.entity.hotel.RoomType;
 import com.aacademy.moonlight.repository.hotel.RoomFacilityRepository;
 import com.aacademy.moonlight.repository.hotel.RoomRepository;
 import com.aacademy.moonlight.service.hotel.RoomService;
@@ -44,10 +43,9 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Room findByNumber(Integer roomNumber) {
+    public Room findByNumber(Long roomNumber) {
         List<Room> rooms = roomRepository.findAll();
         Room currentRoom = null;
-
         for (Room room : rooms){
             if (Objects.equals(room.getRoomNumber(), roomNumber)){
                 currentRoom = room;
