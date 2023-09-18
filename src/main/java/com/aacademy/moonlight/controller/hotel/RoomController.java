@@ -1,5 +1,5 @@
 package com.aacademy.moonlight.controller.hotel;
-import com.aacademy.moonlight.dto.hotel.RoomRequest;
+
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.service.hotel.RoomService;
 import jakarta.validation.Valid;
