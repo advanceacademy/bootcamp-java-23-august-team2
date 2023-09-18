@@ -23,7 +23,7 @@ public class RoomResponse {
 
     @Min(value = 1)
     @NotNull(message = "Room should have room number")
-    private Long roomNumber;
+    private Integer roomNumber;
 
     @Min(value = 220) // Need to be modified
     @NotNull(message = "Room should have price")

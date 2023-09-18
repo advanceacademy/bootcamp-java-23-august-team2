@@ -109,7 +109,7 @@ public class HotelRoomCommandRunner implements CommandLineRunner {
                     .view(view)
                     .build();
 
-            Room foundRoom = roomService.findByNumber(room.getRoomNumber());
+            Room foundRoom = roomService.findByRoomNumber(room.getRoomNumber());
             if (Objects.isNull(foundRoom)) {
                 roomRepository.save(room);
             }
