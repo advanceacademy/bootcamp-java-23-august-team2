@@ -2,7 +2,6 @@ package com.aacademy.moonlight.dto.car;
 
 
 import com.aacademy.moonlight.entity.car.CarCategory;
-import com.aacademy.moonlight.entity.car.CarType;
 import com.aacademy.moonlight.entity.car.FileResourcesForCar;
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotEmpty;

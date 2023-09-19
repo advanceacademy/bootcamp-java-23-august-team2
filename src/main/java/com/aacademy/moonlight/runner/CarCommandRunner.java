@@ -143,7 +143,7 @@ public class CarCommandRunner implements CommandLineRunner {
                 fileResourcesForCarRepository.save(newImage);
                 imageList.add(newImage);
             } catch (IOException e) {
-                throw new RuntimeException("Failed to read image data from file: " + path, e);
+                throw new IOException("Failed to read image data from file: " + path, e);
             }
         } else {
             imageList.add(existingImage);
