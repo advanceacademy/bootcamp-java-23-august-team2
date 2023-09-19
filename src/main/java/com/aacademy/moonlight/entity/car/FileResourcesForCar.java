@@ -1,9 +1,7 @@
 package com.aacademy.moonlight.entity.car;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -33,5 +31,4 @@ public class FileResourcesForCar {
     @JsonBackReference
     private Car car;
 
-    //private List<FileResourcesForCar> fileResourcesForCar = new ArrayList<>();
 }

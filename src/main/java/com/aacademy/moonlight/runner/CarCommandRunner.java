@@ -58,13 +58,56 @@ public class CarCommandRunner implements CommandLineRunner {
         List<FileResourcesForCar> audiR8List = new ArrayList<>();
         addImage("audiR8Photo-1.jpg", "/audiR8/audiR8Photo-1.jpg", audiR8, audiR8List);
         addImage("audiR8Photo-2.jpg", "/audiR8/audiR8Photo-2.jpg", audiR8, audiR8List);
-        addImage("audiR8Photo-2.jpg", "/audiR8/audiR8Photo-3.jpg", audiR8, audiR8List);
+        addImage("audiR8Photo-3.jpg", "/audiR8/audiR8Photo-3.jpg", audiR8, audiR8List);
 
         Car mercedesSClass = createCarWithImages("Mercedes", "S-Class", 2021, sedanCategory);
         List<FileResourcesForCar> mercedesSClassList = new ArrayList<>();
-        addImage("audiR8Photo-1.jpg", "/audiR8/audiR8Photo-1.jpg", audiR8, audiR8List);
-        addImage("audiR8Photo-2.jpg", "/audiR8/audiR8Photo-2.jpg", audiR8, audiR8List);
-        addImage("audiR8Photo-2.jpg", "/audiR8/audiR8Photo-3.jpg", audiR8, audiR8List);
+        addImage("mercedesSClassPhoto-1.jpg", "/mercedesSClass/mercedesSClassPhoto-1.jpg", mercedesSClass, mercedesSClassList);
+        addImage("mercedesSClassPhoto-2.jpg", "/mercedesSClass/mercedesSClassPhoto-2.jpg", mercedesSClass, mercedesSClassList);
+        addImage("mercedesSClassPhoto-3.jpg", "/mercedesSClass/mercedesSClassPhoto-3.jpg", mercedesSClass, mercedesSClassList);
+
+        Car audiA8 = createCarWithImages("Audi", "A8", 2021, sedanCategory);
+        List<FileResourcesForCar> audiA8List = new ArrayList<>();
+        addImage("audiA8Photo-1.jpg", "/audiA8/audiA8Photo-1.jpg", audiA8, audiA8List);
+        addImage("audiA8Photo-2.jpg", "/audiA8/audiA8Photo-2.jpg", audiA8, audiA8List);
+        addImage("audiA8Photo-3.jpg", "/audiA8/audiA8Photo-3.jpg", audiA8, audiA8List);
+
+        Car bmw5series = createCarWithImages("BMW", "5 Series", 2020, sedanCategory);
+        List<FileResourcesForCar> bmw5seriesList = new ArrayList<>();
+        addImage("bmw5seriesPhoto-1.jpg", "/bmw5series/bmw5seriesPhoto-1.jpg", bmw5series, bmw5seriesList);
+        addImage("bmw5seriesPhoto-2.jpg", "/bmw5series/bmw5seriesPhoto-2.jpg", bmw5series, bmw5seriesList);
+        addImage("bmw5seriesPhoto-3.jpg", "/bmw5series/bmw5seriesPhoto-3.jpg", bmw5series, bmw5seriesList);
+
+        Car vwPassatB9 = createCarWithImages("Volkswagen", "Passat B9", 2021, sedanCategory);
+        List<FileResourcesForCar> vwPassatB9List = new ArrayList<>();
+        addImage("vwPassatB9Photo-1.jpg", "/vwPassatB9/vwPassatB9Photo-1.jpg", vwPassatB9, vwPassatB9List);
+        addImage("vwPassatB9Photo-2.jpg", "/vwPassatB9/vwPassatB9Photo-2.jpg", vwPassatB9, vwPassatB9List);
+        addImage("vwPassatB9Photo-3.jpg", "/vwPassatB9/vwPassatB9Photo-3.jpg", vwPassatB9, vwPassatB9List);
+
+        Car mercedesVClass = createCarWithImages("Mercedes", "V-Class", 2021, vanCategory);
+        List<FileResourcesForCar> mercedesVCLassList = new ArrayList<>();
+        addImage("mercedesVClassPhoto-1.jpg", "/mercedesVClass/mercedesVClassPhoto-1.jpg", mercedesVClass, mercedesVCLassList);
+        addImage("mercedesVClassPhoto-2.jpg", "/mercedesVClass/mercedesVClassPhoto-2.jpg", mercedesVClass, mercedesVCLassList);
+        addImage("mercedesVClassPhoto-3.jpg", "/mercedesVClass/mercedesVClassPhoto-3.jpg", mercedesVClass, mercedesVCLassList);
+
+        Car vwRLine = createCarWithImages("Volkswagen", "R Line", 2020, vanCategory);
+        List<FileResourcesForCar> vwRLineList = new ArrayList<>();
+        addImage("vwRLinePhoto-1.jpg", "/vwRLine/vwRLinePhoto-1.jpg", vwRLine, vwRLineList);
+        addImage("vwRLinePhoto-2.jpg", "/vwRLine/vwRLinePhoto-2.jpg", vwRLine, vwRLineList);
+        addImage("vwRLinePhoto-3.jpg", "/vwRLine/vwRLinePhoto-3.jpg", vwRLine, vwRLineList);
+
+        Car bmwVan = createCarWithImages("BMW", "2 Series Gran Tourer", 2020, vanCategory);
+        List<FileResourcesForCar> bmwVanList = new ArrayList<>();
+        addImage("bmwVanPhoto-1.jpg", "/bmwVan/bmwVanPhoto-1.jpg", bmwVan, bmwVanList);
+        addImage("bmwVanPhoto-2.jpg", "/bmwVan/bmwVanPhoto-2.jpg", bmwVan, bmwVanList);
+        addImage("bmwVanPhoto-3.jpg", "/bmwVan/bmwVanPhoto-3.jpg", bmwVan, bmwVanList);
+
+        Car hyundaiH1 = createCarWithImages("Hyundai", "H-1", 2020, vanCategory);
+        List<FileResourcesForCar> hyundaiH1List = new ArrayList<>();
+        addImage("hyundaiH1Photo-1.jpg", "/hyundaiH1/hyundaiH1Photo-1.jpg", hyundaiH1, hyundaiH1List);
+        addImage("hyundaiH1Photo-2.jpg", "/hyundaiH1/hyundaiH1Photo-2.jpg", hyundaiH1, hyundaiH1List);
+        addImage("hyundaiH1Photo-3.jpg", "/hyundaiH1/hyundaiH1Photo-3.jpg", hyundaiH1, hyundaiH1List);
+
 
 
     }
