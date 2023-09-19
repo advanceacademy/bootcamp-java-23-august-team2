@@ -58,7 +58,6 @@ public class RoomServiceImpl implements RoomService {
             RoomResponse response = roomConverter.toRoomResponse(room);
             responses.add(response);
         }
-
         return responses;
     }
 
