@@ -5,7 +5,12 @@ import com.aacademy.moonlight.dto.car.FileResourcesForCarRequest;
 import com.aacademy.moonlight.entity.car.FileResourcesForCar;
 import com.aacademy.moonlight.repository.car.FileResourcesForCarRepository;
 import com.aacademy.moonlight.service.car.FileResourcesForCarService;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
+
+@Service
 public class FileResourcesForCarServiceImpl implements FileResourcesForCarService {
     private final FileResourcesForCarRepository repository;
     private final FileResourcesForCarConverter converter;
@@ -42,5 +47,18 @@ public class FileResourcesForCarServiceImpl implements FileResourcesForCarServic
     @Override
     public void deleteFileResourcesById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public FileResourcesForCar findFileByName(String name) {
+        List<FileResourcesForCar> files = repository.findAll();
+        FileResourcesForCar currentFile = null;
+
+        for (FileResourcesForCar file : files){
+            if (Objects.equals(file.getImageName(), name)){
+                currentFile = file;
+            }
+        }
+        return currentFile;
     }
 }

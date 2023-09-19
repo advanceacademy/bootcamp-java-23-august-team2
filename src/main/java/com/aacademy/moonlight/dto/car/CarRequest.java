@@ -32,8 +32,5 @@ public class CarRequest {
     @NotNull
     private CarCategory carCategory;
 
-    @NotNull
-    private CarType type;
-
     private List<FileResourcesForCar> fileResourcesForCar;
 }

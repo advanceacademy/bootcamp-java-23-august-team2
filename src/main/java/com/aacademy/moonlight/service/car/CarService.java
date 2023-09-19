@@ -9,6 +9,8 @@ public interface CarService {
     Car updateCar(CarRequest request, Long id);
     void deleteCarById(Long id);
 
+    Car findCarByBrandAndModel(String brand, String model);
+
 
 
 }

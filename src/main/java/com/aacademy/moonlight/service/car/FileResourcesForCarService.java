@@ -11,4 +11,6 @@ public interface FileResourcesForCarService {
     FileResourcesForCar updateFileResources(FileResourcesForCarRequest request, Long id);
 
     void deleteFileResourcesById(Long id);
+
+    FileResourcesForCar findFileByName(String name);
 }

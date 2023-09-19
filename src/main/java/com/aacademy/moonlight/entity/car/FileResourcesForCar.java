@@ -25,10 +25,11 @@ public class FileResourcesForCar {
     private String imageName;
 
     @Lob
-    @Column(name = "photo", columnDefinition="BLOB")
-    private Byte[] photo;
+    @Column(name = "photo", columnDefinition="LONGBLOB")
+    private byte[] photo;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "car_id")
     @JsonBackReference
     private Car car;
 
