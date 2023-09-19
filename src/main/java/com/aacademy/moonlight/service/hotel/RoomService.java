@@ -17,7 +17,8 @@ public interface RoomService {
 
     RoomResponse getRoomById (Long id);
 
-    Room findByRoomNumber(Integer roomNumber);
+    List<RoomResponse> findByRoomNumber(Integer roomNumber);
+
     //Optional<Room> getRoom(Long id);
     //void deleteRoom(Long id);
 
@@ -25,7 +26,7 @@ public interface RoomService {
 
     List<RoomResponse> findByRoomView (RoomView view);
 
-    List<RoomResponse> findByRoomCapacity(Long id);
+ //   List<RoomResponse> findByRoomCapacity(Long id);
 
-    List<RoomResponse> findByRoomPrice (Long id);
+    List<RoomResponse> findByRoomPrice (Long price);
 }

@@ -20,7 +20,7 @@ public class RoomRequest {
 
     @NotNull
     @Min(value = 1)
-    private Long roomNumber;
+    private Integer roomNumber;
 
     @NotNull
     @Min(value = 100)

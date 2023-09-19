@@ -1,5 +1,6 @@
 package com.aacademy.moonlight.runner.hotel;
 
+import com.aacademy.moonlight.dto.hotel.RoomResponse;
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomFacility;
 import com.aacademy.moonlight.entity.hotel.RoomType;
@@ -109,7 +110,7 @@ public class HotelRoomCommandRunner implements CommandLineRunner {
                     .view(view)
                     .build();
 
-            Room foundRoom = roomService.findByRoomNumber(room.getRoomNumber());
+            List<RoomResponse> foundRoom = roomService.findByRoomNumber(room.getRoomNumber());
             if (Objects.isNull(foundRoom)) {
                 roomRepository.save(room);
             }
