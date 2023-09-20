@@ -149,7 +149,7 @@ public class CarCommandRunner implements CommandLineRunner {
             newImage.setImageName(name);
 
             try {
-                byte[] imageData = ImageFileUtil.readImageDataFromFile("src/main/java/com/aacademy/moonlight/carImages" + path);
+                byte[] imageData = ImageFileUtil.readImageDataFromFile("src/main/resources/carImages" + path);
                 newImage.setPhoto(imageData);
                 newImage.setCar(car);
                 return fileResourcesForCarRepository.save(newImage);
