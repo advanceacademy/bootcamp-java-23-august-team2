@@ -47,6 +47,9 @@ public class Room {
     @NotNull()
     private RoomView view;
 
+    @Column(name = "capacity", nullable = false)
+    private Integer RoomCapacity;
+
     @ManyToMany
     @JoinTable(
             name = "room_facility_mapping",
