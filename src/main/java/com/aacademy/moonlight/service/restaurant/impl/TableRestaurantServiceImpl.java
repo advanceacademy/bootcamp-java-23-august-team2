@@ -2,12 +2,14 @@ package com.aacademy.moonlight.service.restaurant.impl;
 
 import com.aacademy.moonlight.converter.restaurant.TableRestaurantConverter;
 import com.aacademy.moonlight.dto.restaurant.TableRestaurantRequest;
+import com.aacademy.moonlight.dto.restaurant.TableRestaurantResponse;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.restaurant.TableZone;
 import com.aacademy.moonlight.repository.restaurant.TableRestaurantRepository;
 import com.aacademy.moonlight.service.restaurant.TableRestaurantService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -62,4 +64,96 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
     public void deleteTableById(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public List<TableRestaurant> getAllTables() {
+        return null;
+    }
+
+    @Override
+    public TableRestaurantResponse getTablesByZone() {
+        List<TableRestaurant> tables = repository.findAll();
+
+        List<TableRestaurantResponse> responses = new ArrayList<>();
+
+        for (TableZone zone : TableZone.values()) {
+            List<TableRestaurantResponse> zoneTables = new ArrayList<>();
+
+            for (TableRestaurant tableRestaurant : tables) {
+                if (tableRestaurant.getTableZone() == zone) {
+                    TableRestaurantResponse response = new TableRestaurantResponse();
+                    response.setTableNumber(tableRestaurant.getTableNumber());
+                    zoneTables.add(response);
+                }
+            }
+
+            responses.addAll(zoneTables);
+        }
+
+        return (TableRestaurantResponse) responses;
+    }
+
+    @Override
+    public List<TableRestaurantResponse> getSmokingTables() {
+        List<TableRestaurant> allTables = repository.findAll();
+        List<TableRestaurantResponse> smokingTableResponses = new ArrayList<>();
+
+        for (TableRestaurant table : allTables) {
+            if (table.isSmokingAllowed()) {
+                TableRestaurantResponse response = new TableRestaurantResponse();
+                response.setTableNumber(table.getTableNumber());
+                smokingTableResponses.add(response);
+            }
+        }
+
+        return smokingTableResponses;
+    }
+
+    @Override
+    public TableRestaurantResponse getTableById(Long id) {
+
+        TableRestaurant tableRestaurant = repository.findById(id).orElseThrow(()-> new RuntimeException("Table not found!"));
+        return converter.toTableRestaurantResponse(tableRestaurant);
+    }
+    @Override
+    public TableRestaurantResponse getTableByTableNumber(Integer tableNumber) {
+        TableRestaurant tableRestaurant = repository.getTableByTableNumber().orElseThrow(()->
+                new RuntimeException("Room with this number don't exist"));
+
+        return converter.toTableRestaurantResponse(tableRestaurant);
+
+    }
+    @Override
+    public List<TableRestaurantResponse> getTablesByNumberOfSeats(Integer numberOfSeats) {
+        List<TableRestaurant> tableRestaurantList = repository.findAll();
+        return tableRestaurantList.stream()
+                .filter(tableRestaurant -> tableRestaurant.getSeats().equals(numberOfSeats))
+                .map(converter::toTableRestaurantResponse)
+                .toList();
+
+
+
+    }
+
+    @Override
+    public List<TableRestaurant> getSmokingTables(boolean isSmokingAllowed) {
+        return null;
+    }
 }
+
+//        //        List<TableRestaurant> tables = repository.findByNumberOfSeats(numberOfSeats);
+////
+////        List<TableRestaurantResponse> responses = new ArrayList<>();
+////
+////        for (TableRestaurant tableRestaurant : tables) {
+////            TableRestaurantResponse response = new TableRestaurantResponse();
+////            response.setTableNumber(tableRestaurant.getTableNumber());
+////
+////            responses.add(response);
+////        }
+////        return responses;
+////    }
+//}
+
+
+
