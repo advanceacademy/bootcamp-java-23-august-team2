@@ -108,12 +108,6 @@ public class CarCommandRunner implements CommandLineRunner {
                 "hyundaiH1Photo-3.jpg", "/hyundaiH1/hyundaiH1Photo-3.jpg"
         );
 
-        List<FileResourcesForCar> ferrariF8Photos = ferrariF8.getFileResourcesForCar();
-
-        for (FileResourcesForCar photo : ferrariF8Photos) {
-            System.out.println("Photo Name: " + photo.getImageName());
-        }
-
     }
 
     private Car createCarWithImages(String brand, String model, Integer year, CarCategory carCategory, String... imageInfo) {
