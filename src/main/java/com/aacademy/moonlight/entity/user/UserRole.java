@@ -2,7 +2,10 @@ package com.aacademy.moonlight.entity.user;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 
 @Entity
@@ -16,7 +19,11 @@ public class UserRole {
     @Column(name = "id")
     private Long id;
 
+    @NotBlank
+    private String roleName;
+
+    @OneToMany(mappedBy = "userRole")
     @Column(name = "user_role", unique = true, nullable = false)
     @NotBlank
-    private String userRole;
+    private List<User> users;
 }

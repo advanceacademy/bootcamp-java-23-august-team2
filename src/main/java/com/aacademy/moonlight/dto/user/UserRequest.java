@@ -2,6 +2,7 @@ package com.aacademy.moonlight.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -19,11 +20,10 @@ public class UserRequest {
     @Length(min=3, message = "Last name should contain at least 3 characters")
     private String lastName;
 
-    @NotBlank
+    @NotEmpty
     private String phoneNumber;
 
-    @NotBlank
-    @Length(min = 8, message = "Password should contains at least 8 characters")
+    @NotEmpty
     private String password;
 
     @NotBlank

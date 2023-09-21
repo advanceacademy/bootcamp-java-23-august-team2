@@ -8,12 +8,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -47,37 +50,37 @@ public class User implements UserDetails {
     private String email;
 
     @Column(name = "phone_number", nullable = false)
-    @NotBlank(message = "Enter your phone number")
+    //@NotBlank(message = "Enter your phone number")
     @Pattern(regexp = "^(\\+|00)[0-9\\-]{10,15}$")
-    @Size(min = 10, max = 15)
     private String phoneNumber;
 
     @Column(name = "password", nullable = false)
     @NotEmpty(message = "Enter password")
-    @ValidPassword //Custom annotation
+    //@ValidPassword //Custom annotation
     //Another option for password validation
-    //regexp = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).*$"
-    // @Size(min = 7)
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).*$")
     private String password;
 
+    @CreatedDate
     @Column(name = "created_date", nullable = false)
     @NotNull(message = "Enter valid date")
+    @Builder.Default
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     //@JsonFormat(pattern = "dd/MM/yyyy") - if we need to serialize Date
-    private LocalDate createdDate;
+    private LocalDateTime createdDate = LocalDateTime.now();
 
     @ManyToOne
     @JsonManagedReference
     @JoinColumn(name = "user_role_id")
     private UserRole userRole;
-
+/*
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private Set<ScreenReservation> screenReservationSet;
-
+*/
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(userRole.getUserRole()));
+        return List.of(new SimpleGrantedAuthority(userRole.getRoleName()));
         //Amigoto izpolzva ENUM: role.name vmesto userRole.getUserRole()
     }
 
