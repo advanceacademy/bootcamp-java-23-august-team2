@@ -94,15 +94,15 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
     }
 
     @Override
-    public List<TableRestaurantResponse> getSmokingTables() {
+    public List<TableRestaurantResponse> getSmokingTables(boolean isSmokingAllowed) {
         List<TableRestaurant> allTables = repository.findAll();
         List<TableRestaurantResponse> smokingTableResponses = new ArrayList<>();
 
         for (TableRestaurant table : allTables) {
-            if (table.isSmokingAllowed()) {
-                TableRestaurantResponse response = new TableRestaurantResponse();
-                response.setTableNumber(table.getTableNumber());
-                smokingTableResponses.add(response);
+            if (isSmokingAllowed) {
+                TableRestaurantResponse savedTable = converter.toTableRestaurantResponse(table);
+
+                smokingTableResponses.add(savedTable);
             }
         }
 
@@ -135,25 +135,10 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
 
     }
 
-    @Override
-    public List<TableRestaurant> getSmokingTables(boolean isSmokingAllowed) {
-        return null;
-    }
+
 }
 
-//        //        List<TableRestaurant> tables = repository.findByNumberOfSeats(numberOfSeats);
-////
-////        List<TableRestaurantResponse> responses = new ArrayList<>();
-////
-////        for (TableRestaurant tableRestaurant : tables) {
-////            TableRestaurantResponse response = new TableRestaurantResponse();
-////            response.setTableNumber(tableRestaurant.getTableNumber());
-////
-////            responses.add(response);
-////        }
-////        return responses;
-////    }
-//}
+
 
 
 
