@@ -4,15 +4,18 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 
 @Entity
 @Table(name = "user_roles")
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +25,7 @@ public class UserRole {
     @NotBlank
     private String roleName;
 
-    @OneToMany(mappedBy = "userRole")
-    @Column(name = "user_role", unique = true, nullable = false)
-    @NotBlank
-    private List<User> users;
+    @ManyToOne
+    @JoinColumn(name = "users_id")
+    private User user;
 }

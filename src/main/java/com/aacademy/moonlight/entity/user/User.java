@@ -17,9 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "users")
@@ -69,10 +68,12 @@ public class User implements UserDetails {
     //@JsonFormat(pattern = "dd/MM/yyyy") - if we need to serialize Date
     private LocalDateTime createdDate = LocalDateTime.now();
 
-    @ManyToOne
-    @JsonManagedReference
-    @JoinColumn(name = "user_role_id")
-    private UserRole userRole;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "user_role_id",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_roles_id"))
+    private Set<UserRole> roles;
 /*
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
@@ -80,7 +81,9 @@ public class User implements UserDetails {
 */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(userRole.getRoleName()));
+        return roles.stream()
+                .map(roles -> new SimpleGrantedAuthority("ROLE" + roles.getRoleName()))
+                        .collect(Collectors.toList());
         //Amigoto izpolzva ENUM: role.name vmesto userRole.getUserRole()
     }
 
