@@ -16,14 +16,8 @@ public interface TableRestaurantService {
     void deleteTableById(Long id);
     List<TableRestaurant> getAllTables();
     TableRestaurantResponse getTablesByZone();
-    List<TableRestaurantResponse> getSmokingTables();
-
-
     TableRestaurantResponse getTableById(Long id);
-
     TableRestaurantResponse getTableByTableNumber(Integer tableNumber);
     List<TableRestaurantResponse> getTablesByNumberOfSeats(Integer numberOfSeats);
-
-
-    List<TableRestaurant> getSmokingTables(boolean isSmokingAllowed);
+    List<TableRestaurantResponse> getSmokingTables(boolean isSmokingAllowed);
 }

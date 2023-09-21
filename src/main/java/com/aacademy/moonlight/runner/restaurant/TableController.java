@@ -22,38 +22,18 @@ public class TableController {
     @Autowired
     TableRestaurantService tableRestaurantService;
 
-    @GetMapping("/save-Table")
-    public TableRestaurant saveTable(@Valid @RequestBody TableRestaurantRequest request) {
-
-        return tableRestaurantService.saveTable(request);
-    }
-
     @GetMapping("/zone/{zone}")
     public ResponseEntity<TableRestaurantResponse> getTablesByZone(@PathVariable TableZone tableZone) {
-        TableRestaurantResponse tableRestaurantResponse = tableRestaurantService.getTablesByZone();
-        return ResponseEntity.status(HttpStatus.FOUND).body(tableRestaurantResponse);
+        List<TableRestaurantResponse> tablesZone = (List<TableRestaurantResponse>) tableRestaurantService.getTablesByZone();
+        return ResponseEntity.status(HttpStatus.FOUND).body((TableRestaurantResponse) tablesZone);
     }
 
     @GetMapping("/smoking")
     public ResponseEntity<List<TableRestaurantResponse>> getSmokingTables(@RequestParam(name = "isSmokingAllowed", defaultValue = "true") boolean isSmokingAllowed) {
-        List<TableRestaurant> allTables = tableRestaurantService.getSmokingTables(isSmokingAllowed);
-        List<TableRestaurantResponse> smokingTableResponses = new ArrayList<>();
-
-        for (TableRestaurant table : allTables) {
-            if (table.isSmokingAllowed() == isSmokingAllowed) {
-                TableRestaurantResponse response = new TableRestaurantResponse();
-                response.setTableNumber(table.getTableNumber());
-                smokingTableResponses.add(response);
-            }
+        List<TableRestaurantResponse> savedTables = tableRestaurantService.getSmokingTables(isSmokingAllowed);
+        return ResponseEntity.status(HttpStatus.FOUND).body(savedTables);
         }
 
-        if (!smokingTableResponses.isEmpty()) {
-            return ResponseEntity.ok(smokingTableResponses);
-        } else {
-
-            return ResponseEntity.notFound().build();
-        }
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<TableRestaurant> updateTableById(@PathVariable Long id, @Valid @RequestBody TableRestaurantRequest request) {
@@ -68,9 +48,9 @@ public class TableController {
     }
 
     @GetMapping("/seats/{numberOfSeats}")
-    public ResponseEntity<TableRestaurantResponse> getTablesByNumberOfSeats(@Valid @PathVariable Integer numberOfSeats) {
-        TableRestaurant tableRestaurant = (TableRestaurant) tableRestaurantService.getTablesByNumberOfSeats(numberOfSeats);
-        return ResponseEntity.status(HttpStatus.FOUND).body((TableRestaurantResponse) tableRestaurantService.getTablesByNumberOfSeats(numberOfSeats));
+    public ResponseEntity<List<TableRestaurantResponse>> getTablesByNumberOfSeats(@Valid @PathVariable Integer numberOfSeats) {
+        List<TableRestaurantResponse> list = tableRestaurantService.getTablesByNumberOfSeats(numberOfSeats);
+        return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
 }
 
