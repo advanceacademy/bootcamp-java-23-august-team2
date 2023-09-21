@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(value = {"role"}, allowGetters = true, allowSetters = false)
+
 public class RegisterRequest {
     private String firstName;
     private String lastName;

@@ -9,11 +9,16 @@ import com.aacademy.moonlight.repository.user.UserRepository;
 import com.aacademy.moonlight.repository.user.UserRoleRepository;
 import com.aacademy.moonlight.security.config.JwtService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
+import java.util.Set;
+
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +31,9 @@ public class AuthenticationService {
 
     public AuthResponse register(RegisterRequest request){
 
-        UserRole role = userRoleRepository.findById(2L).orElseThrow();
+        UserRole userRole = request.getRole();
+        Set<UserRole> roles = new HashSet<>();
+        roles.add(userRole);
 
         var user = User.builder()
                 .firstName(request.getFirstName())
@@ -34,7 +41,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
                 .password(encoder.encode(request.getPassword()))
-                .userRole(role)
+                .roles(roles)
                 .build();
                 repository.save(user);
                 var jwtToken = jwtService.generateToken(user);
