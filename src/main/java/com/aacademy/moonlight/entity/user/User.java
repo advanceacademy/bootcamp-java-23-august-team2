@@ -76,15 +76,15 @@ public class User implements UserDetails {
 //    inverseJoinColumns = @JoinColumn(name = "user_role_id"))
     private UserRole role;
 
-/*
+
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private Set<ScreenReservation> screenReservationSet;
-*/
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.getName()));
+        return List.of(new SimpleGrantedAuthority(role.getUserRole()));
     }
 
 
