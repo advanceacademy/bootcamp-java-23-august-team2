@@ -71,10 +71,9 @@ public class User implements UserDetails {
 
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
- //   @JoinTable(name = "user_role_id")
-//    joinColumns = @JoinColumn(name = "user_id"),
+    @JoinColumn(name = "user_role_id")
 //    inverseJoinColumns = @JoinColumn(name = "user_role_id"))
-    private UserRole role;
+    private UserRole userRole;
 
 
     @OneToMany(mappedBy = "user")
@@ -84,7 +83,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.getUserRole()));
+        return List.of(new SimpleGrantedAuthority(userRole.getUserRole()));
     }
 
 

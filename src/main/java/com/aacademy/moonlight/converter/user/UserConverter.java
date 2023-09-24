@@ -18,7 +18,7 @@ public class UserConverter {
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
                 .password(request.getPassword())
-                .role(request.getUserRole())
+                .userRole(request.getUserRole())
                 .createdDate(LocalDateTime.now())
                 .build();
     }

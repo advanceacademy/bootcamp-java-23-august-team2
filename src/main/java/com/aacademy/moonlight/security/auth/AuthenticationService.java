@@ -31,7 +31,7 @@ public class AuthenticationService {
 
     public AuthResponse register(RegisterRequest request){
 
-       // UserRole role = new UserRole(2L, "CLIENT");
+        UserRole role = userRoleRepository.findById(2L).orElseThrow();
 
 
          var user = User.builder()
@@ -40,7 +40,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
                 .password(encoder.encode(request.getPassword()))
-                 .role(userRoleRepository.findById(request.getUserRoleId()).orElseThrow())
+                 .userRole(role)
                  .build();
                 repository.save(user);
                 var jwtToken = jwtService.generateToken(user);
