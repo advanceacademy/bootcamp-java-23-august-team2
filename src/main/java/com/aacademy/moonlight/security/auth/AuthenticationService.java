@@ -2,7 +2,8 @@ package com.aacademy.moonlight.security.auth;
 
 import com.aacademy.moonlight.dto.security.AuthResponse;
 import com.aacademy.moonlight.dto.security.LoginRequest;
-import com.aacademy.moonlight.dto.security.RegisterRequest;
+
+import com.aacademy.moonlight.dto.user.UserRequest;
 import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.entity.user.UserRole;
 import com.aacademy.moonlight.repository.user.UserRepository;
@@ -29,7 +30,7 @@ public class AuthenticationService {
     private final AuthenticationManager manager;
     private final UserRoleRepository userRoleRepository;
 
-    public AuthResponse register(RegisterRequest request){
+    public AuthResponse register(UserRequest request){
 
         UserRole role = userRoleRepository.findById(2L).orElseThrow();
 

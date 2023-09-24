@@ -32,8 +32,5 @@ public class UserRequest {
     @Email(message = "Enter valid email")
     private String email;
 
-//    @NotNull
-//    private LocalDate createdDate;
-
     private UserRole userRole;
 }
