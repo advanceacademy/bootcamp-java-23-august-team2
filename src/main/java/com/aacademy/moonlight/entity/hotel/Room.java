@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -34,6 +33,10 @@ public class Room {
     @NotNull(message = "Room should have price")
     private Double price;
 
+    @Column(name = "area", nullable = false)
+    @NotNull(message = "Room should have an area in square meters")
+    private Integer area;
+
     @Column(name = "type", nullable = false)
     @Enumerated(EnumType.STRING)
     @NotNull()
@@ -44,10 +47,13 @@ public class Room {
     @NotNull()
     private RoomView view;
 
-    @Column(name = "facilities", nullable = false)
-    @ManyToMany(mappedBy = "rooms")
-    @NotNull()
-    private List<RoomFacility> facilities = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(
+            name = "room_facility_mapping",
+            joinColumns = @JoinColumn(name = "room_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_facility_id")
+    )
+    private List<RoomFacility> facilities;
 
     @Column(name = "room_reservations")
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)

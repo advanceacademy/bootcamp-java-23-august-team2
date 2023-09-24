@@ -26,6 +26,9 @@ public class RoomRequest {
     private Double price;
 
     @NotNull
+    private Integer area;
+
+    @NotNull
     private RoomType type;
 
     @NotNull

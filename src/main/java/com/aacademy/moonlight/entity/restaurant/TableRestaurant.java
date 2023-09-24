@@ -20,7 +20,7 @@ public class TableRestaurant {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "table_number" , unique = true)
+    @Column(name = "table_number")
     @Min(value = 1)
     @Max(value = 16)
     @NotNull(message = "Please select a table number")

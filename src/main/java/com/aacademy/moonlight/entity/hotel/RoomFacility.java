@@ -24,11 +24,6 @@ public class RoomFacility {
     @NotEmpty(message = "Enter facility")
     private String facility;
 
-    @ManyToMany
-    @JoinTable(
-            name = "room_facility_mapping",
-            joinColumns = @JoinColumn(name = "room_facility_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_id")
-    )
+    @ManyToMany(mappedBy = "facilities")
     private List<Room> rooms;
 }

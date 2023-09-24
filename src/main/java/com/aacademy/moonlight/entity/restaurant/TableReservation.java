@@ -44,7 +44,7 @@ public class TableReservation {
     @NotNull(message = "Missing price")
     private Double totalPrice;
 
-    @JoinColumn(name = "table_number")
+    @JoinColumn(name = "table_id")
     @ManyToOne
     private TableRestaurant tableRestaurant;
 
