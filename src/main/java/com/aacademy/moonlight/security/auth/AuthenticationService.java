@@ -33,14 +33,15 @@ public class AuthenticationService {
 
        // UserRole role = new UserRole(2L, "CLIENT");
 
+
          var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
                 .password(encoder.encode(request.getPassword()))
-                 .role(userRoleRepository.findById(2L).orElseThrow())
-                .build();
+                 .role(userRoleRepository.findById(request.getUserRoleId()).orElseThrow())
+                 .build();
                 repository.save(user);
                 var jwtToken = jwtService.generateToken(user);
 

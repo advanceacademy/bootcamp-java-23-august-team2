@@ -71,7 +71,7 @@ public class User implements UserDetails {
 
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_role_id")
+ //   @JoinTable(name = "user_role_id")
 //    joinColumns = @JoinColumn(name = "user_id"),
 //    inverseJoinColumns = @JoinColumn(name = "user_role_id"))
     private UserRole role;
