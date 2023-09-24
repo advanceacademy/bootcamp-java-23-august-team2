@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Entity
@@ -68,24 +69,24 @@ public class User implements UserDetails {
     //@JsonFormat(pattern = "dd/MM/yyyy") - if we need to serialize Date
     private LocalDateTime createdDate = LocalDateTime.now();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "user_role_id",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_roles_id"))
-    private Set<UserRole> roles;
+
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role_id")
+//    joinColumns = @JoinColumn(name = "user_id"),
+//    inverseJoinColumns = @JoinColumn(name = "user_role_id"))
+    private UserRole role;
+
 /*
     @OneToMany(mappedBy = "user")
     @JsonManagedReference
     private Set<ScreenReservation> screenReservationSet;
 */
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream()
-                .map(roles -> new SimpleGrantedAuthority("ROLE" + roles.getRoleName()))
-                        .collect(Collectors.toList());
-        //Amigoto izpolzva ENUM: role.name vmesto userRole.getUserRole()
+        return List.of(new SimpleGrantedAuthority(role.getName()));
     }
+
 
     @Override
     public String getPassword() {

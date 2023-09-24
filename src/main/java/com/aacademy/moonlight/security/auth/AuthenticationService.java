@@ -12,12 +12,12 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -31,17 +31,15 @@ public class AuthenticationService {
 
     public AuthResponse register(RegisterRequest request){
 
-        UserRole userRole = request.getRole();
-        Set<UserRole> roles = new HashSet<>();
-        roles.add(userRole);
+       // UserRole role = new UserRole(2L, "CLIENT");
 
-        var user = User.builder()
+         var user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .phoneNumber(request.getPhoneNumber())
                 .password(encoder.encode(request.getPassword()))
-                .roles(roles)
+                 .role(userRoleRepository.findById(2L).orElseThrow())
                 .build();
                 repository.save(user);
                 var jwtToken = jwtService.generateToken(user);
