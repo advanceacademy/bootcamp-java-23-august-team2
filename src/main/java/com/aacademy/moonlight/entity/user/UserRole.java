@@ -1,12 +1,15 @@
 package com.aacademy.moonlight.entity.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -22,10 +25,8 @@ public class UserRole {
     @Column(name = "id")
     private Long id;
 
-    @NotBlank
-    private String roleName;
+    @Column(name = "user_role")
+    @NotNull
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "users_id")
-    private User user;
 }
