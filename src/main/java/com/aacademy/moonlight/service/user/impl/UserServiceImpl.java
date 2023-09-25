@@ -2,7 +2,7 @@ package com.aacademy.moonlight.service.user.impl;
 import com.aacademy.moonlight.converter.user.UserConverter;
 import com.aacademy.moonlight.dto.user.UserRequest;
 import com.aacademy.moonlight.dto.user.UserResponse;
-import com.aacademy.moonlight.dto.user.UserUpDatePassword;
+import com.aacademy.moonlight.dto.user.UserUpdatePassword;
 import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.repository.user.UserRepository;
 import com.aacademy.moonlight.service.user.UserService;
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse upDatePassword(Long id, UserUpDatePassword password) {
+    public UserResponse upDatePassword(Long id, UserUpdatePassword password) {
         User user = repository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
         user.setPassword(password.getPassword());
         User savedUserPassword = repository.save(user);

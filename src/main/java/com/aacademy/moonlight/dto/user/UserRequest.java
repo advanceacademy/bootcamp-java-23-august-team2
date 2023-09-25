@@ -1,13 +1,11 @@
 package com.aacademy.moonlight.dto.user;
-
 import com.aacademy.moonlight.entity.user.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
-import java.time.LocalDate;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,9 +31,6 @@ public class UserRequest {
     @NotBlank
     @Email(message = "Enter valid email")
     private String email;
-
-//    @NotNull
-//    private LocalDate createdDate;
 
     private UserRole userRole;
 }
