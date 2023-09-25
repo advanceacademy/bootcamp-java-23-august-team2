@@ -10,6 +10,7 @@ import com.aacademy.moonlight.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -24,7 +25,7 @@ public class AddAdminAndClientRunner implements CommandLineRunner {
     private final UserService userService;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private PasswordEncoder bCryptPasswordEncoder;
 
 
     public AddAdminAndClientRunner(UserRoleRepository userRoleRepository, UserRepository userRepository, UserRoleService userRoleService, UserService userService) {
@@ -38,10 +39,10 @@ public class AddAdminAndClientRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-            createUserRole("admin");
-            createUserRole("client");
+        createUserRole("admin");
+        createUserRole("client");
 
-            createUser("vetko.manqka@gmail.com");
+        createUser("vetko.manqka@gmail.com");
 
     }
 
@@ -64,8 +65,8 @@ public class AddAdminAndClientRunner implements CommandLineRunner {
                 .userRole(userRoleRepository.findByUserRole("admin").orElseThrow())
                 .build();
 
-       if (userRepository.findByEmail(email).isEmpty()) {
-           userService.createUser(userRequest);
-       }
+        if (userRepository.findByEmail(email).isEmpty()) {
+            userService.createUser(userRequest);
+        }
     }
 }

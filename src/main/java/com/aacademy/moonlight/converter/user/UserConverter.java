@@ -6,6 +6,7 @@ import com.aacademy.moonlight.entity.user.User;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Component
 public class UserConverter {
@@ -18,7 +19,7 @@ public class UserConverter {
                 .phoneNumber(request.getPhoneNumber())
                 .password(request.getPassword())
                 .userRole(request.getUserRole())
-                .createdDate(LocalDate.now())
+                .createdDate(LocalDateTime.now())
                 .build();
     }
 

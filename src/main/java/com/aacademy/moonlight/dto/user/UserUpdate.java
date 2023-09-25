@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @Setter
 @Builder
-public class UserUpDate {
+public class UserUpdate {
     @NotBlank
     @Length(min=3)
     private String firstName;

@@ -1,7 +1,7 @@
 package com.aacademy.moonlight.service.user;
 import com.aacademy.moonlight.dto.user.UserRequest;
 import com.aacademy.moonlight.dto.user.UserResponse;
-import com.aacademy.moonlight.dto.user.UserUpDatePassword;
+import com.aacademy.moonlight.dto.user.UserUpdatePassword;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ public interface UserService {
  // security included
     boolean existUserByEmail(String email);
     List<UserResponse> getAllUsers();
-    UserResponse upDatePassword(Long id, UserUpDatePassword password);
+    UserResponse upDatePassword(Long id, UserUpdatePassword password);
     UserResponse upDateUser(UserRequest request, Long id);
     void randomPassword(String email);
 }
