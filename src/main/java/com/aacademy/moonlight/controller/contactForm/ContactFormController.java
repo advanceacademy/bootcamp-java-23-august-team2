@@ -24,4 +24,5 @@ public class ContactFormController {
                 "Your message has been successfully sent to our team. " +
                 "We appreciate your interest in our hotel.");
     }
+
 }
