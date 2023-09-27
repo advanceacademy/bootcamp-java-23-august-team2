@@ -7,6 +7,9 @@ import com.aacademy.moonlight.repository.car.CarRepository;
 import com.aacademy.moonlight.service.car.CarService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Objects;
+
 @Service
 public class CarServiceImpl implements CarService {
     private final CarConverter converter;
@@ -39,7 +42,6 @@ public class CarServiceImpl implements CarService {
         car.setModel(request.getModel());
         car.setManufacturingYear(request.getManufacturingYear());
         car.setCarCategory(request.getCarCategory());
-        car.setType(request.getType());
         car.setFileResourcesForCar(request.getFileResourcesForCar());
 
         return repository.save(car);
@@ -48,5 +50,18 @@ public class CarServiceImpl implements CarService {
     @Override
     public void deleteCarById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public Car findCarByBrandAndModel(String brand, String model) {
+        List<Car> cars = repository.findAll();
+        Car currentCar = null;
+
+        for (Car car : cars){
+            if (Objects.equals(car.getBrand(), brand) && Objects.equals(car.getModel(), model)){
+                currentCar = car;
+            }
+        }
+        return currentCar;
     }
 }
