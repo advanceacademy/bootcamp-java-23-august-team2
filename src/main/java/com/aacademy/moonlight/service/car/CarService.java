@@ -19,13 +19,6 @@ public interface CarService {
     List<CarResponse> getCarsByBrand(String brand);
     List<CarResponse> getCarsByType(String carType);
     List<CarResponse> getCarsBySeats(int seats);
-
-
-
     Car findCarByBrandAndModel(String brand, String model);
-
-    Car findCarByBrandAndModel(String brand, String model);
-
-
 
 }
