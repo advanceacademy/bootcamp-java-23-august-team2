@@ -3,10 +3,9 @@ package com.aacademy.moonlight.service.car.impl;
 import com.aacademy.moonlight.converter.car.CarCategoryConverter;
 import com.aacademy.moonlight.dto.car.CarCategoryRequest;
 import com.aacademy.moonlight.entity.car.CarCategory;
-import com.aacademy.moonlight.entity.car.CarType;
 import com.aacademy.moonlight.repository.car.CarCategoryRepository;
 import com.aacademy.moonlight.service.car.CarCategoryService;
-import org.springframework.stereotype.Service;
+import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,7 +29,7 @@ public class CarCategoryServiceImpl implements CarCategoryService {
     @Override
     public CarCategory getCarCategoryById(Long id) {
         return repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Car category with this id not found.")
+                () -> new EntityNotFoundException("Car category with id= "+id +" not found.")
         );
     }
 

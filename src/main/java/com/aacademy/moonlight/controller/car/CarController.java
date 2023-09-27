@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/public/car")
+@RequestMapping("/api/v1/auth/car") //"/api/v1/auth/**"
 public class CarController {
     //Get Cars by category
     @Autowired
@@ -55,7 +55,7 @@ public class CarController {
     }
 
     @GetMapping(path = "/car-type/{type}")
-    public ResponseEntity<List<CarResponse>> getCarBySeats(@PathVariable CarType type) {
+    public ResponseEntity<List<CarResponse>> getCarBySeats(@PathVariable String type) {
         return ResponseEntity.status(HttpStatus.FOUND)
                 .body(carService.getCarsByType(type));
     }

@@ -4,10 +4,11 @@ import com.aacademy.moonlight.converter.car.CarConverter;
 import com.aacademy.moonlight.dto.car.CarRequest;
 import com.aacademy.moonlight.dto.car.CarResponse;
 import com.aacademy.moonlight.entity.car.Car;
-import com.aacademy.moonlight.entity.car.CarCategory;
 import com.aacademy.moonlight.entity.car.CarType;
+import com.aacademy.moonlight.repository.car.CarCategoryRepository;
 import com.aacademy.moonlight.repository.car.CarRepository;
 import com.aacademy.moonlight.service.car.CarService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,9 +20,12 @@ public class CarServiceImpl implements CarService {
     private final CarConverter converter;
     private final CarRepository repository;
 
-    public CarServiceImpl(CarConverter converter, CarRepository repository) {
+    private final CarCategoryRepository carCategoryRepository;
+
+    public CarServiceImpl(CarConverter converter, CarRepository repository, CarCategoryRepository carCategoryRepository) {
         this.converter = converter;
         this.repository = repository;
+        this.carCategoryRepository = carCategoryRepository;
     }
 
     @Override
@@ -33,14 +37,14 @@ public class CarServiceImpl implements CarService {
     @Override
     public Car getCarById(Long id) {
         return repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Car with this id not found")
+                () -> new EntityNotFoundException("Car with id= "+ id +" not found.")
         );
     }
 
     @Override
     public Car updateCar(CarRequest request, Long id) {
         Car car = repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Car not found")
+                () -> new EntityNotFoundException("Car with id= "+ id +" not found.")
         );
         car.setBrand(request.getBrand());
         car.setModel(request.getModel());
@@ -84,6 +88,9 @@ public class CarServiceImpl implements CarService {
                 cars.add(converter.toResponse(car));
             }
         }
+        if (cars.isEmpty()) {
+          throw  new EntityNotFoundException("There are no cars in category: "  + carCategoryRepository.findById(categoryId));
+        }
         return cars;
     }
 
@@ -97,6 +104,10 @@ public class CarServiceImpl implements CarService {
                 cars.add(converter.toResponse(car));
             }
         }
+        if (cars.isEmpty()) {
+            throw  new EntityNotFoundException("There are no cars with manufacturing year: "  + year);
+        }
+
         return cars;
     }
 
@@ -108,6 +119,9 @@ public class CarServiceImpl implements CarService {
             if (car.getModel().equals(model)) {
                 cars.add(converter.toResponse(car));
             }
+        }
+        if (cars.isEmpty()) {
+            throw  new EntityNotFoundException("There are no " + model + " in our catalog" );
         }
         return cars;
     }
@@ -122,17 +136,36 @@ public class CarServiceImpl implements CarService {
                 cars.add(converter.toResponse(car));
             }
         }
+        if (cars.isEmpty()) {
+            throw  new EntityNotFoundException("There are no " + brand + " in our catalog" );
+        }
         return cars;
     }
 
     @Override
-    public List<CarResponse> getCarsByType(CarType carType) {
+    public List<CarResponse> getCarsByType(String carType) {
+        CarType type;
+        if (carType.equalsIgnoreCase("van")){
+            type = CarType.VAN;
+        }
+        else if (carType.equalsIgnoreCase("sedan")){
+            type = CarType.SEDAN;
+        }
+         else if (carType.equalsIgnoreCase("sport")){
+            type = CarType.SPORT;
+        }
+         else {
+             throw new EntityNotFoundException("Our catalog has only Sedans, Sport Cars and Vans");
+        }
         List<CarResponse> cars = new ArrayList<>();
 
         for (Car car : repository.findAll()) {
-            if (car.getType() == carType) {
+            if (car.getCarCategory().getType() == type) {
                 cars.add(converter.toResponse(car));
             }
+        }
+        if (cars.isEmpty()) {
+            throw  new EntityNotFoundException(carType.toString() + " was not found " );
         }
         return cars;
     }
@@ -145,6 +178,9 @@ public class CarServiceImpl implements CarService {
             if (car.getCarCategory().getSeats() == seats) {
                 cars.add(converter.toResponse(car));
             }
+        }
+        if (cars.isEmpty()) {
+            throw  new EntityNotFoundException("Cars with " + seats + " seats were not found" );
         }
         return cars;
     }

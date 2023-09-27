@@ -19,7 +19,7 @@ public interface CarService {
     List<CarResponse> getCarsByYear(int year);
     List<CarResponse> getCarsByModel(String model);
     List<CarResponse> getCarsByBrand(String brand);
-    List<CarResponse> getCarsByType(CarType carType);
+    List<CarResponse> getCarsByType(String carType);
     List<CarResponse> getCarsBySeats(int seats);
 
 
