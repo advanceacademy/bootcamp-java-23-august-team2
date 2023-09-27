@@ -1,9 +1,7 @@
 package com.aacademy.moonlight.entity.car;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -25,12 +23,12 @@ public class FileResourcesForCar {
     private String imageName;
 
     @Lob
-    @Column(name = "photo", columnDefinition="BLOB")
-    private Byte[] photo;
+    @Column(name = "photo", columnDefinition="LONGBLOB")
+    private byte[] photo;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "car_id")
     @JsonBackReference
     private Car car;
 
-    //private List<FileResourcesForCar> fileResourcesForCar = new ArrayList<>();
 }
