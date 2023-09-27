@@ -3,8 +3,6 @@ package com.aacademy.moonlight.service.car;
 import com.aacademy.moonlight.dto.car.CarRequest;
 import com.aacademy.moonlight.dto.car.CarResponse;
 import com.aacademy.moonlight.entity.car.Car;
-import com.aacademy.moonlight.entity.car.CarCategory;
-import com.aacademy.moonlight.entity.car.CarType;
 
 import java.util.List;
 

@@ -15,7 +15,6 @@ public class CarConverter {
                 .model(request.getModel())
                 .manufacturingYear(request.getManufacturingYear())
                 .carCategory(request.getCarCategory())
-                .type(request.getType())
                 .fileResourcesForCar(request.getFileResourcesForCar())
                 .build();
     }
@@ -26,7 +25,6 @@ public class CarConverter {
                 .brand(car.getBrand())
                 .carCategory(car.getCarCategory())
                 .manufacturingYear(car.getManufacturingYear())
-                .type(car.getType())
                 .model(car.getModel())
                 .build();
     }
