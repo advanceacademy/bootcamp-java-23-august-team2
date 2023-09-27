@@ -25,7 +25,6 @@ public class CarConverter {
                 .brand(car.getBrand())
                 .carCategory(car.getCarCategory())
                 .manufacturingYear(car.getManufacturingYear())
-                .type(car.getType())
                 .model(car.getModel())
                 .build();
     }

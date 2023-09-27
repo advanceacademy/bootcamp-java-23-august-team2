@@ -18,6 +18,5 @@ public class CarResponse {
         private Integer manufacturingYear;
 
         private CarCategory carCategory;
-
-        private CarType type;
+        
 }
