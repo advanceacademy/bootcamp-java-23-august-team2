@@ -61,6 +61,19 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public Car findCarByBrandAndModel(String brand, String model) {
+        List<Car> cars = repository.findAll();
+        Car currentCar = null;
+
+        for (Car car : cars){
+            if (Objects.equals(car.getBrand(), brand) && Objects.equals(car.getModel(), model)){
+                currentCar = car;
+            }
+        }
+        return currentCar;
+    }
+
+    @Override
     public CarResponse getCarResponseById(Long id) {
         return converter.toResponse(getCarById(id));
     }

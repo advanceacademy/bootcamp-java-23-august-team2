@@ -17,7 +17,7 @@ public class FileResourcesForCarRequest {
     private String imageName;
 
     @NotNull
-    private Byte[] photo;
+    private byte[] photo;
 
     @NotNull
     private Car car;
