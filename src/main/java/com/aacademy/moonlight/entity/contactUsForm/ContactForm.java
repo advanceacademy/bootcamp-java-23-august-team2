@@ -35,7 +35,7 @@ public class ContactForm {
 
     @Column(name = "message", nullable = false)
     @NotNull
-    @NotBlank(message = "You have to write your comment")
+    @NotBlank(message = "Message field is empty")
     private String message;
 
 

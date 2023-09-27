@@ -13,19 +13,19 @@ import lombok.*;
 @Setter
 public class ContactFormRequest {
 
-    @NotBlank
+    @NotBlank(message = "Name field must not be empty")
     @Size(min = 2, max = 255, message = "Name length must be between {min} and {max} characters")
     private String userName;
 
-    @NotBlank
+    @NotBlank(message = "Email field must not be empty")
     @Email(message = "Email must be valid")
     private String userEmail;
 
-    @NotBlank
-    @Pattern(regexp = "^(\\+|00)[0-9\\-]{10,15}$")
+    @NotBlank(message = "Phone number field must not be empty")
+    @Pattern(regexp = "^(\\+|00)[0-9\\-]{10,15}$", message = "Please enter a valid phone number.")
     @Size(min = 10, max = 15)
     private String userPhoneNumber;
 
-    @NotBlank(message = "You have to write your comment")
+    @NotBlank(message = "Message field must not be empty")
     private String message;
 }
