@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/auth/car") //"/api/v1/auth/**"
+@RequestMapping("/api/v1/auth/car")
 public class CarController {
-    //Get Cars by category
+
     @Autowired
     CarService carService;
 
