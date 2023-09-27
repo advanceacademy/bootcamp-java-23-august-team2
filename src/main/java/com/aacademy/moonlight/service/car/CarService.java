@@ -24,6 +24,8 @@ public interface CarService {
 
     Car findCarByBrandAndModel(String brand, String model);
 
+    Car findCarByBrandAndModel(String brand, String model);
+
 
 
 }
