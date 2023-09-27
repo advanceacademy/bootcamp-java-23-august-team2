@@ -5,6 +5,7 @@ import com.aacademy.moonlight.dto.car.CarCategoryRequest;
 import com.aacademy.moonlight.entity.car.CarCategory;
 import com.aacademy.moonlight.repository.car.CarCategoryRepository;
 import com.aacademy.moonlight.service.car.CarCategoryService;
+import jakarta.persistence.EntityNotFoundException;
 
 public class CarCategoryServiceImpl implements CarCategoryService {
     private final CarCategoryRepository repository;
@@ -24,7 +25,7 @@ public class CarCategoryServiceImpl implements CarCategoryService {
     @Override
     public CarCategory getCarCategoryById(Long id) {
         return repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Car category with this id not found.")
+                () -> new EntityNotFoundException("Car category with id= "+id +" not found.")
         );
     }
 
