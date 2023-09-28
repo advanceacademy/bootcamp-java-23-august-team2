@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/auth/images")
+@RequestMapping("/api/v1/auth/car-images")
 class CarImageController {
     @Autowired
     FileResourcesForCarService fileResourcesForCarService;
@@ -40,7 +40,7 @@ class CarImageController {
     }
 
 
-    @GetMapping(path = "/car-images/{id}")
+    @GetMapping(path = "/car/{id}")
     public ResponseEntity<List<ResponseEntity<byte[]>>> getImagesForCar(@PathVariable Long id) {
         Car car = carService.getCarById(id);
 
