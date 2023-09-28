@@ -5,6 +5,7 @@ import com.aacademy.moonlight.dto.car.FileResourcesForCarRequest;
 import com.aacademy.moonlight.entity.car.FileResourcesForCar;
 import com.aacademy.moonlight.repository.car.FileResourcesForCarRepository;
 import com.aacademy.moonlight.service.car.FileResourcesForCarService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class FileResourcesForCarServiceImpl implements FileResourcesForCarServic
     @Override
     public FileResourcesForCar getFileResourcesById(Long id) {
         return repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Car category with this id not found.")
+                () -> new EntityNotFoundException("Image with id = "+ id +" not found.")
         );
     }
 
