@@ -5,6 +5,7 @@ import com.aacademy.moonlight.dto.car.FileResourcesForCarRequest;
 import com.aacademy.moonlight.entity.car.FileResourcesForCar;
 import com.aacademy.moonlight.repository.car.FileResourcesForCarRepository;
 import com.aacademy.moonlight.service.car.FileResourcesForCarService;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,5 +61,13 @@ public class FileResourcesForCarServiceImpl implements FileResourcesForCarServic
             }
         }
         return currentFile;
+    }
+    @Override
+    public String determineContentType(String imageName) {
+        if (imageName != null && imageName.toLowerCase().endsWith(".png")) {
+            return MediaType.IMAGE_PNG_VALUE;
+        } else {
+            return MediaType.IMAGE_JPEG_VALUE; // Default to JPEG
+        }
     }
 }
