@@ -1,4 +1,4 @@
-package com.aacademy.moonlight.runner.restaurant;
+package com.aacademy.moonlight.controller.restaurant;
 
 import com.aacademy.moonlight.dto.restaurant.TableRestaurantRequest;
 import com.aacademy.moonlight.dto.restaurant.TableRestaurantResponse;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tables")
+@RequestMapping("/api/v1/auth/tables")
 public class TableController {
 
     @Autowired
