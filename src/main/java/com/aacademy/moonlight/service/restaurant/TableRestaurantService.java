@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+
 public interface TableRestaurantService {
     TableRestaurant saveTable(TableRestaurantRequest request);
     TableRestaurant findByNumber(Integer tableNumber, TableZone tableZone);

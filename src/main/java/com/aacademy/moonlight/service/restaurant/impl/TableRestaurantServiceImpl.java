@@ -117,7 +117,7 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
     }
     @Override
     public TableRestaurantResponse getTableByTableNumber(Integer tableNumber) {
-        TableRestaurant tableRestaurant = repository.getTableByTableNumber().orElseThrow(()->
+        TableRestaurant tableRestaurant = repository.findByTableNumber().orElseThrow(()->
                 new RuntimeException("Room with this number don't exist"));
 
         return converter.toTableRestaurantResponse(tableRestaurant);
