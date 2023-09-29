@@ -3,16 +3,13 @@ package com.aacademy.moonlight.controller.restaurant;
 import com.aacademy.moonlight.dto.restaurant.TableRestaurantRequest;
 import com.aacademy.moonlight.dto.restaurant.TableRestaurantResponse;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
-import com.aacademy.moonlight.entity.restaurant.TableZone;
 import com.aacademy.moonlight.service.restaurant.TableRestaurantService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,8 +20,8 @@ public class TableController {
     TableRestaurantService tableRestaurantService;
 
     @GetMapping("/zone/{zone}")
-    public ResponseEntity<TableRestaurantResponse> getTablesByZone(@PathVariable TableZone tableZone) {
-        List<TableRestaurantResponse> tablesZone = (List<TableRestaurantResponse>) tableRestaurantService.getTablesByZone();
+    public ResponseEntity<TableRestaurantResponse> getTablesByZone(@Valid @PathVariable String tableZone) {
+        List<TableRestaurantResponse> tablesZone = (List<TableRestaurantResponse>) tableRestaurantService.getTablesByZone(tableZone);
         return ResponseEntity.status(HttpStatus.FOUND).body((TableRestaurantResponse) tablesZone);
     }
 

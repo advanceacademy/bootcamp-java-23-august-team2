@@ -7,6 +7,7 @@ import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.restaurant.TableZone;
 import com.aacademy.moonlight.repository.restaurant.TableRestaurantRepository;
 import com.aacademy.moonlight.service.restaurant.TableRestaurantService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -65,33 +66,38 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
         repository.deleteById(id);
     }
 
-    @Override
-    public List<TableRestaurant> getAllTables() {
-        return null;
-    }
+
 
     @Override
-    public TableRestaurantResponse getTablesByZone() {
-        List<TableRestaurant> tables = repository.findAll();
+    public List<TableRestaurantResponse> getTablesByZone(String tableZone) {
+        TableZone zone;
 
-        List<TableRestaurantResponse> responses = new ArrayList<>();
-
-        for (TableZone zone : TableZone.values()) {
-            List<TableRestaurantResponse> zoneTables = new ArrayList<>();
-
-            for (TableRestaurant tableRestaurant : tables) {
-                if (tableRestaurant.getTableZone() == zone) {
-                    TableRestaurantResponse response = new TableRestaurantResponse();
-                    response.setTableNumber(tableRestaurant.getTableNumber());
-                    zoneTables.add(response);
-                }
-            }
-
-            responses.addAll(zoneTables);
+        if (tableZone.equalsIgnoreCase("bar")){
+            zone = TableZone.BAR;
         }
+        else if (tableZone.equalsIgnoreCase("terrace")) {
+            zone = TableZone.TERRACE;
+        }
+        else if (tableZone.equalsIgnoreCase("saloon")) {
+            zone = TableZone.SALOON;
 
-        return (TableRestaurantResponse) responses;
+        }else {
+            throw new EntityNotFoundException("Our restaurant has three zones: Bar, Terrace and Saloon");
+        }
+        List<TableRestaurantResponse> tables = new ArrayList<>();
+
+        for (TableRestaurant tableRestaurant : repository.findAll()) {
+            if (tableRestaurant.getTableZone() == zone){
+                tables.add(converter.toTableRestaurantResponse(tableRestaurant));
+            }
+        }
+        if (tables.isEmpty()) {
+            throw  new EntityNotFoundException(tableZone.toString() + " was not found " );
+        }
+        return tables;
     }
+
+
 
     @Override
     public List<TableRestaurantResponse> getSmokingTables(boolean isSmokingAllowed) {
