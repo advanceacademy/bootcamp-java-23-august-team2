@@ -23,8 +23,8 @@ public class ScreenSeat {
     @NotEmpty(message = "Position is required")
     private String position;
 
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name = "bar_screen_id")
-    private BarScreen barScreen;
+//    @ManyToOne
+//    @JsonBackReference
+//    @JoinColumn(name = "bar_screen_id")
+//    private BarScreen barScreen;
 }

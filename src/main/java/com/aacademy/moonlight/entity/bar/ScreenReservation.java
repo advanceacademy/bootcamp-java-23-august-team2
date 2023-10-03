@@ -39,7 +39,7 @@ public class ScreenReservation {
     private Double totalPrice;
 
     @OneToMany
-    @JsonManagedReference
+//    @JsonManagedReference
     private Set<ScreenSeat> screenSeat;
 
     @ManyToOne

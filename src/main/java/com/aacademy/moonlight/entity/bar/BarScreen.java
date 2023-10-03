@@ -27,7 +27,7 @@ public class BarScreen {
     @NotEmpty (message = "Please enter bar zone")
     private BarZone barZone;
 
-    @OneToMany(mappedBy = "barScreen",cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private Set<ScreenSeat> seats;
+//    @OneToMany(mappedBy = "barScreen",cascade = CascadeType.ALL)
+//    @JsonManagedReference
+//    private Set<ScreenSeat> seats;
 }

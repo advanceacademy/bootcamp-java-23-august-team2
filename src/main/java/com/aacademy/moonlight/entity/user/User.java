@@ -76,9 +76,9 @@ public class User implements UserDetails {
     private UserRole userRole;
 
 
-    @OneToMany(mappedBy = "user")
-    @JsonManagedReference
-    private Set<ScreenReservation> screenReservationSet;
+//    @OneToMany(mappedBy = "user")
+//    @JsonManagedReference
+//    private Set<ScreenReservation> screenReservationSet;
 
 
     @Override
