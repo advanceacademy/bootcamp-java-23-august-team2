@@ -37,7 +37,6 @@ public class Car {
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "car_categories")
-//    @JsonManagedReference
     private CarCategory carCategory;
 
 

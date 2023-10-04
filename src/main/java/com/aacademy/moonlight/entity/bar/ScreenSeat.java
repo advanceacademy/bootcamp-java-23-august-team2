@@ -1,6 +1,9 @@
 package com.aacademy.moonlight.entity.bar;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -23,8 +26,7 @@ public class ScreenSeat {
     @NotEmpty(message = "Position is required")
     private String position;
 
-//    @ManyToOne
-//    @JsonBackReference
-//    @JoinColumn(name = "bar_screen_id")
-//    private BarScreen barScreen;
+    @ManyToOne
+    @JsonBackReference
+    private BarScreen barScreen;
 }

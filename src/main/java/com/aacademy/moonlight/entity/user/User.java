@@ -1,6 +1,7 @@
 package com.aacademy.moonlight.entity.user;
 
 import com.aacademy.moonlight.entity.bar.ScreenReservation;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -76,9 +77,9 @@ public class User implements UserDetails {
     private UserRole userRole;
 
 
-//    @OneToMany(mappedBy = "user")
-//    @JsonManagedReference
-//    private Set<ScreenReservation> screenReservationSet;
+    @OneToMany(mappedBy = "user")
+    @JsonManagedReference
+    private Set<ScreenReservation> screenReservationSet;
 
 
     @Override

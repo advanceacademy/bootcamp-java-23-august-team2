@@ -1,5 +1,7 @@
 package com.aacademy.moonlight.entity.bar;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
@@ -27,7 +29,7 @@ public class BarScreen {
     @NotEmpty (message = "Please enter bar zone")
     private BarZone barZone;
 
-//    @OneToMany(mappedBy = "barScreen",cascade = CascadeType.ALL)
-//    @JsonManagedReference
-//    private Set<ScreenSeat> seats;
+    @OneToMany(mappedBy = "barScreen",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<ScreenSeat> seats;
 }

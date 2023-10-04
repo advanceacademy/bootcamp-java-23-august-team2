@@ -9,6 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -39,7 +40,6 @@ public class ScreenReservation {
     private Double totalPrice;
 
     @OneToMany
-//    @JsonManagedReference
     private Set<ScreenSeat> screenSeat;
 
     @ManyToOne
