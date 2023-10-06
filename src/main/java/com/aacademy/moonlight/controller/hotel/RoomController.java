@@ -20,12 +20,12 @@ public class RoomController {
     @Autowired
     RoomService roomService;
 
-    @GetMapping("/{id}/find-room-by-id")
+    @GetMapping("/find-room-by-id/{id}")
     public ResponseEntity<RoomResponse> findRoomById (@Valid @PathVariable Long id) {
      return ResponseEntity.status(HttpStatus.FOUND).body(roomService.getRoomById(id));
     }
 
-    @GetMapping("/{roomNumber}/find-room-by-room-number")
+    @GetMapping("/find-room-by-room-number/{roomNumber}")
     public ResponseEntity<List<RoomResponse>> findRoomByRoomNumber(@Valid @PathVariable Integer roomNumber){
         List<RoomResponse>list = roomService.findByRoomNumber(roomNumber);
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
@@ -37,18 +37,18 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
 
-    @GetMapping("/{roomType}/get-rooms-by-view")
+    @GetMapping("/get-rooms-by-view/{roomType}")
     public ResponseEntity<List<RoomResponse>> getRoomsByRoomType(@Valid @PathVariable RoomType roomType){
         List<RoomResponse> list = roomService.findByRoomType(roomType);
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
 
-    @GetMapping("/{roomView}/get-rooms-by-view")
+    @GetMapping("/get-rooms-by-view/{roomView}")
     public ResponseEntity<List<RoomResponse>> getRoomsByRoomView(@Valid @PathVariable RoomView roomView){
         List<RoomResponse> list = roomService.findByRoomView(roomView);
         return  ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
-    @GetMapping("/{roomPrice}get-rooms-by-roomPrice")
+    @GetMapping("get-rooms-by-roomPrice/{roomPrice}")
     public ResponseEntity<List<RoomResponse>> getRoomsByRoomPrice (@Valid @PathVariable Long roomPrice){
         List<RoomResponse> list = roomService.findByRoomPrice(roomPrice);
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
