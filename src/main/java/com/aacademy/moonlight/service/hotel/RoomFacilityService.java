@@ -9,7 +9,7 @@ public interface RoomFacilityService {
 
     RoomFacility saveRoomFacility(RoomFacilityRequest roomFacilityRequest);
 
-    Optional<RoomFacility> getRoomFacility(Long id);
+    Optional<RoomFacility> getRoomFacility(Integer id);
 
-    void deleteRoomFacility(Long id);
+    void deleteRoomFacility(Integer id);
 }

@@ -33,7 +33,7 @@ public class RoomReservationRequest {
     @Min(value = 0)
     private Integer children;
 
-    private Long roomId;
+    private Integer roomId;
 
     private Long userId;
 

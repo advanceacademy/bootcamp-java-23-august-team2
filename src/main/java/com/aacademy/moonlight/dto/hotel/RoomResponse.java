@@ -19,7 +19,7 @@ import java.util.Set;
 @Builder
 public class RoomResponse {
 
-    private Long id;
+    private Integer id;
 
     @Min(value = 1)
     @NotNull(message = "Room should have room number")
@@ -40,6 +40,7 @@ public class RoomResponse {
 
     private List<RoomFacility> facilities;
 
-    private Set<RoomReservation> roomReservations;
+    private Integer roomCapacity;
+   //private Set<RoomReservation> roomReservations;
 }
 

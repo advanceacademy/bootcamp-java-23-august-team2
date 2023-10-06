@@ -1,6 +1,7 @@
 package com.aacademy.moonlight.entity.hotel;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -21,12 +22,12 @@ public class Room {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "room_number",nullable = false)
     @Min(value = 1)
     @NotNull(message = "Room should have room number")
-    private Long roomNumber;
+    private Integer roomNumber;
 
     @Column(name = "price",nullable = false)
     @Min(value = 220) // Need to be modified
@@ -47,10 +48,11 @@ public class Room {
     @NotNull()
     private RoomView view;
 
-    @Column(name = "capacity", nullable = false)
-    private Integer RoomCapacity;
+    //@Column(name = "capacity", nullable = false)
+    //private Integer roomCapacity;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(
             name = "room_facility_mapping",
             joinColumns = @JoinColumn(name = "room_id"),

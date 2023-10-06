@@ -21,7 +21,7 @@ public class RoomController {
     RoomService roomService;
 
     @GetMapping("/find-room-by-id/{id}")
-    public ResponseEntity<RoomResponse> findRoomById (@Valid @PathVariable Long id) {
+    public ResponseEntity<RoomResponse> findRoomById (@Valid @PathVariable Integer id) {
      return ResponseEntity.status(HttpStatus.FOUND).body(roomService.getRoomById(id));
     }
 

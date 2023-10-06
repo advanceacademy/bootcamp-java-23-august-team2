@@ -19,7 +19,7 @@ public class RoomConverter {
     private final RoomRepository repository;
     private final RoomFacilityRepository roomFacilityRepository;
 
-    public Room createRoom (Long roomId, RoomRequest request){
+    public Room createRoom (Integer roomId, RoomRequest request){
 
         /*
         List<Long> facilityIds = request.getFacilityIds();
@@ -43,7 +43,7 @@ public class RoomConverter {
     }
     public RoomResponse toRoomResponse(Room room){
         return new RoomResponse(room.getId(), room.getRoomNumber(), room.getPrice(), room.getArea(), room.getType(),
-                room.getView(),room.getFacilities(),room.getRoomReservations());
+                room.getView(),room.getFacilities(), room.getType().getRoomCapacity());
     }
 
 }

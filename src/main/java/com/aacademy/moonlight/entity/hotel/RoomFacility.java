@@ -1,5 +1,6 @@
 package com.aacademy.moonlight.entity.hotel;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
@@ -18,12 +19,15 @@ public class RoomFacility {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @JsonIgnore
+
+    private Integer id;
 
     @Column(name = "facility",nullable = false)
     @NotEmpty(message = "Enter facility")
     private String facility;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "facilities")
     private List<Room> rooms;
 }
