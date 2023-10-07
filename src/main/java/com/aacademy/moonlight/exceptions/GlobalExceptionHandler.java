@@ -1,6 +1,7 @@
 package com.aacademy.moonlight.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -32,6 +33,16 @@ public class GlobalExceptionHandler {
         ErrorMessage errorMessage = new ErrorMessage();
         int index = ex.getMessage().indexOf("for");
         errorMessage.setMessage(ex.getMessage().substring(0, index - 1));
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<ErrorMessage> handelDuplicateKeyException(DuplicateKeyException ex) {
+
+        Map<String, String> fieldErrors = new HashMap<>();
+        fieldErrors.put("exceptionDetails", ex.getMessage());
+
+        ErrorMessage errorMessage = new ErrorMessage("Conflict", fieldErrors);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
