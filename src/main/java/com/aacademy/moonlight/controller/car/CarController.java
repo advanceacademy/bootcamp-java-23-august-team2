@@ -1,13 +1,9 @@
 package com.aacademy.moonlight.controller.car;
 
 import com.aacademy.moonlight.dto.car.CarResponse;
-import com.aacademy.moonlight.entity.car.CarCategory;
-import com.aacademy.moonlight.entity.car.CarType;
 import com.aacademy.moonlight.service.car.CarService;
-import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +29,7 @@ public class CarController {
     })
     public ResponseEntity<CarResponse> getCar(@PathVariable("id")
                                               @Parameter(example = "2") Long id) {
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarResponseById(id));
     }
 
@@ -44,7 +40,7 @@ public class CarController {
             @ApiResponse(responseCode = "404", description = "Car with this brand was not found")
     })
     public ResponseEntity<List<CarResponse>> getCarByBrand(@PathVariable String brand) {
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsByBrand(brand));
     }
 
@@ -55,7 +51,7 @@ public class CarController {
             @ApiResponse(responseCode = "404", description = "Car with this model was not found")
     })
     public ResponseEntity<List<CarResponse>> getCarByModel(@PathVariable String model) {
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsByModel(model));
     }
 
@@ -66,7 +62,7 @@ public class CarController {
             @ApiResponse(responseCode = "404", description = "No car was found")
     })
     public ResponseEntity<List<CarResponse>> getAllCars() {
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getAllCars());
     }
 
@@ -77,7 +73,7 @@ public class CarController {
             @ApiResponse(responseCode = "404", description = "Car with this year was not found")
     })
     public ResponseEntity<List<CarResponse>> getCarByYear(@PathVariable int year) {
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsByYear(year));
     }
 
@@ -88,7 +84,7 @@ public class CarController {
             @ApiResponse(responseCode = "404", description = "Car with this number of seats was not found")
     })
     public ResponseEntity<List<CarResponse>> getCarBySeats(@PathVariable int seats) {
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsBySeats(seats));
     }
 
@@ -99,7 +95,7 @@ public class CarController {
             @ApiResponse(responseCode = "404", description = "Car with this type was not found")
     })
     public ResponseEntity<List<CarResponse>> getCarBySeats(@PathVariable String type) {
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsByType(type));
     }
 
@@ -110,7 +106,7 @@ public class CarController {
             @ApiResponse(responseCode = "404", description = "Car with this category id was not found")
     })
     public ResponseEntity<List<CarResponse>> getCarByCategory(@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.FOUND)
+        return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsByCategory(id));
     }
 
