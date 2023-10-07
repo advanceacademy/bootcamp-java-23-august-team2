@@ -39,7 +39,8 @@ public class CarController {
             @ApiResponse(responseCode = "200", description = "Car with this brand was successfully found"),
             @ApiResponse(responseCode = "404", description = "Car with this brand was not found")
     })
-    public ResponseEntity<List<CarResponse>> getCarByBrand(@PathVariable String brand) {
+    public ResponseEntity<List<CarResponse>> getCarByBrand(@PathVariable("brand")
+                                                           @Parameter(example = "Ferrari") String brand) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsByBrand(brand));
     }
@@ -50,7 +51,8 @@ public class CarController {
             @ApiResponse(responseCode = "200", description = "Car with this model was successfully found"),
             @ApiResponse(responseCode = "404", description = "Car with this model was not found")
     })
-    public ResponseEntity<List<CarResponse>> getCarByModel(@PathVariable String model) {
+    public ResponseEntity<List<CarResponse>> getCarByModel(@PathVariable("model")
+                                                           @Parameter(example = "F8") String model) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsByModel(model));
     }
@@ -72,7 +74,8 @@ public class CarController {
             @ApiResponse(responseCode = "200", description = "Car with this year was successfully found"),
             @ApiResponse(responseCode = "404", description = "Car with this year was not found")
     })
-    public ResponseEntity<List<CarResponse>> getCarByYear(@PathVariable int year) {
+    public ResponseEntity<List<CarResponse>> getCarByYear(@PathVariable("year")
+                                                          @Parameter(example = "2021") int year) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsByYear(year));
     }
@@ -83,7 +86,8 @@ public class CarController {
             @ApiResponse(responseCode = "200", description = "Car with this number of seats was successfully found"),
             @ApiResponse(responseCode = "404", description = "Car with this number of seats was not found")
     })
-    public ResponseEntity<List<CarResponse>> getCarBySeats(@PathVariable int seats) {
+    public ResponseEntity<List<CarResponse>> getCarBySeats(@PathVariable("seats")
+                                                           @Parameter(example = "4") int seats) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsBySeats(seats));
     }
@@ -94,7 +98,8 @@ public class CarController {
             @ApiResponse(responseCode = "200", description = "Car with this type was successfully found"),
             @ApiResponse(responseCode = "404", description = "Car with this type was not found")
     })
-    public ResponseEntity<List<CarResponse>> getCarBySeats(@PathVariable String type) {
+    public ResponseEntity<List<CarResponse>> getCarBySeats(@PathVariable("type")
+                                                           @Parameter(example = "SEDAN") String type) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsByType(type));
     }
@@ -105,7 +110,8 @@ public class CarController {
             @ApiResponse(responseCode = "200", description = "Car with this category id was successfully found"),
             @ApiResponse(responseCode = "404", description = "Car with this category id was not found")
     })
-    public ResponseEntity<List<CarResponse>> getCarByCategory(@PathVariable Long id) {
+    public ResponseEntity<List<CarResponse>> getCarByCategory(@PathVariable("id")
+                                                              @Parameter(example = "1") Long id) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(carService.getCarsByCategory(id));
     }
