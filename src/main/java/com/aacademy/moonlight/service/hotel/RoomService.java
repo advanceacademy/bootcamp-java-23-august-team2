@@ -15,9 +15,9 @@ public interface RoomService {
     //RoomResponse saveRoom(RoomRequest roomRequest);
     List<RoomResponse> getAllRooms ();
 
-    RoomResponse getRoomById (Integer id);
+    RoomResponse getRoomById (Long id);
 
-    List<RoomResponse> findByRoomNumber(Integer roomNumber);
+    List<RoomResponse> findByRoomNumber(Long roomNumber);
 
     //Optional<Room> getRoom(Long id);
     //void deleteRoom(Long id);

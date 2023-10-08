@@ -21,12 +21,12 @@ public class RoomController {
     RoomService roomService;
 
     @GetMapping("/find-room-by-id/{id}")
-    public ResponseEntity<RoomResponse> findRoomById (@Valid @PathVariable Integer id) {
+    public ResponseEntity<RoomResponse> findRoomById (@Valid @PathVariable Long id) {
      return ResponseEntity.status(HttpStatus.FOUND).body(roomService.getRoomById(id));
     }
 
     @GetMapping("/find-room-by-room-number/{roomNumber}")
-    public ResponseEntity<List<RoomResponse>> findRoomByRoomNumber(@Valid @PathVariable Integer roomNumber){
+    public ResponseEntity<List<RoomResponse>> findRoomByRoomNumber(@Valid @PathVariable Long roomNumber){
         List<RoomResponse>list = roomService.findByRoomNumber(roomNumber);
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }

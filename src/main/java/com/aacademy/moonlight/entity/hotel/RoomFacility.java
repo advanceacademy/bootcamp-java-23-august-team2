@@ -21,7 +21,7 @@ public class RoomFacility {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
 
-    private Integer id;
+    private Long id;
 
     @Column(name = "facility",nullable = false)
     @NotEmpty(message = "Enter facility")

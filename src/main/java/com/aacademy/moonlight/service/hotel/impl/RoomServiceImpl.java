@@ -60,13 +60,13 @@ public class RoomServiceImpl implements RoomService {
 
 
     @Override
-    public RoomResponse getRoomById(Integer id) {
+    public RoomResponse getRoomById(Long id) {
         Room room = roomRepository.findById(id).orElseThrow(()-> new RuntimeException("Room not found!"));
         return roomConverter.toRoomResponse(room);
     }
 
     @Override
-    public List<RoomResponse> findByRoomNumber(Integer roomNumber) {
+    public List<RoomResponse> findByRoomNumber(Long roomNumber) {
             List<Room> rooms = roomRepository.findAll();
             return rooms.stream()
                     .filter(room -> room.getRoomNumber().equals(roomNumber))

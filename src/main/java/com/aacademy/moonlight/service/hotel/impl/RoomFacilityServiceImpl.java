@@ -29,12 +29,12 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
     }
 
     @Override
-    public Optional<RoomFacility> getRoomFacility(Integer id) {
+    public Optional<RoomFacility> getRoomFacility(Long id) {
         return roomFacilityRepository.findById(id);
     }
 
     @Override
-    public void deleteRoomFacility(Integer id) {
+    public void deleteRoomFacility(Long id) {
         roomFacilityRepository.deleteById(id);
     }
 }

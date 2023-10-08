@@ -22,12 +22,12 @@ public class Room {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "room_number",nullable = false)
     @Min(value = 1)
     @NotNull(message = "Room should have room number")
-    private Integer roomNumber;
+    private Long roomNumber;
 
     @Column(name = "price",nullable = false)
     @Min(value = 220) // Need to be modified

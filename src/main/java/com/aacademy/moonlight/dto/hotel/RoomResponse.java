@@ -19,11 +19,11 @@ import java.util.Set;
 @Builder
 public class RoomResponse {
 
-    private Integer id;
+    private Long id;
 
     @Min(value = 1)
     @NotNull(message = "Room should have room number")
-    private Integer roomNumber;
+    private Long roomNumber;
 
     @Min(value = 220) // Need to be modified
     @NotNull(message = "Room should have price")
