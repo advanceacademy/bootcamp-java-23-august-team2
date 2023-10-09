@@ -37,7 +37,7 @@ public class RoomController {
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
 
-    @GetMapping("/get-rooms-by-view/{roomType}")
+    @GetMapping("/get-rooms-by-type/{roomType}")
     public ResponseEntity<List<RoomResponse>> getRoomsByRoomType(@Valid @PathVariable RoomType roomType){
         List<RoomResponse> list = roomService.findByRoomType(roomType);
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
