@@ -3,10 +3,9 @@ package com.aacademy.moonlight.service.password.impl;
 import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.user.UserRepository;
+import com.aacademy.moonlight.service.mail.EmailService;
 import com.aacademy.moonlight.service.password.PasswordService;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,20 +18,20 @@ import java.util.List;
 
 @Service
 public class PasswordServiceImpl implements PasswordService {
-    private final JavaMailSender mailSender;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
-    public PasswordServiceImpl(JavaMailSender mailSender, UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.mailSender = mailSender;
+    public PasswordServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     @Override
     public void sendStaticPasswordEmail(String userEmail) {
         userEmail = userEmail.toLowerCase();
-        if (!isValidEmail(userEmail)){
+        if (!isValidEmail(userEmail)) {
             throw new BadRequestException("Invalid email address");
         }
 
@@ -49,18 +48,12 @@ public class PasswordServiceImpl implements PasswordService {
         if (currentUser != null) {
             currentUser.setPassword(hashedPassword);
             userRepository.save(currentUser);
-        }
-        else {
+        } else {
             throw new EntityNotFoundException("User with this email not found");
         }
 
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("bootcamp@nasbg.com");
-        message.setTo(userEmail);
-        message.setSubject("Forgotten password");
-        message.setText("Your static password is " + randomPassword);
+        emailService.sendEmail(userEmail, "Forgotten Password", "Your static password is " + randomPassword);
 
-        mailSender.send(message);
     }
 
     private String generateRandomPassword() {
@@ -89,10 +82,6 @@ public class PasswordServiceImpl implements PasswordService {
 
         String shuffledPassword = shuffleString(password.toString());
 
-        if (!shuffledPassword.matches("^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?]).*$")) {
-            return generateRandomPassword();
-        }
-
         return shuffledPassword;
     }
 
@@ -110,7 +99,7 @@ public class PasswordServiceImpl implements PasswordService {
         return result.toString();
     }
 
-    private boolean isValidEmail(String email){
+    private boolean isValidEmail(String email) {
         if (!email.matches("[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")) {
             return false;
         }
