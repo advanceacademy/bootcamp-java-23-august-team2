@@ -35,9 +35,6 @@ public class PasswordServiceImpl implements PasswordService {
             throw new BadRequestException("Invalid email address");
         }
 
-        String randomPassword = generateRandomPassword();
-        String hashedPassword = passwordEncoder.encode(randomPassword);
-
         User currentUser = null;
         List<User> allUsers = userRepository.findAll();
         for (User user : allUsers) {
@@ -46,13 +43,14 @@ public class PasswordServiceImpl implements PasswordService {
             }
         }
         if (currentUser != null) {
+            String randomPassword = generateRandomPassword();
+            String hashedPassword = passwordEncoder.encode(randomPassword);
             currentUser.setPassword(hashedPassword);
             userRepository.save(currentUser);
+            emailService.sendEmail(userEmail, "Forgotten Password", "Your static password is " + randomPassword);
         } else {
             throw new EntityNotFoundException("User with this email not found");
         }
-
-        emailService.sendEmail(userEmail, "Forgotten Password", "Your static password is " + randomPassword);
 
     }
 
@@ -60,7 +58,7 @@ public class PasswordServiceImpl implements PasswordService {
         String numbers = "0123456789";
         String uppercaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String lowercaseLetters = "abcdefghijklmnopqrstuvwxyz";
-        String specialCharacters = "!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?";
+        String specialCharacters = "!@#$%^&*()_+-=[]{};':,.<>?/";
 
         SecureRandom random = new SecureRandom();
         StringBuilder password = new StringBuilder();
