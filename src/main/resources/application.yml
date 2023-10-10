@@ -27,9 +27,10 @@ spring:
       mail.smtp.writetimeout: 5000
 
 
-        # For testing purposes
-    # url: jdbc:mysql://localhost:3306/moonlight_hotel_test?createDatabaseIfNotExist=true
-    # username: root
-    # password: root
+
+  # For testing purposes
+  #    url: jdbc:mysql://localhost:3306/moonlight_hotel_test?createDatabaseIfNotExist=true
+  #    username: root
+  #    password: root
 
 
