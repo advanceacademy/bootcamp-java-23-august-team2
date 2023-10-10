@@ -10,8 +10,5 @@ import java.util.Optional;
 @Repository
 public interface TableRestaurantRepository extends JpaRepository<TableRestaurant, Long> {
 
-    Optional <TableRestaurant> findByTableNumber();
 
-
-//    List<TableRestaurant> findByNumberOfSeats(Integer numberOfSeats);
 }

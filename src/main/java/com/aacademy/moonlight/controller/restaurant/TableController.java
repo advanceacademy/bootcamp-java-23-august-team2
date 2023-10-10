@@ -19,10 +19,10 @@ public class TableController {
     @Autowired
     TableRestaurantService tableRestaurantService;
 
-    @GetMapping("/zone/{zone}")
-    public ResponseEntity<TableRestaurantResponse> getTablesByZone(@Valid @PathVariable String tableZone) {
-        List<TableRestaurantResponse> tablesZone = (List<TableRestaurantResponse>) tableRestaurantService.getTablesByZone(tableZone);
-        return ResponseEntity.status(HttpStatus.FOUND).body((TableRestaurantResponse) tablesZone);
+    @GetMapping("/zone/{tableZone}")
+    public ResponseEntity<List<TableRestaurantResponse>> getTablesByZone(@Valid @PathVariable String tableZone) {
+        List<TableRestaurantResponse> tablesZone = tableRestaurantService.getTablesByZone(tableZone);
+        return ResponseEntity.status(HttpStatus.FOUND).body(tablesZone);
     }
 
     @GetMapping("/smoking")
@@ -32,9 +32,9 @@ public class TableController {
         }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<TableRestaurant> updateTableById(@PathVariable Long id, @Valid @RequestBody TableRestaurantRequest request) {
-        TableRestaurant tableRestaurant = tableRestaurantService.updateTableById(id, request);
+    @GetMapping ("/{id}")
+    public ResponseEntity<TableRestaurantResponse> getTableById(@PathVariable Long id) {
+        TableRestaurantResponse tableRestaurant = tableRestaurantService.getTableById(id);
         return ResponseEntity.status(HttpStatus.FOUND).body(tableRestaurant);
     }
 

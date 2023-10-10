@@ -47,5 +47,5 @@ public class TableRestaurant {
     private Double price;
 
 
-    private boolean isSmokingAllowed;
+
 }

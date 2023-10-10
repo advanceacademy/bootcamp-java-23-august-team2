@@ -23,15 +23,15 @@ public class TableRestaurantResponse {
 
     private Double price;
 
-    private boolean isSmokingAllowed;
 
-    public TableRestaurantResponse(Long id, Integer tableNumber, TableZone tableZone, boolean is_Smoking, Integer seats, Double price, boolean isSmokingAllowed) {
+
+    public TableRestaurantResponse(Long id, Integer tableNumber, TableZone tableZone, boolean is_Smoking, Integer seats, Double price) {
         this.id = id;
         this.tableNumber = tableNumber;
         this.tableZone = tableZone;
         this.is_Smoking = is_Smoking;
         this.seats = seats;
         this.price = price;
-        this.isSmokingAllowed = isSmokingAllowed;
+
     }
 }
