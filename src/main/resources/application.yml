@@ -12,11 +12,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-#    spring-doc:
-#      swagger-ui:
-#        enabled: true
-#        path: /swagger-ui.html
-#      api-docs.path: /api-docs
   mail:
     host: mail.nasbg.com
     port: 465
@@ -31,9 +26,10 @@ spring:
       mail.smtp.timeout: 5000
       mail.smtp.writetimeout: 5000
 
-              # For testing purposes
-   # url: jdbc:mysql://localhost:3306/moonlight_hotel_test?createDatabaseIfNotExist=true
-   # username: root
-   # password: root
+
+      # For testing purposes
+    # url: jdbc:mysql://localhost:3306/moonlight_hotel_test?createDatabaseIfNotExist=true
+    # username: root
+    # password: root
 
 
