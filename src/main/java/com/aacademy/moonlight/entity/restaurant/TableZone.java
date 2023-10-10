@@ -5,4 +5,8 @@ public enum TableZone {
     BAR,
     SALOON,
     TERRACE
+
+
+
+
 }
