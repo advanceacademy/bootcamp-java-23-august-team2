@@ -21,7 +21,7 @@ public class TableRestaurantConverter {
     }
 
     public TableRestaurantResponse toTableRestaurantResponse(TableRestaurant tableRestaurant) {
-        return new TableRestaurantResponse(tableRestaurant.getId(), tableRestaurant.getTableNumber(), TableZone.SALOON, tableRestaurant.getIs_Smoking(), tableRestaurant.getSeats(), tableRestaurant.getPrice());
+        return new TableRestaurantResponse(tableRestaurant.getId(), tableRestaurant.getTableNumber(), tableRestaurant.getTableZone(), tableRestaurant.getIs_Smoking(), tableRestaurant.getSeats(), tableRestaurant.getPrice());
 
 
     }
