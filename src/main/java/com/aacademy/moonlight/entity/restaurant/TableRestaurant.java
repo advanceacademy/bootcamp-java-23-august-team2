@@ -45,4 +45,7 @@ public class TableRestaurant {
     @Min(value = 10)
     @NotNull(message = "Missing price")
     private Double price;
+
+
+
 }

@@ -3,7 +3,8 @@ package com.aacademy.moonlight;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+
+@SpringBootApplication()
 public class MoonlightApplication {
 
 	public static void main(String[] args) {

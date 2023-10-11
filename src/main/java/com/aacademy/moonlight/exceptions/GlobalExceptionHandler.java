@@ -61,6 +61,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(errorMessage);
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorMessage> handleBadRequest(BadRequestException ex){
+        Map<String, String> fieldErrors = new HashMap<>();
+        fieldErrors.put("exceptionDetails", ex.getMessage());
+
+        ErrorMessage errorMessage = new ErrorMessage("Bad Request", fieldErrors);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorMessage> handleEntityNotFoundException(EntityNotFoundException ex) {

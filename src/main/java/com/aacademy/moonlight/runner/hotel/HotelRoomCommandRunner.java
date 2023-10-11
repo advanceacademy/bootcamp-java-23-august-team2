@@ -1,5 +1,6 @@
 package com.aacademy.moonlight.runner.hotel;
 
+import com.aacademy.moonlight.dto.hotel.RoomResponse;
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomFacility;
 import com.aacademy.moonlight.entity.hotel.RoomType;
@@ -54,29 +55,29 @@ public class HotelRoomCommandRunner implements CommandLineRunner {
                 mattress, minibar, safe, hairDryer, terrace, spaAccessories);
 
         // Create and save standard rooms
-        createAndSaveRooms(101, 102, 220.0, 24, RoomType.STANDARD,
+        createAndSaveRooms(101L, 102L, 220.0, 24, RoomType.STANDARD,
                 standardRoomFacilities, RoomView.SEA);
-        createAndSaveRooms(103, 104, 220.0, 24, RoomType.STANDARD,
+        createAndSaveRooms(103L, 104L, 220.0, 24, RoomType.STANDARD,
                 standardRoomFacilities, RoomView.POOL);
-        createAndSaveRooms(105, 108, 220.0, 24, RoomType.STANDARD,
+        createAndSaveRooms(105L, 108L, 220.0, 24, RoomType.STANDARD,
                 standardRoomFacilities, RoomView.GARDEN);
 
         // Create and save studio rooms
-        createAndSaveRooms(201, 202, 320.0, 34, RoomType.STUDIO,
+        createAndSaveRooms(201L, 202L, 320.0, 34, RoomType.STUDIO,
                 studioRoomFacilities,
                 RoomView.SEA);
-        createAndSaveRooms(203, 204, 320.0, 34, RoomType.STUDIO,
+        createAndSaveRooms(203L, 204L, 320.0, 34, RoomType.STUDIO,
                 studioRoomFacilities,
                 RoomView.POOL);
-        createAndSaveRooms(205, 206, 320.0, 34, RoomType.STUDIO,
+        createAndSaveRooms(205L, 206L, 320.0, 34, RoomType.STUDIO,
                 studioRoomFacilities,
                 RoomView.GARDEN);
 
         // Create and save apartment rooms
-        createAndSaveRooms(301, 302, 520.0, 56, RoomType.APARTMENT,
+        createAndSaveRooms(301L, 302L, 520.0, 56, RoomType.APARTMENT,
                 apartmentRoomFacilities,
                 RoomView.SEA);
-        createAndSaveRooms(303, 303, 520.0, 56, RoomType.APARTMENT,
+        createAndSaveRooms(303L, 303L, 520.0, 56, RoomType.APARTMENT,
                 apartmentRoomFacilities,
                 RoomView.POOL);
     }
@@ -97,8 +98,9 @@ public class HotelRoomCommandRunner implements CommandLineRunner {
         return roomFacilityRepository.save(newFacility);
     }
 
-    private void createAndSaveRooms(int startRoomNumber, int endRoomNumber, double price, int area, RoomType roomType, List<RoomFacility> facilities, RoomView view) {
-        for (int i = startRoomNumber; i <= endRoomNumber; i++) {
+    private void createAndSaveRooms(Long startRoomNumber, Long endRoomNumber, double price, int area,
+                                    RoomType roomType, List<RoomFacility> facilities, RoomView view) {
+        for (Long i = startRoomNumber; i <= endRoomNumber; i++) {
             Room room = Room.builder()
                     .roomNumber(i)
                     .price(price)
@@ -108,7 +110,7 @@ public class HotelRoomCommandRunner implements CommandLineRunner {
                     .view(view)
                     .build();
 
-            Room foundRoom = roomService.findByNumber(room.getRoomNumber());
+            List<RoomResponse> foundRoom = roomService.findByRoomNumber(room.getRoomNumber());
             if (Objects.isNull(foundRoom)) {
                 roomRepository.save(room);
             }
