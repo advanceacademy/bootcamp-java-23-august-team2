@@ -1,7 +1,9 @@
 package com.aacademy.moonlight.service.hotel.impl;
 import com.aacademy.moonlight.converter.hotel.RoomConverter;
+import com.aacademy.moonlight.dto.hotel.RoomRequest;
 import com.aacademy.moonlight.dto.hotel.RoomResponse;
 import com.aacademy.moonlight.entity.hotel.Room;
+import com.aacademy.moonlight.entity.hotel.RoomFacility;
 import com.aacademy.moonlight.entity.hotel.RoomType;
 import com.aacademy.moonlight.entity.hotel.RoomView;
 import com.aacademy.moonlight.repository.hotel.RoomFacilityRepository;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -23,10 +26,8 @@ public class RoomServiceImpl implements RoomService {
     private final RoomFacilityRepository roomFacilityRepository;
     private final RoomConverter roomConverter;
 
-
-/*
     @Override
-        public RoomResponse saveRoom (RoomRequest request){
+        public RoomResponse saveRoom (RoomRequest roomRequest){
             // Create a new Room entity and set its properties
             Room room = new Room();
             room.setArea(roomRequest.getArea());
@@ -41,10 +42,10 @@ public class RoomServiceImpl implements RoomService {
                 room.setFacilities(facilities);
             }
             this.roomRepository.save(room);
-            Room saveRoom = roomConverter.toRoomResponse(room);
-            return null;
+            RoomResponse saveRoom = roomConverter.toRoomResponse(room);
+            return saveRoom;
         }
-*/
+
     @Override
     public List<RoomResponse> getAllRooms() {
 
@@ -75,6 +76,16 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public Optional<Room> getRoom(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public void deleteRoom(Long id) {
+
+    }
+
+    @Override
     public List<RoomResponse> findByRoomType(RoomType type) {
 
         List<Room> rooms = roomRepository.findAll();
@@ -93,6 +104,11 @@ public class RoomServiceImpl implements RoomService {
                 .filter(room -> room.getView().equals(view))
                 .map(roomConverter::toRoomResponse)
                 .toList();
+    }
+
+    @Override
+    public List<RoomResponse> findByRoomCapacity(Long id) {
+        return null;
     }
 
 //    @Override
