@@ -2,7 +2,7 @@ package com.aacademy.moonlight.entity.bar;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Set;
@@ -24,7 +24,7 @@ public class BarScreen {
 
     @Column (name = "bar_zone")
     @Enumerated(EnumType.STRING)
-    @NotEmpty (message = "Please enter bar zone")
+    @NotNull(message = "Please enter bar zone")
     private BarZone barZone;
 
     @OneToMany(mappedBy = "barScreen",cascade = CascadeType.ALL)

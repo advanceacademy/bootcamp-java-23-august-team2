@@ -19,7 +19,7 @@ public class ScreenSeat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "position" , unique = true)
+    @Column(name = "position")
     @NotEmpty(message = "Position is required")
     private String position;
 
