@@ -23,16 +23,20 @@ public class UserResponse {
     @Email
     private String email;
 
+    @NotBlank
+    private String phone;
+
     @JsonIgnore
     private String error;
 
     public UserResponse(String error) {
         this.error = error;
     }
-    public UserResponse(Long id, String firstName, String lastName, String email) {
+    public UserResponse(Long id, String firstName, String lastName, String email, String phone) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.phone = phone;
     }
 }

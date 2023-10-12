@@ -1,7 +1,7 @@
 package com.aacademy.moonlight.dto.user;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
@@ -19,9 +19,7 @@ public class UserUpdate {
     @Length(min=3)
     private String lastName;
 
-    @Email
-    private String email;
-
     @NotEmpty
+    @Pattern(regexp = "^(\\+|00)[0-9\\-]{10,15}$")
     private String phone;
 }

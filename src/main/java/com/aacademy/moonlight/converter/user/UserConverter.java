@@ -5,7 +5,6 @@ import com.aacademy.moonlight.dto.user.UserResponse;
 import com.aacademy.moonlight.entity.user.User;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
@@ -24,7 +23,11 @@ public class UserConverter {
     }
 
     public UserResponse toUserResponse (User user){
-        return new UserResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail());
+        return new UserResponse(user.getId(),
+                user.getFirstName(),
+                user.getLastName(),
+                user.getEmail(),
+                user.getPhoneNumber());
     }
     public UserResponse toError(String error) {
         return new UserResponse(error);
