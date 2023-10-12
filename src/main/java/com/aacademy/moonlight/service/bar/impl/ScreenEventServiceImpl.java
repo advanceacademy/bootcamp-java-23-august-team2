@@ -7,12 +7,15 @@ import com.aacademy.moonlight.repository.bar.ScreenEventRepository;
 import com.aacademy.moonlight.service.bar.ScreenEventService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
+import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.CredentialException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+@Service
 public class ScreenEventServiceImpl implements ScreenEventService {
     private final ScreenEventRepository repository;
     private final ScreenEventConverter converter;
@@ -23,9 +26,27 @@ public class ScreenEventServiceImpl implements ScreenEventService {
     }
 
     @Override
-    public ScreenEvent addScreenEvent(@Valid ScreenEventRequest request) {
-        ScreenEvent event = converter.toScreenEvent(request);
-        return repository.save(event);
+    public ScreenEvent addScreenEvent(@Valid ScreenEventRequest request) throws CredentialException {
+        //Find all already existing events on this date
+        List<ScreenEvent> allEventsOnThisDate = findEventByDate(request.getDate());
+        ScreenEvent newEvent = converter.toScreenEvent(request);
+        if(allEventsOnThisDate.size() < 3){
+            for(ScreenEvent event:allEventsOnThisDate){
+                if(event.getBarScreen().getId().equals(request.getBarScreen().getId())){
+                    throw new CredentialException(
+                            "Event for " + event.getBarScreen().getBarZone() + " and date "
+                                    + request.getDate() + " already exists");
+                }
+                else {
+
+                    return repository.save(newEvent);
+                }
+            }
+        }
+        else {
+            throw new CredentialException("Events must be only three per day");
+        }
+        return repository.save(newEvent);
     }
 
     @Override

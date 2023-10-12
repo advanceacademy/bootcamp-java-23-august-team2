@@ -33,7 +33,6 @@ public class ScreenEvent {
     @Future
     private LocalDate date;
 
-    @OneToOne
-    @JoinColumn(name = "screen_id")
+    @ManyToOne
     private BarScreen barScreen;
 }

@@ -2,17 +2,19 @@ package com.aacademy.moonlight.service.bar.impl;
 
 import com.aacademy.moonlight.converter.bar.BarScreenConverter;
 import com.aacademy.moonlight.dto.bar.BarScreenRequest;
+import com.aacademy.moonlight.dto.bar.BarScreenUpdateRequest;
 import com.aacademy.moonlight.entity.bar.BarScreen;
 import com.aacademy.moonlight.repository.bar.BarScreenRepository;
 import com.aacademy.moonlight.service.bar.ScreenService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 import java.util.function.Consumer;
 
+@Service
 public class ScreenServiceImpl implements ScreenService {
     private final BarScreenRepository repository;
     private final BarScreenConverter converter;
@@ -28,26 +30,19 @@ public class ScreenServiceImpl implements ScreenService {
         return repository.save(barScreen);
     }
 
+
     @Override
     public BarScreen getScreenById(Long id) throws ChangeSetPersister.NotFoundException {
         return repository.findById(id).orElseThrow( () -> new ChangeSetPersister.NotFoundException());
     }
 
     @Override
-    public Iterable<BarScreen> getAllScreens() {
-
-        Iterable<BarScreen> screens = new ArrayList<>();
-        Iterator<BarScreen> iterator = screens.iterator();
-
-        while (iterator.hasNext()) {
-            BarScreen barScreen = iterator.next();
-        }
-
-        return screens;
+    public List<BarScreen> getAllScreens() {
+        return repository.findAll();
     }
 
     @Override
-    public BarScreen updateBarScreenById(@Valid BarScreenRequest request, Long id) {
+    public BarScreen updateBarScreenById(@Valid BarScreenUpdateRequest request, Long id) {
         BarScreen barScreen = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Bar screen with id: " + id + " is not found"));
 

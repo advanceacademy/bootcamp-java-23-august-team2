@@ -4,12 +4,13 @@ import com.aacademy.moonlight.dto.bar.ScreenEventRequest;
 import com.aacademy.moonlight.entity.bar.ScreenEvent;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.CredentialException;
 import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public interface ScreenEventService {
-    ScreenEvent addScreenEvent(ScreenEventRequest request);
+    ScreenEvent addScreenEvent(ScreenEventRequest request) throws CredentialException;
 
     ScreenEvent findScreenEventById(Long id);
 
