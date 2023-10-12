@@ -19,4 +19,8 @@ public interface UserService {
     UserResponse upDatePassword(Long id, UserUpdatePassword password);
     UserResponse upDateUser(UserRequest request, Long id);
     void randomPassword(String email);
+    List<UserResponse> findUsersByFirstName(String name);
+    List<UserResponse> findUsersByLastName(String name);
+    UserResponse findUserByPhoneNumber(String number);
+
 }

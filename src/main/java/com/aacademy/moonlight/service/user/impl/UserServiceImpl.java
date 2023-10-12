@@ -47,7 +47,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
          public UserResponse findUserByEmail(String email) {
-        User user = repository.findByEmail(email).orElseThrow(()-> new RuntimeException("User not found"));
+        User user = repository.findByEmail(email).orElseThrow(
+                ()-> new RuntimeException("User with such email was not found"));
         return converter.toUserResponse(user);
     }
 
@@ -90,6 +91,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public void randomPassword(String email) {
 
+    }
+
+    @Override
+    public List<UserResponse> findUsersByFirstName(String firstName) {
+        List<UserResponse> users = new ArrayList<>();
+        for (User user : repository.findAll())
+            if( user.getFirstName().equals(firstName)){
+            users.add(converter.toUserResponse(user));
+        }
+        return users;
+    }
+
+    @Override
+    public List<UserResponse> findUsersByLastName(String lastName) {
+        List<UserResponse> users = new ArrayList<>();
+        for (User user : repository.findAll())
+            if( user.getFirstName().equals(lastName)){
+                users.add(converter.toUserResponse(user));
+            }
+        return users;
+    }
+
+    @Override
+    public UserResponse findUserByPhoneNumber(String number) {
+        User user = repository.findByPhoneNumber(number).orElseThrow(
+                ()-> new RuntimeException("User with such phone number was not found"));
+        return converter.toUserResponse(user);
     }
 
 }
