@@ -1,6 +1,7 @@
 package com.aacademy.moonlight.service.bar;
 
 import com.aacademy.moonlight.dto.bar.ScreenEventRequest;
+import com.aacademy.moonlight.dto.bar.ScreenEventResponse;
 import com.aacademy.moonlight.entity.bar.ScreenEvent;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,8 @@ public interface ScreenEventService {
 
     List<ScreenEvent> findAllEvents();
 
-    List<ScreenEvent> findEventByDate(LocalDate date);
+    List<ScreenEventResponse> findEventByDate(LocalDate date);
+    List<ScreenEventResponse> findEventByName(String eventName);
 
     ScreenEvent updateScreenEvent(ScreenEventRequest request, Long id);
 

@@ -2,6 +2,7 @@ package com.aacademy.moonlight.service.bar.impl;
 
 import com.aacademy.moonlight.converter.bar.ScreenEventConverter;
 import com.aacademy.moonlight.dto.bar.ScreenEventRequest;
+import com.aacademy.moonlight.dto.bar.ScreenEventResponse;
 import com.aacademy.moonlight.entity.bar.ScreenEvent;
 import com.aacademy.moonlight.repository.bar.ScreenEventRepository;
 import com.aacademy.moonlight.service.bar.ScreenEventService;
@@ -28,13 +29,14 @@ public class ScreenEventServiceImpl implements ScreenEventService {
     @Override
     public ScreenEvent addScreenEvent(@Valid ScreenEventRequest request) throws CredentialException {
         //Find all already existing events on this date
-        List<ScreenEvent> allEventsOnThisDate = findEventByDate(request.getDate());
+        List<ScreenEventResponse> allEventsOnThisDate = findEventByDate(request.getDate());
+
         ScreenEvent newEvent = converter.toScreenEvent(request);
         if(allEventsOnThisDate.size() < 3){
-            for(ScreenEvent event:allEventsOnThisDate){
-                if(event.getBarScreen().getId().equals(request.getBarScreen().getId())){
+            for(ScreenEventResponse event:allEventsOnThisDate){
+                if(event.getBarZone().equals(request.getBarScreen().getBarZone().name())){
                     throw new CredentialException(
-                            "Event for " + event.getBarScreen().getBarZone() + " and date "
+                            "Event for " + event.getBarZone() + " and date "
                                     + request.getDate() + " already exists");
                 }
                 else {
@@ -65,17 +67,29 @@ public class ScreenEventServiceImpl implements ScreenEventService {
     }
 
     @Override
-    public List<ScreenEvent> findEventByDate(LocalDate date) {
+    public List<ScreenEventResponse> findEventByDate(LocalDate date) {
         List<ScreenEvent> allEvents = repository.findAll();
-        List<ScreenEvent> filteredEvents = new ArrayList<>();
+        List<ScreenEventResponse> filteredEvents = new ArrayList<>();
 
         //Adding filtered events, by date, to list
         for (ScreenEvent event : allEvents){
             if (event.getDate().equals(date)){
-                filteredEvents.add(event);
+                filteredEvents.add(converter.toScreenEventResponse(event));
             }
         }
         return filteredEvents;
+    }
+
+    @Override
+    public List<ScreenEventResponse> findEventByName(String eventName) {
+        List<ScreenEvent> allEvents = repository.findAll();
+        List<ScreenEventResponse> eventsByName = new ArrayList<>();
+        for(ScreenEvent event: allEvents){
+            if (event.getEvent().equals(eventName)){
+                eventsByName.add(converter.toScreenEventResponse(event));
+            }
+        }
+        return eventsByName;
     }
 
     @Override
