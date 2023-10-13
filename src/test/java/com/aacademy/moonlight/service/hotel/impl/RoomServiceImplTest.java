@@ -1,6 +1,8 @@
 package com.aacademy.moonlight.service.hotel.impl;
 
+import com.aacademy.moonlight.converter.hotel.RoomConverter;
 import com.aacademy.moonlight.dto.hotel.RoomRequest;
+import com.aacademy.moonlight.dto.hotel.RoomResponse;
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomFacility;
 import com.aacademy.moonlight.entity.hotel.RoomType;
@@ -28,16 +30,19 @@ public class RoomServiceImplTest {
     @Mock
     private RoomFacilityRepository roomFacilityRepository;
 
+    @Mock
+    private RoomConverter roomConverter;
+
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        roomService = new RoomServiceImpl(roomRepository, roomFacilityRepository);
+        roomService = new RoomServiceImpl(roomRepository, roomFacilityRepository, roomConverter);
     }
 
     @Test
     public void testSaveRoom() {
         RoomRequest roomRequest = new RoomRequest();
-        roomRequest.setRoomNumber(101);
+        roomRequest.setRoomNumber(101L);
         roomRequest.setPrice(200.0);
         roomRequest.setType(RoomType.APARTMENT);
         roomRequest.setView(RoomView.POOL);
@@ -58,7 +63,7 @@ public class RoomServiceImplTest {
 
         Room room = new Room();
         room.setId(1L);
-        room.setRoomNumber(101);
+        room.setRoomNumber(101L);
         room.setPrice(200.0);
         room.setType(RoomType.APARTMENT);
         room.setView(RoomView.POOL);
@@ -68,7 +73,7 @@ public class RoomServiceImplTest {
 
         when(roomRepository.save(any(Room.class))).thenReturn(room);
 
-        Room result = roomService.saveRoom(roomRequest);
+        RoomResponse result = roomService.saveRoom(roomRequest);
 
         assertNotNull(result);
         assertEquals(1L, result.getId());
@@ -86,7 +91,7 @@ public class RoomServiceImplTest {
         Long roomId = 1L;
         Room room = new Room();
         room.setId(roomId);
-        room.setRoomNumber(101);
+        room.setRoomNumber(101L);
         room.setPrice(200.0);
         room.setType(RoomType.APARTMENT);
         room.setView(RoomView.POOL);

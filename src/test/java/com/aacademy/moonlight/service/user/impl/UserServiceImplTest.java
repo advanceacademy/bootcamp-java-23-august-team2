@@ -2,6 +2,7 @@ package com.aacademy.moonlight.service.user.impl;
 import com.aacademy.moonlight.converter.user.UserConverter;
 import com.aacademy.moonlight.dto.user.UserRequest;
 import com.aacademy.moonlight.dto.user.UserResponse;
+import com.aacademy.moonlight.dto.user.UserUpdate;
 import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.repository.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -105,6 +106,11 @@ class UserServiceImplTest {
     @Test
     void upDateUser() {
         //given
+        UserUpdate update = UserUpdate.builder()
+                .firstName("Allan")
+                .lastName("Bob")
+                .phone("+3591111111111")
+                .build();
 
         UserRequest request = UserRequest.builder()
                 .firstName("Ivan")
@@ -127,7 +133,7 @@ class UserServiceImplTest {
         when(converter.toUserResponse(existingUser)).thenReturn(expectedResponse);
 
         //when
-        UserResponse response = userService.upDateUser(request,userId);
+        UserResponse response = userService.updateUser(update);
         //then
         assertNotNull(response);
         verify(repository,times(1)).findById(userId);

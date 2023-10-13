@@ -1,6 +1,7 @@
 package com.aacademy.moonlight.exceptions;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -34,6 +35,16 @@ public class GlobalExceptionHandler {
         errorMessage.setMessage(ex.getMessage().substring(0, index - 1));
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<ErrorMessage> handelDuplicateKeyException(DuplicateKeyException ex) {
+
+        Map<String, String> fieldErrors = new HashMap<>();
+        fieldErrors.put("exceptionDetails", ex.getMessage());
+
+        ErrorMessage errorMessage = new ErrorMessage("Conflict", fieldErrors);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -48,6 +59,16 @@ public class GlobalExceptionHandler {
         errorMessage.setFieldsViolated(fieldsErrors);
 
         return ResponseEntity.badRequest().body(errorMessage);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorMessage> handleBadRequest(BadRequestException ex){
+        Map<String, String> fieldErrors = new HashMap<>();
+        fieldErrors.put("exceptionDetails", ex.getMessage());
+
+        ErrorMessage errorMessage = new ErrorMessage("Bad Request", fieldErrors);
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessage);
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
