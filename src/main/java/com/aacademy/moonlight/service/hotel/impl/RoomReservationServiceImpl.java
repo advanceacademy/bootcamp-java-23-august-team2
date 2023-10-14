@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -58,6 +59,12 @@ public class RoomReservationServiceImpl implements RoomReservationService {
     @Override
     public Optional<RoomReservation> findRoomReservationById(Long id) {
         return roomReservationRepository.findById((id));
+    }
+
+    @Override
+    public List<RoomReservation> getAllRoomReservations() {
+        List<RoomReservation> allRoomReservations = roomReservationRepository.findAll();
+        return allRoomReservations;
     }
 
     @Override
