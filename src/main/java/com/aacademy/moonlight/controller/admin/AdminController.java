@@ -1,7 +1,9 @@
 package com.aacademy.moonlight.controller.admin;
 
 import com.aacademy.moonlight.dto.car.CarResponse;
+import com.aacademy.moonlight.dto.restaurant.TableReservationResponse;
 import com.aacademy.moonlight.dto.user.UserResponse;
+import com.aacademy.moonlight.service.restaurant.TableReservationService;
 import com.aacademy.moonlight.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,9 @@ public class AdminController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TableReservationService tableReservationService;
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
@@ -43,5 +48,10 @@ public class AdminController {
     @GetMapping(path = "/user-by-phoneNumber/{number}")
     public ResponseEntity<UserResponse> getUserByPhoneNumber(@PathVariable String number) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findUserByPhoneNumber(number));
+    }
+
+    @GetMapping(path = "/getAllTableReservations")
+    public ResponseEntity<List<TableReservationResponse>> getAllTableReservations(){
+        return ResponseEntity.status(HttpStatus.OK).body(tableReservationService.getAllTableReservations());
     }
 }
