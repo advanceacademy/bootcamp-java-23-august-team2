@@ -10,6 +10,7 @@ import com.aacademy.moonlight.entity.car.Car;
 import com.aacademy.moonlight.entity.car.CarTransfer;
 import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.entity.user.User;
+import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.entity.car.CarType;
 import com.aacademy.moonlight.repository.car.CarRepository;
 import com.aacademy.moonlight.repository.car.CarTransferRepository;
@@ -73,6 +74,17 @@ public class CarTransferServiceImpl implements CarTransferService {
     @Override
     public void deleteCarTransferById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<CarTransferResponse> allCarReservations() {
+        List<CarTransfer> carList = repository.findAll();
+        List<CarTransferResponse> allCarReservations = new ArrayList<>();
+        for(CarTransfer carTransfer : carList){
+            CarTransferResponse response = converter.toResponse(carTransfer);
+            allCarReservations.add(response);
+        }
+        return allCarReservations;
     }
 
     @Override
