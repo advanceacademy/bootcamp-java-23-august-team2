@@ -3,8 +3,10 @@ package com.aacademy.moonlight.service.car.impl;
 import com.aacademy.moonlight.converter.car.CarTransferConverter;
 import com.aacademy.moonlight.dto.car.CarTransferRequest;
 import com.aacademy.moonlight.dto.car.CarTransferResponse;
+import com.aacademy.moonlight.dto.user.UserResponse;
 import com.aacademy.moonlight.entity.car.Car;
 import com.aacademy.moonlight.entity.car.CarTransfer;
+import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.repository.car.CarRepository;
 import com.aacademy.moonlight.repository.car.CarTransferRepository;
 import com.aacademy.moonlight.service.car.CarTransferService;
@@ -13,6 +15,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -65,5 +68,16 @@ public class CarTransferServiceImpl implements CarTransferService {
     @Override
     public void deleteCarTransferById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<CarTransferResponse> allCarReservations() {
+        List<CarTransfer> carList = repository.findAll();
+        List<CarTransferResponse> allCarReservations = new ArrayList<>();
+        for(CarTransfer carTransfer : carList){
+            CarTransferResponse response = converter.toResponse(carTransfer);
+            allCarReservations.add(response);
+        }
+        return allCarReservations;
     }
 }
