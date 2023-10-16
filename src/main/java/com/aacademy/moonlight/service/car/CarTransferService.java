@@ -13,6 +13,8 @@ import java.util.List;
 
 import java.util.List;
 
+import java.util.List;
+
 
 import java.time.LocalDate;
 
@@ -24,6 +26,7 @@ public interface CarTransferService {
     CarTransfer getCarTransferById(Long id);
     CarTransfer updateCarTransfer(CarTransferRequest request, Long id);
     void deleteCarTransferById(Long id);
+    List<CarTransferResponse> allCarReservations();
     List<CarTransferResponse> allCarReservations();
     List<CarTransferResponse> allCarReservations();
     List<CarTransferResponse> allCarReservations();
