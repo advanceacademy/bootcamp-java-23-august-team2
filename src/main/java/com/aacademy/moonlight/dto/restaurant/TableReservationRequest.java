@@ -41,5 +41,8 @@ public class TableReservationRequest {
     @NotNull
     private User user;
 
+    @NotNull
+    private Boolean isSmoking;
+
     private Boolean paymentStatus;
 }
