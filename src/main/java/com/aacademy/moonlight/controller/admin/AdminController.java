@@ -1,10 +1,15 @@
 package com.aacademy.moonlight.controller.admin;
 
 import com.aacademy.moonlight.dto.car.CarResponse;
+import com.aacademy.moonlight.dto.car.CarTransferResponse;
 import com.aacademy.moonlight.dto.user.UserResponse;
+import com.aacademy.moonlight.service.car.CarTransferService;
 import com.aacademy.moonlight.entity.hotel.RoomReservation;
 import com.aacademy.moonlight.service.hotel.RoomReservationService;
 import com.aacademy.moonlight.service.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +26,9 @@ public class AdminController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    CarTransferService carTransferService;
 
     @Autowired
     RoomReservationService roomReservationService;
@@ -48,6 +56,17 @@ public class AdminController {
     @GetMapping(path = "/user-by-phoneNumber/{number}")
     public ResponseEntity<UserResponse> getUserByPhoneNumber(@PathVariable String number) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findUserByPhoneNumber(number));
+    }
+
+    @GetMapping(path = "/allCarTransfers")
+    @Operation(summary = "Get all cars", description = "Returns all cars")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All cars were successfully found"),
+            @ApiResponse(responseCode = "404", description = "No car was found")
+    })
+    public ResponseEntity<List<CarTransferResponse>> getAllCarTransfers() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(carTransferService.allCarReservations());
     }
 
     @GetMapping(path = "/getAllRoomReservations")
