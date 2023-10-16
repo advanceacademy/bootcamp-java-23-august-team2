@@ -7,6 +7,8 @@ import com.aacademy.moonlight.entity.car.CarTransfer;
 import com.aacademy.moonlight.entity.car.CarType;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 import java.time.LocalDate;
 
@@ -18,7 +20,8 @@ public interface CarTransferService {
     CarTransfer getCarTransferById(Long id);
     CarTransfer updateCarTransfer(CarTransferRequest request, Long id);
     void deleteCarTransferById(Long id);
-  
+    List<CarTransferResponse> allCarReservations();
+
     List<CarResponse> getAvailableCarsByDateAndSeat(LocalDate date, int seats, CarType category, String brand);
     List<CarTransferResponse> allCarReservations();
 
