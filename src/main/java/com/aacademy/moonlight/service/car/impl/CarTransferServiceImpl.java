@@ -96,4 +96,15 @@ public class CarTransferServiceImpl implements CarTransferService {
         }
         return availableCars;
     }
+
+    @Override
+    public List<CarTransferResponse> allCarReservations() {
+        List<CarTransfer> carList = repository.findAll();
+        List<CarTransferResponse> allCarReservations = new ArrayList<>();
+        for (CarTransfer carTransfer : carList) {
+            CarTransferResponse response = converter.toResponse(carTransfer);
+            allCarReservations.add(response);
+        }
+        return allCarReservations;
+    }
 }

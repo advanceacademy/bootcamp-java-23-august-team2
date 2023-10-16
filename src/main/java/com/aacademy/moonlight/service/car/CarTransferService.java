@@ -20,5 +20,6 @@ public interface CarTransferService {
     void deleteCarTransferById(Long id);
   
     List<CarResponse> getAvailableCarsByDateAndSeat(LocalDate date, int seats, CarType category, String brand);
+    List<CarTransferResponse> allCarReservations();
 
 }
