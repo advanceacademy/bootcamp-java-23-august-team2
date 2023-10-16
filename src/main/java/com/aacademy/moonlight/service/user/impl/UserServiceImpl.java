@@ -76,6 +76,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse upDatePassword(UserChangePasswordRequest request) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
+
         if (request.getPassword().equals(request.getConfirmPassword())){
             String hashedPassword = passwordEncoder.encode(request.getPassword());
             user.setPassword(hashedPassword);
