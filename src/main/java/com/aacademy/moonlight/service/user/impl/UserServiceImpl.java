@@ -1,15 +1,14 @@
 package com.aacademy.moonlight.service.user.impl;
 import com.aacademy.moonlight.converter.user.UserConverter;
-import com.aacademy.moonlight.dto.user.UserRequest;
-import com.aacademy.moonlight.dto.user.UserResponse;
-import com.aacademy.moonlight.dto.user.UserUpdate;
-import com.aacademy.moonlight.dto.user.UserUpdatePassword;
+import com.aacademy.moonlight.dto.user.*;
 import com.aacademy.moonlight.entity.user.User;
+import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.user.UserRepository;
 import com.aacademy.moonlight.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,11 +19,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
     private final UserConverter converter;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository repository, UserConverter converter) {
+    public UserServiceImpl(UserRepository repository, UserConverter converter, PasswordEncoder passwordEncoder) {
         this.repository = repository;
         this.converter = converter;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -72,11 +73,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse upDatePassword(Long id, UserUpdatePassword password) {
-        User user = repository.findById(id).orElseThrow(()-> new RuntimeException("User not found"));
-        user.setPassword(password.getPassword());
-        User savedUserPassword = repository.save(user);
-        return converter.toUserResponse(savedUserPassword);
+    public UserResponse upDatePassword(UserChangePasswordRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+        if (request.getPassword().equals(request.getConfirmPassword())){
+            String hashedPassword = passwordEncoder.encode(request.getPassword());
+            user.setPassword(hashedPassword);
+            User savedUser = repository.save(user);
+            return converter.toUserResponse(savedUser);
+        }else {
+            throw new BadRequestException("Password must match");
+        }
+
     }
 
     @Override
