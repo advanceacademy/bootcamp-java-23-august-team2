@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/room-reservation")
+@RequestMapping("/api/v1/client/room-reservation")
 public class RoomReservationController {
 
     @Autowired
@@ -20,14 +20,14 @@ public class RoomReservationController {
     public ResponseEntity<String> createRoomReservation(@Valid @RequestBody RoomReservationRequest request){
         RoomReservation reservation = service.createRoomReservation(request);
         String response = String.format("Your reservation has been created");
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping("/{roomId}/get-all-reservations")
     public ResponseEntity<RoomReservation> getAllReservationsByRoomId (@PathVariable Long id){
 
         RoomReservation allReservations = service.findRoomReservationById(id).orElseThrow();
-        return ResponseEntity.status(HttpStatus.FOUND).body(allReservations);
+        return ResponseEntity.status(HttpStatus.OK).body(allReservations);
     }
 
     @DeleteMapping("/{id}/delete-reservation")
