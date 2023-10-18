@@ -13,6 +13,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,6 +30,8 @@ class UserServiceImplTest {
 
     @Mock
     private UserConverter converter;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserServiceImpl userService;
@@ -37,7 +41,7 @@ class UserServiceImplTest {
     @BeforeEach
     void setUp() {
         autoCloseable = MockitoAnnotations.openMocks(this);
-        userService = new UserServiceImpl(repository, converter);
+        userService = new UserServiceImpl(repository, converter, passwordEncoder);
     }
 
     @AfterEach
