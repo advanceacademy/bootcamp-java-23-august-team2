@@ -5,10 +5,10 @@ import com.aacademy.moonlight.entity.bar.BarZone;
 import com.aacademy.moonlight.entity.bar.ScreenSeat;
 import com.aacademy.moonlight.repository.bar.BarScreenRepository;
 import com.aacademy.moonlight.repository.bar.ScreenSeatRepository;
+import com.aacademy.moonlight.service.bar.ScreenSeatService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -17,10 +17,14 @@ public class AddScreenCommandRunner implements CommandLineRunner {
 
     private final ScreenSeatRepository seatRepository;
 
+    private final ScreenSeatService seatService;
+
     public AddScreenCommandRunner(BarScreenRepository screenRepository,
-                                  ScreenSeatRepository seatRepository) {
+                                  ScreenSeatRepository seatRepository,
+                                  ScreenSeatService seatService) {
         this.screenRepository = screenRepository;
         this.seatRepository = seatRepository;
+        this.seatService = seatService;
     }
 
     @Override
@@ -65,28 +69,28 @@ public class AddScreenCommandRunner implements CommandLineRunner {
     }
 
     private ScreenSeat createScreenSeat(String position, BarScreen screen) {
-        List<ScreenSeat> seatList = seatRepository.findAll();
-        List<ScreenSeat>seatsOnThisScreen = new ArrayList<>();
-        for(ScreenSeat seat: seatList){
-            if (seat.getBarScreen().getId().equals(screen.getId())){
-                seatsOnThisScreen.add(seat);
-            }
-            else {
-                break;
-            }
-        }
+        List<ScreenSeat>seatsOnThisScreen = seatService.findScreenSeatsByScreen(screen);
         boolean isExisting = true;
-        if (Integer.parseInt(position) < 22 && Integer.parseInt(position) > 1) {
-            for (ScreenSeat seat : seatsOnThisScreen) {
+        if(seatsOnThisScreen.size()==0){
+            isExisting = false;
+        }
 
+        if (Integer.parseInt(position) < 22 && Integer.parseInt(position) > 0) {
+            for (ScreenSeat seat : seatsOnThisScreen) {
                 if (position.equals(seat.getPosition())) {
                     isExisting = true;
                     break;
                 } else {
                     isExisting = false;
-                    return seatRepository.save(seat);
                 }
             }
+        }
+        if(!isExisting){
+            ScreenSeat seat = ScreenSeat.builder()
+                    .barScreen(screen)
+                    .position(position)
+                    .build();
+            return seatRepository.save(seat);
         }
         return null;
     }
