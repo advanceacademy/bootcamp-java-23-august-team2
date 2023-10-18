@@ -5,9 +5,9 @@ import com.aacademy.moonlight.dto.restaurant.TableReservationRequest;
 import com.aacademy.moonlight.entity.restaurant.TableReservation;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.user.User;
+import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.restaurant.TableReservationRepository;
 import com.aacademy.moonlight.service.restaurant.TableReservationService;
-import com.aacademy.moonlight.service.restaurant.TableRestaurantService;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -18,18 +18,14 @@ import java.util.Objects;
 public class TableReservationServiceImpl implements TableReservationService {
     private final TableReservationRepository repository;
     private final TableReservationConverter converter;
-    private final TableRestaurantService tableService;
 
-    public TableReservationServiceImpl(TableReservationRepository repository, TableReservationConverter converter, TableRestaurantService tableService) {
+    public TableReservationServiceImpl(TableReservationRepository repository, TableReservationConverter converter) {
         this.repository = repository;
         this.converter = converter;
-        this.tableService = tableService;
     }
 
     @Override
     public TableReservation bookReservation(TableReservationRequest request) {
-        //TODO CHECK IF THE TABLE IS NON SMOKING OR SMOKING IN THE REQUEST
-        //TODO compare number of people and seats
         TableReservation tableReservation = converter.toReservation(request);
         List<TableReservation> reservations = repository.findAll();
 
@@ -37,9 +33,12 @@ public class TableReservationServiceImpl implements TableReservationService {
             if (Objects.equals(tableReservation.getTableRestaurant(), reservation.getTableRestaurant())
                     && Objects.equals(tableReservation.getDate(), reservation.getDate())
                     && Objects.equals(tableReservation.getHour(), reservation.getHour())) {
-                throw new DuplicateKeyException("This table has bee reserved on " + reservation.getDate()
+                throw new DuplicateKeyException("This table has been reserved on " + reservation.getDate()
                         + " at " + reservation.getHour());
             }
+        }
+        if (request.getCountPeople() > request.getTableRestaurant().getSeats()){
+            throw new BadRequestException("The table you've chosen cannot fit more than " + request.getTableRestaurant().getSeats() + " people.");
         }
         TableReservation savedReservation = repository.save(tableReservation);
         return repository.save(savedReservation);
