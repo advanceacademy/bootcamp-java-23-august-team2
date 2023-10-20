@@ -5,11 +5,14 @@ import com.aacademy.moonlight.dto.restaurant.TableRestaurantRequest;
 import com.aacademy.moonlight.dto.restaurant.TableRestaurantResponse;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.restaurant.TableZone;
+import com.aacademy.moonlight.repository.restaurant.TableReservationRepository;
 import com.aacademy.moonlight.repository.restaurant.TableRestaurantRepository;
 import com.aacademy.moonlight.service.restaurant.TableRestaurantService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,10 +21,14 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
 
     private final TableRestaurantConverter converter;
     private final TableRestaurantRepository repository;
+    private final TableReservationRepository reservationRepository;
 
-    public TableRestaurantServiceImpl(TableRestaurantConverter converter, TableRestaurantRepository repository) {
+    public TableRestaurantServiceImpl(TableRestaurantConverter converter,
+                                      TableRestaurantRepository repository,
+                                      TableReservationRepository reservationRepository) {
         this.converter = converter;
         this.repository = repository;
+        this.reservationRepository = reservationRepository;
     }
 
     @Override
@@ -123,6 +130,11 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
             return noSmokingTableResponse;
         }
 
+    }
+
+    @Override
+    public List<TableRestaurant> getAvailableTables(LocalDate date, LocalDateTime time, String zone, Integer people) {
+        return null;
     }
 
     @Override

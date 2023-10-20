@@ -8,5 +8,6 @@ import org.springframework.stereotype.Service;
 public interface TableReservationService {
     TableReservation bookReservation(TableReservationRequest request);
     TableReservation updateReservation(Long id, TableReservationRequest request);
+
     void deleteById(Long id);
 }

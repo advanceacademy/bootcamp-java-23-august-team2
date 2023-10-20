@@ -5,6 +5,8 @@ import com.aacademy.moonlight.dto.restaurant.TableRestaurantResponse;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.restaurant.TableZone;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -20,4 +22,6 @@ public interface TableRestaurantService {
     TableRestaurantResponse getTableByTableNumber(Integer tableNumber);
     List<TableRestaurantResponse> getTablesByNumberOfSeats(Integer numberOfSeats);
     List<TableRestaurantResponse> getSmokingTables(boolean isSmokingAllowed);
+
+    List<TableRestaurant> getAvailableTables(LocalDate date, LocalDateTime time, String zone, Integer people);
 }

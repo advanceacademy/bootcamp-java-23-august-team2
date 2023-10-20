@@ -49,5 +49,7 @@ public class TableController {
         List<TableRestaurantResponse> list = tableRestaurantService.getTablesByNumberOfSeats(numberOfSeats);
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
+
+
 }
 
