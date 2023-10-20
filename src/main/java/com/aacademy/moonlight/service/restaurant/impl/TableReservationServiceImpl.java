@@ -5,12 +5,16 @@ import com.aacademy.moonlight.dto.restaurant.TableReservationRequest;
 import com.aacademy.moonlight.entity.restaurant.TableReservation;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.user.User;
+import com.aacademy.moonlight.exceptions.AuthorizationException;
 import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.restaurant.TableReservationRepository;
 import com.aacademy.moonlight.service.restaurant.TableReservationService;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,8 +30,18 @@ public class TableReservationServiceImpl implements TableReservationService {
 
     @Override
     public TableReservation bookReservation(TableReservationRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getPrincipal() == null){
+            throw new AuthorizationException("YOu must be logged in to make a reservation.");
+        }
+        request.setUser((User) auth.getPrincipal());
+
         TableReservation tableReservation = converter.toReservation(request);
         List<TableReservation> reservations = repository.findAll();
+        LocalTime currentTime = LocalTime.now();
+        if (request.getHour().isBefore(currentTime)){
+            throw new BadRequestException("The time must be in the future");
+        }
 
         for (TableReservation reservation : reservations) {
             if (Objects.equals(tableReservation.getTableRestaurant(), reservation.getTableRestaurant())

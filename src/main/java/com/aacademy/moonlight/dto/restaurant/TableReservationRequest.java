@@ -1,7 +1,9 @@
 package com.aacademy.moonlight.dto.restaurant;
 
+import com.aacademy.moonlight.custom_deserialization.CustomHourDeserializer;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.user.User;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -23,6 +25,7 @@ public class TableReservationRequest {
     @NotNull
     private LocalDate date;
 
+    @JsonDeserialize(using = CustomHourDeserializer.class)
     @NotNull
     private LocalTime hour;
 
@@ -32,13 +35,11 @@ public class TableReservationRequest {
     private Integer countPeople;
 
     @Min(value = 10)
-    @NotNull(message = "Missing price")
     private Double totalPrice;
 
     @NotNull
     private TableRestaurant tableRestaurant;
 
-    @NotNull
     private User user;
 
     private Boolean paymentStatus;
