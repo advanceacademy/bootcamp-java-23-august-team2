@@ -1,5 +1,6 @@
 package com.aacademy.moonlight.controller.user;
 
+import com.aacademy.moonlight.dto.user.UserChangePasswordRequest;
 import com.aacademy.moonlight.dto.user.UserResponse;
 import com.aacademy.moonlight.dto.user.UserUpdate;
 import com.aacademy.moonlight.service.user.UserService;
@@ -22,5 +23,10 @@ public class UserController {
     public ResponseEntity<UserResponse> updateUser(@Valid @RequestBody UserUpdate request) {
 
         return ResponseEntity.status(HttpStatus.OK).body(userService.updateUser(request));
+    }
+
+    @PutMapping(path = "/change-password")
+    public ResponseEntity<UserResponse> updatePassword(@Valid @RequestBody UserChangePasswordRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.upDatePassword(request));
     }
 }
