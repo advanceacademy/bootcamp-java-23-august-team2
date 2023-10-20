@@ -1,7 +1,11 @@
 package com.aacademy.moonlight.controller.admin;
 
 import com.aacademy.moonlight.dto.car.CarResponse;
+import com.aacademy.moonlight.dto.car.CarTransferResponse;
+import com.aacademy.moonlight.dto.restaurant.TableReservationResponse;
 import com.aacademy.moonlight.dto.user.UserResponse;
+import com.aacademy.moonlight.service.car.CarTransferService;
+import com.aacademy.moonlight.service.restaurant.TableReservationService;
 import com.aacademy.moonlight.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
