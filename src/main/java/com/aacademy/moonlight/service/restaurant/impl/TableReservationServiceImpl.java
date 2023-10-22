@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +40,8 @@ public class TableReservationServiceImpl implements TableReservationService {
         TableReservation tableReservation = converter.toReservation(request);
         List<TableReservation> reservations = repository.findAll();
         LocalTime currentTime = LocalTime.now();
-        if (request.getHour().isBefore(currentTime)){
+
+        if (request.getHour().isBefore(currentTime) && (tableReservation.getDate().isBefore(LocalDate.now()) || tableReservation.getDate().isEqual(LocalDate.now()))){
             throw new BadRequestException("The time must be in the future");
         }
 
