@@ -2,6 +2,7 @@ package com.aacademy.moonlight.dto.restaurant;
 
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.user.User;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
 
 public class TableReservationResponse {
 
@@ -31,23 +32,21 @@ public class TableReservationResponse {
     private TableRestaurant tableRestaurant;
 
     @NotNull
-    private User user;
+    private Long userId;
+
+    @NotEmpty
+    private String userFirstName;
+
+    @NotEmpty
+    private String userLastName;
+
+    @NotEmpty
+    private String userPhoneNumber;
+
+    @NotEmpty
+    private String userEmail;
+
 
     private Boolean paymentStatus;
 
-    public TableReservationResponse(@NotNull LocalDate date,
-                                    @NotNull LocalTime hour,
-                                    @NotNull Integer countPeople,
-                                    @NotNull Double totalPrice,
-                                    @NotNull TableRestaurant tableRestaurant,
-                                    @NotNull User user, Boolean paymentStatus) {
-
-                                    this.date = date;
-                                    this.hour = hour;
-                                    this.countPeople = countPeople;
-                                    this.totalPrice = totalPrice;
-                                    this.tableRestaurant = tableRestaurant;
-                                    this.user = user;
-                                    this.paymentStatus = paymentStatus;
-    }
 }
