@@ -133,42 +133,7 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
 
     }
 
-    @Override
-    public List<TableRestaurant> getAvailableTables(LocalDate date, LocalDateTime time, String zone, Integer people) {
-        List<TableReservation> allReservations = reservationRepository.findAll();
-        List<TableReservation> reservationByDate = new ArrayList<>();
-        List<TableRestaurant> reservedTables = new ArrayList<>();
-        boolean isReserved = false;
-        if(allReservations.size()==0){
-            isReserved = false;
-        }
-        else {
-            for(TableReservation reservation:allReservations){
-                if(reservation.getDate().equals(date) && reservation.getHour().equals(time)){
-                    reservationByDate.add(reservation);
-                    reservedTables.add(reservation.getTableRestaurant());
-                }
-                else {
-                    isReserved = false;
-                }
-            }
-        }
-        List<TableRestaurant> allTables = repository.findAll();
-        List<TableRestaurant> availableTables = new ArrayList<>();
-        for(TableRestaurant table: allTables){
-            for(TableRestaurant reservedTable: reservedTables){
-                if(table.equals(reservedTable)){
-                    isReserved = true;
-                }
-                else {
-                    isReserved = false;
-                    availableTables.add(table);
-                }
-            }
-        }
 
-        return availableTables;
-    }
 
     @Override
     public TableRestaurantResponse getTableById(Long id) {

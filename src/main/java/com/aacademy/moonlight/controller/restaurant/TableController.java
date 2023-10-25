@@ -51,14 +51,6 @@ public class TableController {
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
 
-    @GetMapping("/available-tables")
-    public ResponseEntity<List<TableRestaurant>> getAllAvailableTables(
-            @RequestParam("date") LocalDate date,
-            @RequestParam("hour")LocalDateTime hour,
-            @RequestParam(value = "zone", required = false) String tableZone,
-            @RequestParam(value = "people", required = false) int people
-    ){
-        return ResponseEntity.ok(tableRestaurantService.getAvailableTables(date, hour, tableZone, people));
-    }
+
 }
 

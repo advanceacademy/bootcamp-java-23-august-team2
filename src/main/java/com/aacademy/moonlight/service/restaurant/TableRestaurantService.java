@@ -23,5 +23,5 @@ public interface TableRestaurantService {
     List<TableRestaurantResponse> getTablesByNumberOfSeats(Integer numberOfSeats);
     List<TableRestaurantResponse> getSmokingTables(boolean isSmokingAllowed);
 
-    List<TableRestaurant> getAvailableTables(LocalDate date, LocalDateTime time, String zone, Integer people);
+
 }
