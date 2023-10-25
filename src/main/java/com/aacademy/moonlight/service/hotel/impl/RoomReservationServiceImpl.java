@@ -1,6 +1,8 @@
 package com.aacademy.moonlight.service.hotel.impl;
 
+import com.aacademy.moonlight.converter.hotel.RoomConverter;
 import com.aacademy.moonlight.dto.hotel.RoomReservationRequest;
+import com.aacademy.moonlight.dto.hotel.RoomResponse;
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomReservation;
 import com.aacademy.moonlight.entity.user.User;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,12 +30,16 @@ public class RoomReservationServiceImpl implements RoomReservationService {
 
     private final RoomReservationRepository roomReservationRepository;
     private final RoomRepository roomRepository;
+    private final RoomConverter roomConverter;
 
     public RoomReservationServiceImpl(RoomReservationRepository roomReservationRepository,
                                       RoomRepository roomRepository) {
+                                      RoomRepository roomRepository,
+                                       RoomConverter roomConverter) {
 
         this.roomReservationRepository = roomReservationRepository;
         this.roomRepository = roomRepository;
+        this.roomConverter = roomConverter;
     }
 
     @Override
@@ -75,6 +82,27 @@ public class RoomReservationServiceImpl implements RoomReservationService {
     @Override
     public Optional<RoomReservation> findRoomReservationById(Long id) {
         return roomReservationRepository.findById((id));
+    }
+
+    @Override
+    public List<RoomResponse> getAvailableRooms(LocalDate startDate, LocalDate endDate, Integer adults, Integer children) {
+      //TODO FIND OVERLAPPING RESERVATIONS AND ADD THE CAPACITY CHECK
+       List<RoomReservation> allReservations = roomReservationRepository.findAll();
+       List<Room> allRooms = roomRepository.findAll();
+       List<RoomResponse> availableRooms = new ArrayList<>();
+       for (Room room : allRooms){
+           boolean isRoomReserved = false;
+           for (RoomReservation roomReservation : allReservations){
+               if (startDate.isBefore(roomReservation.getEndDate()) && endDate.isAfter(roomReservation.getStartDate())){
+                   isRoomReserved = true;
+               }
+           }
+           if (!isRoomReserved){
+               availableRooms.add(roomConverter.toRoomResponse(room));
+           }
+       }
+
+        return availableRooms;
     }
 
     @Override
