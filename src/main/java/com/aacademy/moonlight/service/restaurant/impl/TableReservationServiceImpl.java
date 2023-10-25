@@ -5,12 +5,22 @@ import com.aacademy.moonlight.dto.restaurant.TableReservationRequest;
 import com.aacademy.moonlight.entity.restaurant.TableReservation;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.user.User;
+import com.aacademy.moonlight.exceptions.AuthorizationException;
+import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.restaurant.TableReservationRepository;
 import com.aacademy.moonlight.service.restaurant.TableReservationService;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Objects;
+
 @Service
-public class TableReservationServiceImpl  implements TableReservationService {
+public class TableReservationServiceImpl implements TableReservationService {
     private final TableReservationRepository repository;
     private final TableReservationConverter converter;
 
@@ -21,8 +31,33 @@ public class TableReservationServiceImpl  implements TableReservationService {
 
     @Override
     public TableReservation bookReservation(TableReservationRequest request) {
-        TableReservation reservation = converter.toReservation(request);
-        return repository.save(reservation);
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getPrincipal() == null){
+            throw new AuthorizationException("YOu must be logged in to make a reservation.");
+        }
+        request.setUser((User) auth.getPrincipal());
+
+        TableReservation tableReservation = converter.toReservation(request);
+        List<TableReservation> reservations = repository.findAll();
+        LocalTime currentTime = LocalTime.now();
+
+        if (request.getHour().isBefore(currentTime) && (tableReservation.getDate().isBefore(LocalDate.now()) || tableReservation.getDate().isEqual(LocalDate.now()))){
+            throw new BadRequestException("The time must be in the future");
+        }
+
+        for (TableReservation reservation : reservations) {
+            if (Objects.equals(tableReservation.getTableRestaurant(), reservation.getTableRestaurant())
+                    && Objects.equals(tableReservation.getDate(), reservation.getDate())
+                    && Objects.equals(tableReservation.getHour(), reservation.getHour())) {
+                throw new DuplicateKeyException("This table has been reserved on " + reservation.getDate()
+                        + " at " + reservation.getHour());
+            }
+        }
+        if (request.getCountPeople() > request.getTableRestaurant().getSeats()){
+            throw new BadRequestException("The table you've chosen cannot fit more than " + request.getTableRestaurant().getSeats() + " people.");
+        }
+        TableReservation savedReservation = repository.save(tableReservation);
+        return repository.save(savedReservation);
     }
 
     @Override
@@ -32,25 +67,25 @@ public class TableReservationServiceImpl  implements TableReservationService {
         TableRestaurant table = request.getTableRestaurant();
         User user = request.getUser();
 
-        if(request.getDate() != null){
+        if (request.getDate() != null) {
             tableReservation.setDate(request.getDate());
         }
-        if(request.getHour() != null){
+        if (request.getHour() != null) {
             tableReservation.setHour(request.getHour());
         }
-        if(request.getCountPeople() != null){
+        if (request.getCountPeople() != null) {
             tableReservation.setCountPeople(request.getCountPeople());
         }
-        if(request.getTotalPrice() != null){
+        if (request.getTotalPrice() != null) {
             tableReservation.setTotalPrice(request.getTotalPrice());
         }
-        if(table != null){
+        if (table != null) {
             tableReservation.setTableRestaurant(table);
         }
-        if(user != null){
+        if (user != null) {
             tableReservation.setUser(user);
         }
-        if(request.getPaymentStatus() != null){
+        if (request.getPaymentStatus() != null) {
             tableReservation.setPaymentStatus(request.getPaymentStatus());
         }
         return repository.save(tableReservation);

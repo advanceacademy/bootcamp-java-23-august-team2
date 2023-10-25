@@ -56,37 +56,37 @@ public class HotelRoomCommandRunner implements CommandLineRunner {
 
         // Create and save standard rooms
         createAndSaveRooms(101L, 102L, 220.0, 24, RoomType.STANDARD,
-                standardRoomFacilities, RoomView.SEA);
+                standardRoomFacilities, RoomView.SEA, 2);
         createAndSaveRooms(103L, 104L, 220.0, 24, RoomType.STANDARD,
-                standardRoomFacilities, RoomView.POOL);
+                standardRoomFacilities, RoomView.POOL, 2);
         createAndSaveRooms(105L, 108L, 220.0, 24, RoomType.STANDARD,
-                standardRoomFacilities, RoomView.GARDEN);
+                standardRoomFacilities, RoomView.GARDEN, 2);
 
         // Create and save studio rooms
         createAndSaveRooms(201L, 202L, 320.0, 34, RoomType.STUDIO,
                 studioRoomFacilities,
-                RoomView.SEA);
+                RoomView.SEA, 3);
         createAndSaveRooms(203L, 204L, 320.0, 34, RoomType.STUDIO,
                 studioRoomFacilities,
-                RoomView.POOL);
+                RoomView.POOL, 3);
         createAndSaveRooms(205L, 206L, 320.0, 34, RoomType.STUDIO,
                 studioRoomFacilities,
-                RoomView.GARDEN);
+                RoomView.GARDEN, 3);
 
         // Create and save apartment rooms
         createAndSaveRooms(301L, 302L, 520.0, 56, RoomType.APARTMENT,
                 apartmentRoomFacilities,
-                RoomView.SEA);
+                RoomView.SEA, 4);
         createAndSaveRooms(303L, 303L, 520.0, 56, RoomType.APARTMENT,
                 apartmentRoomFacilities,
-                RoomView.POOL);
+                RoomView.POOL, 4);
     }
 
     private RoomFacility createFacility(String facilityName) {
         List<RoomFacility> existingFacilities = roomFacilityRepository.findAll();
 
-        for (RoomFacility facility : existingFacilities){
-            if (facilityName.equals(facility.getFacility())){
+        for (RoomFacility facility : existingFacilities) {
+            if (facilityName.equals(facility.getFacility())) {
                 return facility;
             }
         }
@@ -99,7 +99,7 @@ public class HotelRoomCommandRunner implements CommandLineRunner {
     }
 
     private void createAndSaveRooms(Long startRoomNumber, Long endRoomNumber, double price, int area,
-                                    RoomType roomType, List<RoomFacility> facilities, RoomView view) {
+                                    RoomType roomType, List<RoomFacility> facilities, RoomView view, Integer roomCapacity) {
         for (Long i = startRoomNumber; i <= endRoomNumber; i++) {
             Room room = Room.builder()
                     .roomNumber(i)
@@ -108,10 +108,11 @@ public class HotelRoomCommandRunner implements CommandLineRunner {
                     .type(roomType)
                     .facilities(facilities)
                     .view(view)
+                    .roomCapacity(roomCapacity)
                     .build();
 
             List<RoomResponse> foundRoom = roomService.findByRoomNumber(room.getRoomNumber());
-            if (Objects.isNull(foundRoom)) {
+            if (foundRoom.isEmpty()) {
                 roomRepository.save(room);
             }
         }

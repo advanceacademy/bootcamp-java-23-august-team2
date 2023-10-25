@@ -1,7 +1,6 @@
 package com.aacademy.moonlight.dto.restaurant;
 
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
-import com.aacademy.moonlight.entity.user.User;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -31,7 +30,7 @@ public class TableReservationResponse {
     private TableRestaurant tableRestaurant;
 
     @NotNull
-    private User user;
+    private String userName;
 
     private Boolean paymentStatus;
 
@@ -40,14 +39,14 @@ public class TableReservationResponse {
                                     @NotNull Integer countPeople,
                                     @NotNull Double totalPrice,
                                     @NotNull TableRestaurant tableRestaurant,
-                                    @NotNull User user, Boolean paymentStatus) {
+                                    @NotNull String userName, Boolean paymentStatus) {
 
                                     this.date = date;
                                     this.hour = hour;
                                     this.countPeople = countPeople;
                                     this.totalPrice = totalPrice;
                                     this.tableRestaurant = tableRestaurant;
-                                    this.user = user;
+                                    this.userName = userName;
                                     this.paymentStatus = paymentStatus;
     }
 }

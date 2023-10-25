@@ -20,7 +20,14 @@ public class TableReservationConverter {
     }
 
     public TableReservationResponse toTableReservationResponse (TableReservation tableReservation){
-        return new TableReservationResponse(tableReservation.getDate(), tableReservation.getHour(), tableReservation.getCountPeople(), tableReservation.getTotalPrice(), tableReservation.getTableRestaurant(), tableReservation.getUser(), tableReservation.getPaymentStatus());
+        return new TableReservationResponse(
+                tableReservation.getDate(),
+                tableReservation.getHour(),
+                tableReservation.getCountPeople(),
+                tableReservation.getTotalPrice(),
+                tableReservation.getTableRestaurant(),
+                tableReservation.getUser().getFirstName() + " " + tableReservation.getUser().getLastName(),
+                tableReservation.getPaymentStatus());
 
 
     }

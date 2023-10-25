@@ -46,7 +46,7 @@ public class RoomReservationServiceImplTest {
         reservationRequest.setChildren(0);
         reservationRequest.setPaymentStatus(false);
         reservationRequest.setRoomId(1L);
-        reservationRequest.setUserId(2L);
+
 
         // Create mock Room and User objects
         Room mockRoom = new Room();

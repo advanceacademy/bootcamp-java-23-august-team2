@@ -4,11 +4,14 @@ import com.aacademy.moonlight.dto.hotel.RoomReservationRequest;
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomReservation;
 import com.aacademy.moonlight.entity.user.User;
+import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.hotel.RoomRepository;
 import com.aacademy.moonlight.repository.hotel.RoomReservationRepository;
-import com.aacademy.moonlight.repository.user.UserRepository;
 import com.aacademy.moonlight.service.hotel.RoomReservationService;
+import com.aacademy.moonlight.service.user.UserService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,15 +27,12 @@ public class RoomReservationServiceImpl implements RoomReservationService {
 
     private final RoomReservationRepository roomReservationRepository;
     private final RoomRepository roomRepository;
-    private final UserRepository userRepository;
 
     public RoomReservationServiceImpl(RoomReservationRepository roomReservationRepository,
-                                      RoomRepository roomRepository,
-                                      UserRepository userRepository) {
+                                      RoomRepository roomRepository) {
 
         this.roomReservationRepository = roomReservationRepository;
         this.roomRepository = roomRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -40,8 +40,8 @@ public class RoomReservationServiceImpl implements RoomReservationService {
         Room room = roomRepository.findById(reservationRequest.getRoomId())
                 .orElseThrow(() -> new RuntimeException("Room not found"));
 
-        User user = userRepository.findById(reservationRequest.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
 
         RoomReservation reservation = new RoomReservation();
         reservation.setStartDate(reservationRequest.getStartDate());
@@ -52,6 +52,22 @@ public class RoomReservationServiceImpl implements RoomReservationService {
         reservation.setRoom(room);
         reservation.setUser(user);
         reservation.setTotalPrice(calculateTotalPrice(room, reservationRequest));
+
+        int totalPeople = reservation.getAdults() + reservation.getChildren();
+        if (totalPeople > room.getRoomCapacity()) {
+            throw new BadRequestException("The number of guests is more than the room capacity. " +
+                    "This rooms capacity is " + room.getRoomCapacity());
+        }
+
+        List<RoomReservation> overlappingReservations = roomReservationRepository.findOverlappingReservations(
+                reservation.getRoom().getId(),
+                reservation.getStartDate(),
+                reservation.getEndDate()
+        );
+
+        if (!overlappingReservations.isEmpty()){
+            throw new BadRequestException("This room is not available for your chosen dates.");
+        }
 
         return roomReservationRepository.save(reservation);
     }
