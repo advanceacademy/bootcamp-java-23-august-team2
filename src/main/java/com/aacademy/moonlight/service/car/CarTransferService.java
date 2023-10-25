@@ -34,10 +34,6 @@ public interface CarTransferService {
 
     List<CarResponse> getAvailableCarsByDateAndSeat(LocalDate date, int seats, CarType category, String brand);
     List<CarTransferResponse> allCarReservations();
-
-    List<CarTransferResponse> allCarReservations();
-    List<CarTransferResponse> allCarReservations();
-    List<CarTransferResponse> allCarReservations();
     List<CarTransferResponse> allCarReservations();
 
     List<CarResponse> getAvailableCarsByDateAndSeat(LocalDate date, int seats, CarType category, String brand);
