@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 //import static sun.security.krb5.Confounder.intValue;
 
@@ -73,7 +70,7 @@ public class RoomReservationServiceImpl implements RoomReservationService {
                 reservation.getEndDate()
         );
 
-        if (!overlappingReservations.isEmpty()){
+        if (!overlappingReservations.isEmpty()) {
             throw new BadRequestException("This room is not available for your chosen dates.");
         }
 
@@ -98,23 +95,25 @@ public class RoomReservationServiceImpl implements RoomReservationService {
 
     @Override
     public List<RoomResponse> getAvailableRooms(LocalDate startDate, LocalDate endDate, Integer adults, Integer children) {
-      //TODO FIND OVERLAPPING RESERVATIONS AND ADD THE CAPACITY CHECK
-       List<RoomReservation> allReservations = roomReservationRepository.findAll();
-       List<Room> allRooms = roomRepository.findAll();
-       List<RoomResponse> availableRooms = new ArrayList<>();
-       for (Room room : allRooms){
-           boolean isRoomReserved = false;
-           for (RoomReservation roomReservation : allReservations){
-               if (startDate.isBefore(roomReservation.getEndDate()) && endDate.isAfter(roomReservation.getStartDate())){
-                   isRoomReserved = true;
-               }
-           }
-           if (!isRoomReserved){
-               availableRooms.add(roomConverter.toRoomResponse(room));
-           }
-       }
+        List<Room> allRooms = roomRepository.findAll();
+        List<Room> availableRooms = new ArrayList<>();
 
-        return availableRooms;
+        for (Room room : allRooms) {
+            Long roomId = room.getId();
+            List<RoomReservation> overlappingReservations = roomReservationRepository.findOverlappingReservations(roomId, startDate, endDate);
+
+            if (overlappingReservations.isEmpty()) {
+                if (room.getRoomCapacity() >= (adults + children)) {
+                    availableRooms.add(room);
+                }
+            }
+        }
+
+        List<RoomResponse> roomResponses = availableRooms.stream()
+                .map(roomConverter::toRoomResponse)
+                .toList();
+
+        return roomResponses;
     }
 
     @Override
