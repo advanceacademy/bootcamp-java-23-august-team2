@@ -57,7 +57,7 @@ public class CarTransferController {
     }
 
     @GetMapping(path = "/find-user-transfers")
-    public ResponseEntity<List<CarTransferResponse>> getALlUserTransfers(){
+    public ResponseEntity<List<CarTransferResponse>> getAllUserTransfers(){
 
         return ResponseEntity.status(HttpStatus.FOUND).body(service.getTransfersByUser());
     }
