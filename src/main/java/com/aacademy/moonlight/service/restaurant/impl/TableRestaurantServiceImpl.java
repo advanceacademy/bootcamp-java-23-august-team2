@@ -43,6 +43,13 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
     }
 
     @Override
+    public TableRestaurant findById(Long id) {
+        return repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Table with id = "+ id +" not found.")
+        );
+    }
+
+    @Override
     public TableRestaurant updateTableById(Long id, TableRestaurantRequest request) {
         TableRestaurant tableRestaurant = repository.findById(id).orElseThrow();
 
