@@ -3,6 +3,7 @@ package com.aacademy.moonlight.service.restaurant.impl;
 import com.aacademy.moonlight.converter.restaurant.TableRestaurantConverter;
 import com.aacademy.moonlight.dto.restaurant.TableRestaurantRequest;
 import com.aacademy.moonlight.dto.restaurant.TableRestaurantResponse;
+import com.aacademy.moonlight.entity.restaurant.TableReservation;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.restaurant.TableZone;
 import com.aacademy.moonlight.repository.restaurant.TableReservationRepository;
@@ -134,7 +135,39 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
 
     @Override
     public List<TableRestaurant> getAvailableTables(LocalDate date, LocalDateTime time, String zone, Integer people) {
-        return null;
+        List<TableReservation> allReservations = reservationRepository.findAll();
+        List<TableReservation> reservationByDate = new ArrayList<>();
+        List<TableRestaurant> reservedTables = new ArrayList<>();
+        boolean isReserved = false;
+        if(allReservations.size()==0){
+            isReserved = false;
+        }
+        else {
+            for(TableReservation reservation:allReservations){
+                if(reservation.getDate().equals(date) && reservation.getHour().equals(time)){
+                    reservationByDate.add(reservation);
+                    reservedTables.add(reservation.getTableRestaurant());
+                }
+                else {
+                    isReserved = false;
+                }
+            }
+        }
+        List<TableRestaurant> allTables = repository.findAll();
+        List<TableRestaurant> availableTables = new ArrayList<>();
+        for(TableRestaurant table: allTables){
+            for(TableRestaurant reservedTable: reservedTables){
+                if(table.equals(reservedTable)){
+                    isReserved = true;
+                }
+                else {
+                    isReserved = false;
+                    availableTables.add(table);
+                }
+            }
+        }
+
+        return availableTables;
     }
 
     @Override
@@ -169,8 +202,6 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
                 .filter(tableRestaurant -> tableRestaurant.getSeats().equals(numberOfSeats))
                 .map(converter::toTableRestaurantResponse)
                 .toList();
-
-
     }
 
 

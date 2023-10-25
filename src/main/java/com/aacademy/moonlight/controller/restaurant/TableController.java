@@ -1,6 +1,5 @@
 package com.aacademy.moonlight.controller.restaurant;
 
-import com.aacademy.moonlight.dto.restaurant.TableRestaurantRequest;
 import com.aacademy.moonlight.dto.restaurant.TableRestaurantResponse;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.service.restaurant.TableRestaurantService;
@@ -10,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -50,6 +51,14 @@ public class TableController {
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
 
-
+    @GetMapping("/available-tables")
+    public ResponseEntity<List<TableRestaurant>> getAllAvailableTables(
+            @RequestParam("date") LocalDate date,
+            @RequestParam("hour")LocalDateTime hour,
+            @RequestParam(value = "zone", required = false) String tableZone,
+            @RequestParam(value = "people", required = false) int people
+    ){
+        return ResponseEntity.ok(tableRestaurantService.getAvailableTables(date, hour, tableZone, people));
+    }
 }
 
