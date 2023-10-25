@@ -42,10 +42,8 @@ public class RoomReservationController {
         service.deleteRoomReservation(id);
         return ResponseEntity.status(HttpStatus.OK).body("Reservation has been deleted");
     }
-    @GetMapping(path = "/find-user-reservations")
+    @GetMapping(path = "/find-user-room-reservations")
     public ResponseEntity<List<RoomReservationResponse>> getAllUserReservations(){
         return ResponseEntity.status(HttpStatus.FOUND).body(service.getReservationsByUser());
     }
-
- //   @PutMapping("/updating-reservation")
 }

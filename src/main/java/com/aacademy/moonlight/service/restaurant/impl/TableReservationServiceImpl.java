@@ -2,6 +2,7 @@ package com.aacademy.moonlight.service.restaurant.impl;
 
 import com.aacademy.moonlight.converter.restaurant.TableReservationConverter;
 import com.aacademy.moonlight.dto.restaurant.TableReservationRequest;
+import com.aacademy.moonlight.dto.restaurant.TableReservationResponse;
 import com.aacademy.moonlight.entity.restaurant.TableReservation;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.user.User;
@@ -9,6 +10,7 @@ import com.aacademy.moonlight.exceptions.AuthorizationException;
 import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.restaurant.TableReservationRepository;
 import com.aacademy.moonlight.service.restaurant.TableReservationService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -94,5 +97,25 @@ public class TableReservationServiceImpl implements TableReservationService {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<TableReservationResponse> getTableReservationsByUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+
+        List<TableReservation> allReservations = repository.findAll();
+        List<TableReservationResponse> userReservations = new ArrayList<>();
+
+        for (TableReservation reservation : allReservations){
+            if (Objects.equals(reservation.getUser().getId(), user.getId())){
+                userReservations.add(converter.toTableReservationResponse(reservation));
+            }
+        }
+
+        if (userReservations.isEmpty()){
+            throw new EntityNotFoundException("You don't have any table reservations.");
+        }
+        return userReservations;
     }
 }
