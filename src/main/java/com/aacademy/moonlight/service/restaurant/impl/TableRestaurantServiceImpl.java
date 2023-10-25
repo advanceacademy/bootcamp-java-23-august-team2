@@ -43,7 +43,7 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
         List<TableRestaurant> tables = repository.findAll();
         TableRestaurant tableRestaurant = null;
         for (TableRestaurant table : tables) {
-            if (table.getTableNumber() == tableNumber && table.getTableZone() == tableZone) {
+            if (table.getTableNumber().equals(tableNumber) && table.getTableZone().equals(tableZone)) {
                 tableRestaurant = table;
             }
         }
@@ -130,11 +130,7 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
         else {
             return noSmokingTableResponse;
         }
-
     }
-
-
-
     @Override
     public TableRestaurantResponse getTableById(Long id) {
 
@@ -168,8 +164,6 @@ public class TableRestaurantServiceImpl implements TableRestaurantService {
                 .map(converter::toTableRestaurantResponse)
                 .toList();
     }
-
-
 }
 
 

@@ -22,6 +22,4 @@ public interface TableRestaurantService {
     TableRestaurantResponse getTableByTableNumber(Integer tableNumber);
     List<TableRestaurantResponse> getTablesByNumberOfSeats(Integer numberOfSeats);
     List<TableRestaurantResponse> getSmokingTables(boolean isSmokingAllowed);
-
-
 }
