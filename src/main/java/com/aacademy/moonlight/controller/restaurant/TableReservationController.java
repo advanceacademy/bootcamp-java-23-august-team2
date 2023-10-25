@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/client/table-reservation")
 public class TableReservationController {
@@ -38,5 +40,9 @@ public class TableReservationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(converter.toTableReservationResponse(
                 tableReservationService.bookReservation(request))
         );
+    }
+    @GetMapping(path = "/find-user-table-reservations")
+    public ResponseEntity<List<TableReservationResponse>> getAllUserTableReservations(){
+        return ResponseEntity.status(HttpStatus.FOUND).body(tableReservationService.getTableReservationsByUser());
     }
 }
