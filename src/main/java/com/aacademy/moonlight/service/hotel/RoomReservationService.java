@@ -1,6 +1,7 @@
 package com.aacademy.moonlight.service.hotel;
 
 import com.aacademy.moonlight.dto.hotel.RoomReservationRequest;
+import com.aacademy.moonlight.dto.hotel.RoomReservationResponse;
 import com.aacademy.moonlight.entity.hotel.RoomReservation;
 
 import java.util.List;
@@ -15,6 +16,6 @@ public interface RoomReservationService {
     RoomReservation updateRoomReservation(Long id, RoomReservationRequest request);
 
     Optional<RoomReservation> findRoomReservationById(Long id);
-    List<RoomReservation> getAllRoomReservations();
+    List<RoomReservationResponse> getAllRoomReservations();
 
 }
