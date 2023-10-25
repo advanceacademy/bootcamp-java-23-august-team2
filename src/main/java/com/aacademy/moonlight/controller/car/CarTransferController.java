@@ -4,6 +4,7 @@ import com.aacademy.moonlight.dto.car.CarResponse;
 import com.aacademy.moonlight.dto.car.CarTransferRequest;
 import com.aacademy.moonlight.dto.car.CarTransferResponse;
 import com.aacademy.moonlight.entity.car.Car;
+import com.aacademy.moonlight.entity.car.CarTransfer;
 import com.aacademy.moonlight.entity.car.CarType;
 import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.service.car.CarService;
@@ -53,6 +54,12 @@ public class CarTransferController {
             @RequestParam(value = "category", required = false) CarType category,
             @RequestParam(value = "brand", required = false) String brand) {
         return ResponseEntity.ok(service.getAvailableCarsByDateAndSeat(date, seats, category, brand));
+    }
+
+    @GetMapping(path = "/find-user-transfers")
+    public ResponseEntity<List<CarTransferResponse>> getALlUserTransfers(){
+
+        return ResponseEntity.status(HttpStatus.FOUND).body(service.getTransfersByUser());
     }
 
 }
