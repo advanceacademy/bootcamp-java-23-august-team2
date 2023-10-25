@@ -1,5 +1,6 @@
 package com.aacademy.moonlight.service.hotel.impl;
 
+import com.aacademy.moonlight.converter.hotel.RoomConverter;
 import com.aacademy.moonlight.converter.hotel.RoomReservationConverter;
 import com.aacademy.moonlight.dto.hotel.RoomReservationRequest;
 import com.aacademy.moonlight.dto.hotel.RoomReservationResponse;
@@ -10,6 +11,8 @@ import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.hotel.RoomRepository;
 import com.aacademy.moonlight.repository.hotel.RoomReservationRepository;
 import com.aacademy.moonlight.service.hotel.RoomReservationService;
+import com.aacademy.moonlight.service.user.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +35,8 @@ public class RoomReservationServiceImpl implements RoomReservationService {
     private final RoomReservationConverter roomReservationConverter;
 
     public RoomReservationServiceImpl(RoomReservationRepository roomReservationRepository,
-                                      RoomRepository roomRepository, RoomReservationConverter roomReservationConverter) {
+                                      RoomRepository roomRepository, RoomReservationConverter roomReservationConverter){
+
 
         this.roomReservationRepository = roomReservationRepository;
         this.roomRepository = roomRepository;
@@ -80,6 +84,25 @@ public class RoomReservationServiceImpl implements RoomReservationService {
     @Override
     public Optional<RoomReservation> findRoomReservationById(Long id) {
         return roomReservationRepository.findById((id));
+    }
+
+    @Override
+    public List<RoomReservationResponse> getReservationsByUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+
+        List<RoomReservation> allReservations = roomReservationRepository.findAll();
+        List<RoomReservationResponse> userReservations = new ArrayList<>();
+
+        for (RoomReservation reservation : allReservations){
+            if (Objects.equals(reservation.getUser().getId(), user.getId())){
+                userReservations.add(roomReservationConverter.toResponse(reservation));
+            }
+        }
+        if (userReservations.isEmpty()){
+            throw new EntityNotFoundException("You don't have any car reservations.");
+        }
+        return userReservations;
     }
 
     @Override
