@@ -33,7 +33,6 @@ public class RoomReservationServiceImpl implements RoomReservationService {
     private final RoomConverter roomConverter;
 
     public RoomReservationServiceImpl(RoomReservationRepository roomReservationRepository,
-                                      RoomRepository roomRepository) {
                                       RoomRepository roomRepository,
                                        RoomConverter roomConverter) {
 
@@ -42,8 +41,7 @@ public class RoomReservationServiceImpl implements RoomReservationService {
         this.roomConverter = roomConverter;
     }
 
-    @Override
-    public RoomReservation createRoomReservation( @Valid  RoomReservationRequest reservationRequest) {
+        public RoomReservation createRoomReservation(@Valid RoomReservationRequest reservationRequest) {
         Room room = roomRepository.findById(reservationRequest.getRoomId())
                 .orElseThrow(() -> new RuntimeException("Room not found"));
 
