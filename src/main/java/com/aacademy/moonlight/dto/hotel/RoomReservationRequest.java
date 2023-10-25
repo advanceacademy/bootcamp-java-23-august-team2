@@ -33,9 +33,8 @@ public class RoomReservationRequest {
     @Min(value = 0)
     private Integer children;
 
+    @NotNull
     private Long roomId;
-
-    private Long userId;
 
     @NotNull
     private Boolean paymentStatus;

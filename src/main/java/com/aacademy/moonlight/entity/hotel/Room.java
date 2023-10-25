@@ -48,8 +48,9 @@ public class Room {
     @NotNull()
     private RoomView view;
 
-    //@Column(name = "capacity", nullable = false)
-    //private Integer roomCapacity;
+    @Column(name = "capacity", nullable = false)
+    @NotNull
+    private Integer roomCapacity;
 
     @ManyToMany
     @JsonIgnore
