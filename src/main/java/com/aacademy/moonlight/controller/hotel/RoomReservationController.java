@@ -1,6 +1,8 @@
 package com.aacademy.moonlight.controller.hotel;
 
 import com.aacademy.moonlight.dto.hotel.RoomReservationRequest;
+import com.aacademy.moonlight.dto.hotel.RoomResponse;
+import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomReservation;
 import com.aacademy.moonlight.service.hotel.RoomReservationService;
 import jakarta.validation.Valid;
@@ -8,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/room-reservation")
@@ -34,6 +39,15 @@ public class RoomReservationController {
     public ResponseEntity<String> deleteReservation(@PathVariable Long id){
         service.deleteRoomReservation(id);
         return ResponseEntity.status(HttpStatus.OK).body("Reservation has been deleted");
+    }
+    @GetMapping("/available-rooms")
+    public ResponseEntity<List<RoomResponse>> getAvailableRooms(
+            @RequestParam("startDate")LocalDate startDate,
+            @RequestParam("endDate")LocalDate endDate,
+            @RequestParam("adults")Integer adults,
+            @RequestParam("children")Integer children
+            ){
+        return ResponseEntity.status(HttpStatus.FOUND).body(service.getAvailableRooms(startDate,endDate,adults,children));
     }
 
  //   @PutMapping("/updating-reservation")
