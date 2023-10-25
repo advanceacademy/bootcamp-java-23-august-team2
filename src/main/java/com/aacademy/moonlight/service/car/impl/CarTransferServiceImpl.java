@@ -9,10 +9,14 @@ import com.aacademy.moonlight.dto.user.UserResponse;
 import com.aacademy.moonlight.entity.car.Car;
 import com.aacademy.moonlight.entity.car.CarTransfer;
 import com.aacademy.moonlight.entity.car.CarType;
+import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.repository.car.CarRepository;
 import com.aacademy.moonlight.repository.car.CarTransferRepository;
 import com.aacademy.moonlight.service.car.CarTransferService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -106,5 +110,24 @@ public class CarTransferServiceImpl implements CarTransferService {
             allCarReservations.add(response);
         }
         return allCarReservations;
+    }
+
+    @Override
+    public List<CarTransferResponse> getTransfersByUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+       User user = (User) auth.getPrincipal();
+
+        List<CarTransfer> allTransfers = repository.findAll();
+        List<CarTransferResponse> userTransfers = new ArrayList<>();
+
+        for (CarTransfer transfer : allTransfers){
+            if (Objects.equals(transfer.getUser().getId(), user.getId())){
+                userTransfers.add(converter.toResponse(transfer));
+            }
+        }
+        if (userTransfers.isEmpty()){
+            throw new EntityNotFoundException("You don't have any car reservations.");
+        }
+        return userTransfers;
     }
 }

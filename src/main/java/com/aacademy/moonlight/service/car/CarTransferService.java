@@ -5,6 +5,7 @@ import com.aacademy.moonlight.dto.car.CarTransferRequest;
 import com.aacademy.moonlight.dto.car.CarTransferResponse;
 import com.aacademy.moonlight.entity.car.CarTransfer;
 import com.aacademy.moonlight.entity.car.CarType;
+import com.aacademy.moonlight.entity.user.User;
 import org.springframework.stereotype.Service;
 
 
@@ -21,5 +22,6 @@ public interface CarTransferService {
   
     List<CarResponse> getAvailableCarsByDateAndSeat(LocalDate date, int seats, CarType category, String brand);
     List<CarTransferResponse> allCarReservations();
+    List<CarTransferResponse> getTransfersByUser();
 
 }
