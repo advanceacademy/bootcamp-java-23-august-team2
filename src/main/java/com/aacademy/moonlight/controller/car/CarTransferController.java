@@ -56,7 +56,7 @@ public class CarTransferController {
         return ResponseEntity.ok(service.getAvailableCarsByDateAndSeat(date, seats, category, brand));
     }
 
-    @GetMapping(path = "/find-user-transfers")
+    @GetMapping(path = "/find-user-car-transfers")
     public ResponseEntity<List<CarTransferResponse>> getAllUserTransfers(){
 
         return ResponseEntity.status(HttpStatus.FOUND).body(service.getTransfersByUser());
