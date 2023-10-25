@@ -10,6 +10,7 @@ import com.aacademy.moonlight.entity.car.CarTransfer;
 import com.aacademy.moonlight.entity.car.CarType;
 import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.exceptions.BadRequestException;
+import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.repository.car.CarRepository;
 import com.aacademy.moonlight.repository.car.CarTransferRepository;
 import com.aacademy.moonlight.service.car.CarTransferService;
@@ -120,6 +121,25 @@ public class CarTransferServiceImpl implements CarTransferService {
             }
         }
         return availableCars;
+    }
+
+    @Override
+    public List<CarTransferResponse> getTransfersByUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+       User user = (User) auth.getPrincipal();
+
+        List<CarTransfer> allTransfers = repository.findAll();
+        List<CarTransferResponse> userTransfers = new ArrayList<>();
+
+        for (CarTransfer transfer : allTransfers){
+            if (Objects.equals(transfer.getUser().getId(), user.getId())){
+                userTransfers.add(converter.toResponse(transfer));
+            }
+        }
+        if (userTransfers.isEmpty()){
+            throw new EntityNotFoundException("You don't have any car reservations.");
+        }
+        return userTransfers;
     }
 
     @Override
