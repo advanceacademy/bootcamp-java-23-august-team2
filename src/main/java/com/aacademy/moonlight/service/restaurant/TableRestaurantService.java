@@ -11,6 +11,7 @@ import java.util.List;
 public interface TableRestaurantService {
     TableRestaurant saveTable(TableRestaurantRequest request);
     TableRestaurant findByNumber(Integer tableNumber, TableZone tableZone);
+    TableRestaurant findById(Long id);
     TableRestaurant updateTableById(Long id, TableRestaurantRequest request);
     void deleteTableById(Long id);
 

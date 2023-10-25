@@ -32,21 +32,23 @@ public class TableReservationResponse {
     private TableRestaurant tableRestaurant;
 
     @NotNull
-    private Long userId;
-
-    @NotEmpty
-    private String userFirstName;
-
-    @NotEmpty
-    private String userLastName;
-
-    @NotEmpty
-    private String userPhoneNumber;
-
-    @NotEmpty
-    private String userEmail;
-
+    private String userName;
 
     private Boolean paymentStatus;
 
+    public TableReservationResponse(@NotNull LocalDate date,
+                                    @NotNull LocalTime hour,
+                                    @NotNull Integer countPeople,
+                                    @NotNull Double totalPrice,
+                                    @NotNull TableRestaurant tableRestaurant,
+                                    @NotNull String userName, Boolean paymentStatus) {
+
+                                    this.date = date;
+                                    this.hour = hour;
+                                    this.countPeople = countPeople;
+                                    this.totalPrice = totalPrice;
+                                    this.tableRestaurant = tableRestaurant;
+                                    this.userName = userName;
+                                    this.paymentStatus = paymentStatus;
+    }
 }
