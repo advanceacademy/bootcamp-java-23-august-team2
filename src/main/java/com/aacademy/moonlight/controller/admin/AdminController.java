@@ -21,6 +21,7 @@ import com.aacademy.moonlight.service.hotel.RoomReservationService;
 import com.aacademy.moonlight.service.car.CarTransferService;
 import com.aacademy.moonlight.entity.hotel.RoomReservation;
 import com.aacademy.moonlight.service.hotel.RoomReservationService;
+import com.aacademy.moonlight.service.car.CarTransferService;
 import com.aacademy.moonlight.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -77,6 +78,9 @@ public class AdminController {
 
     @Autowired
     RoomReservationService roomReservationService;
+
+    @Autowired
+    CarTransferService carTransferService;
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<UserResponse> getUser(@PathVariable Long id) {
@@ -197,5 +201,16 @@ public class AdminController {
     @GetMapping(path = "/getAllRoomReservations")
     public ResponseEntity<List<RoomReservation>> getAllRoomReservations(){
         return ResponseEntity.status(HttpStatus.OK).body(roomReservationService.getAllRoomReservations());
+    }
+
+    @GetMapping(path = "/allCarTransfers")
+    @Operation(summary = "Get all cars", description = "Returns all cars")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All cars were successfully found"),
+            @ApiResponse(responseCode = "404", description = "No car was found")
+    })
+    public ResponseEntity<List<CarTransferResponse>> getAllCarTransfers() {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(carTransferService.allCarReservations());
     }
 }

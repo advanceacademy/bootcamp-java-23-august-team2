@@ -13,6 +13,7 @@ import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.entity.car.CarType;
+import com.aacademy.moonlight.entity.car.CarType;
 import com.aacademy.moonlight.repository.car.CarRepository;
 import com.aacademy.moonlight.repository.car.CarTransferRepository;
 import com.aacademy.moonlight.service.car.CarTransferService;
@@ -115,6 +116,41 @@ public class CarTransferServiceImpl implements CarTransferService {
         List<CarTransfer> carList = repository.findAll();
         List<CarTransferResponse> allCarReservations = new ArrayList<>();
         for(CarTransfer carTransfer : carList){
+            CarTransferResponse response = converter.toResponse(carTransfer);
+            allCarReservations.add(response);
+        }
+        return allCarReservations;
+    }
+
+    @Override
+    public List<CarResponse> getAvailableCarsByDateAndSeat(LocalDate date, int seats, CarType category, String brand) {
+        List<CarTransfer> allTransfers = repository.findAll();
+        List<Car> allCars = carRepository.findAll();
+        List<CarResponse> availableCars = new ArrayList<>();
+        for (Car car : allCars) {
+            if (car.getCarCategory().getSeats() >= seats
+                    && (category == null || car.getCarCategory().getType().equals(category))
+                    && (brand == null || car.getBrand().toLowerCase().equalsIgnoreCase(brand))) {
+                boolean isCarReserved = false;
+
+                for (CarTransfer transfer : allTransfers) {
+                    if (Objects.equals(transfer.getCar(), car) && transfer.getDate().equals(date)) {
+                        isCarReserved = true;
+                    }
+                }
+                if (!isCarReserved) {
+                    availableCars.add(carConverter.toResponse(car));
+                }
+            }
+        }
+        return availableCars;
+    }
+
+    @Override
+    public List<CarTransferResponse> allCarReservations() {
+        List<CarTransfer> carList = repository.findAll();
+        List<CarTransferResponse> allCarReservations = new ArrayList<>();
+        for (CarTransfer carTransfer : carList) {
             CarTransferResponse response = converter.toResponse(carTransfer);
             allCarReservations.add(response);
         }
