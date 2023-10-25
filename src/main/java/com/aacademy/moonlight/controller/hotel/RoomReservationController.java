@@ -3,7 +3,6 @@ package com.aacademy.moonlight.controller.hotel;
 import com.aacademy.moonlight.converter.hotel.RoomReservationConverter;
 import com.aacademy.moonlight.dto.hotel.RoomReservationRequest;
 import com.aacademy.moonlight.dto.hotel.RoomResponse;
-import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.dto.hotel.RoomReservationResponse;
 import com.aacademy.moonlight.entity.hotel.RoomReservation;
 import com.aacademy.moonlight.service.hotel.RoomReservationService;
