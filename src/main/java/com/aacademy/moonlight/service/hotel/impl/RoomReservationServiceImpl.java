@@ -1,6 +1,9 @@
 package com.aacademy.moonlight.service.hotel.impl;
 
+import com.aacademy.moonlight.converter.hotel.RoomConverter;
+import com.aacademy.moonlight.converter.hotel.RoomReservationConverter;
 import com.aacademy.moonlight.dto.hotel.RoomReservationRequest;
+import com.aacademy.moonlight.dto.hotel.RoomReservationResponse;
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomReservation;
 import com.aacademy.moonlight.entity.user.User;
@@ -8,7 +11,7 @@ import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.hotel.RoomRepository;
 import com.aacademy.moonlight.repository.hotel.RoomReservationRepository;
 import com.aacademy.moonlight.service.hotel.RoomReservationService;
-import com.aacademy.moonlight.service.user.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,12 +31,14 @@ public class RoomReservationServiceImpl implements RoomReservationService {
 
     private final RoomReservationRepository roomReservationRepository;
     private final RoomRepository roomRepository;
+    private final RoomReservationConverter converter;
 
     public RoomReservationServiceImpl(RoomReservationRepository roomReservationRepository,
-                                      RoomRepository roomRepository) {
+                                      RoomRepository roomRepository, RoomReservationConverter converter) {
 
         this.roomReservationRepository = roomReservationRepository;
         this.roomRepository = roomRepository;
+        this.converter = converter;
     }
 
     @Override
@@ -75,6 +81,25 @@ public class RoomReservationServiceImpl implements RoomReservationService {
     @Override
     public Optional<RoomReservation> findRoomReservationById(Long id) {
         return roomReservationRepository.findById((id));
+    }
+
+    @Override
+    public List<RoomReservationResponse> getReservationsByUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+
+        List<RoomReservation> allReservations = roomReservationRepository.findAll();
+        List<RoomReservationResponse> userReservations = new ArrayList<>();
+
+        for (RoomReservation reservation : allReservations){
+            if (Objects.equals(reservation.getUser().getId(), user.getId())){
+                userReservations.add(converter.toResponse(reservation));
+            }
+        }
+        if (userReservations.isEmpty()){
+            throw new EntityNotFoundException("You don't have any car reservations.");
+        }
+        return userReservations;
     }
 
     @Override
