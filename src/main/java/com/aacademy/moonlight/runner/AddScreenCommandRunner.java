@@ -42,32 +42,26 @@ public class AddScreenCommandRunner implements CommandLineRunner {
             createScreenSeat(String.valueOf(i), screenRepository.findById(2L).orElseThrow());
         }
         for(int i = 1; i<=21; i++){
-            createScreenSeat(String.valueOf(i), screenRepository.findById(3L).orElseThrow());
+            createScreenSeat(String.valueOf(i), screenRepository.findById(5L).orElseThrow());
         }
     }
     private void createBarScreen(BarZone barZone){
         List<BarScreen> existingBarScreen = screenRepository.findAll();
 
+        boolean isExisting = true;
+
         BarScreen screen = BarScreen.builder()
                 .barZone(barZone)
                 .build();
-
-        boolean isExisting = true;
-
-        if(existingBarScreen.size()==0){
-            isExisting = false;
-        }else {
-            for(BarScreen barScreen:existingBarScreen){
-                if(screen.getBarZone().equals(barScreen.getBarZone())){
-                    isExisting = true;
-                    break;
-                }
-                else{
-                    isExisting = false;
-                }
+        for(BarScreen barScreen:existingBarScreen){
+            if(screen.getBarZone().equals(barScreen.getBarZone())){
+                isExisting = true;
+                break;
+            }
+            else{
+                isExisting = false;
             }
         }
-
         if(!isExisting){
             screenRepository.save(screen);
             existingBarScreen.add(screen);
@@ -79,7 +73,9 @@ public class AddScreenCommandRunner implements CommandLineRunner {
         boolean isExisting = true;
         if(seatsOnThisScreen.size()==0){
             isExisting = false;
-        }else if (Integer.parseInt(position) < 22 && Integer.parseInt(position) > 0) {
+        }
+
+        if (Integer.parseInt(position) < 22 && Integer.parseInt(position) > 0) {
             for (ScreenSeat seat : seatsOnThisScreen) {
                 if (position.equals(seat.getPosition())) {
                     isExisting = true;
