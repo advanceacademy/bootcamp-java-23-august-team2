@@ -2,8 +2,10 @@ package com.aacademy.moonlight.controller.admin;
 
 import com.aacademy.moonlight.dto.car.CarResponse;
 import com.aacademy.moonlight.dto.car.CarTransferResponse;
+import com.aacademy.moonlight.dto.restaurant.TableReservationResponse;
 import com.aacademy.moonlight.dto.user.UserResponse;
 import com.aacademy.moonlight.service.car.CarTransferService;
+import com.aacademy.moonlight.service.restaurant.TableReservationService;
 import com.aacademy.moonlight.service.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -24,6 +26,9 @@ public class AdminController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    TableReservationService tableReservationService;
 
     @Autowired
     CarTransferService carTransferService;
@@ -51,6 +56,11 @@ public class AdminController {
     @GetMapping(path = "/user-by-phoneNumber/{number}")
     public ResponseEntity<UserResponse> getUserByPhoneNumber(@PathVariable String number) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findUserByPhoneNumber(number));
+    }
+
+    @GetMapping(path = "/getAllTableReservations")
+    public ResponseEntity<List<TableReservationResponse>> getAllTableReservations(){
+        return ResponseEntity.status(HttpStatus.OK).body(tableReservationService.getAllTableReservations());
     }
 
     @GetMapping(path = "/allCarTransfers")

@@ -2,6 +2,8 @@ package com.aacademy.moonlight.service.restaurant.impl;
 
 import com.aacademy.moonlight.converter.restaurant.TableReservationConverter;
 import com.aacademy.moonlight.dto.restaurant.TableReservationRequest;
+import com.aacademy.moonlight.dto.restaurant.TableReservationResponse;
+import com.aacademy.moonlight.dto.user.UserResponse;
 import com.aacademy.moonlight.entity.restaurant.TableReservation;
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
 import com.aacademy.moonlight.entity.user.User;
@@ -13,6 +15,9 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -94,5 +99,16 @@ public class TableReservationServiceImpl implements TableReservationService {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<TableReservationResponse> getAllTableReservations() {
+        List<TableReservation> tableResrvationList = repository.findAll();
+        List<TableReservationResponse> allTableReservations = new ArrayList<>();
+        for(TableReservation tableReservation : tableResrvationList){
+            TableReservationResponse response = converter.toTableReservationResponse(tableReservation);
+            allTableReservations.add(response);
+        }
+        return allTableReservations;
     }
 }

@@ -1,6 +1,8 @@
 package com.aacademy.moonlight.dto.restaurant;
 
 import com.aacademy.moonlight.entity.restaurant.TableRestaurant;
+import com.aacademy.moonlight.entity.user.User;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -10,7 +12,6 @@ import java.time.LocalTime;
 @Getter
 @Setter
 @NoArgsConstructor
-@Builder
 
 public class TableReservationResponse {
 
