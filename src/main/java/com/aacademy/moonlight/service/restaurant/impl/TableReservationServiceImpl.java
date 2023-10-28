@@ -120,7 +120,7 @@ public class TableReservationServiceImpl implements TableReservationService {
     }
 
     @Override
-    public TableReservationResponse getTableReservationById(Long id) {
+    public TableReservationResponse getPersonalTableReservationById(Long id) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
 

@@ -13,5 +13,5 @@ public interface TableReservationService {
     TableReservation updateReservation(Long id, TableReservationRequest request);
     void deleteById(Long id);
     List<TableReservationResponse> getTableReservationsByUser();
-    TableReservationResponse getTableReservationById(Long id);
+    TableReservationResponse getPersonalTableReservationById(Long id);
 }
