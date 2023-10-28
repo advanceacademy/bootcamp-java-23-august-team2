@@ -45,4 +45,8 @@ public class TableReservationController {
     public ResponseEntity<List<TableReservationResponse>> getAllUserTableReservations(){
         return ResponseEntity.status(HttpStatus.FOUND).body(tableReservationService.getTableReservationsByUser());
     }
+    @GetMapping(path = "/find-table-reservation-{id}")
+    public ResponseEntity<TableReservationResponse> getTableReservationById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.FOUND).body(tableReservationService.getTableReservationById(id));
+    }
 }
