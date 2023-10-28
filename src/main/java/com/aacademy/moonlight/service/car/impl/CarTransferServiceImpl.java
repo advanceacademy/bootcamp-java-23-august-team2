@@ -5,7 +5,6 @@ import com.aacademy.moonlight.converter.car.CarTransferConverter;
 import com.aacademy.moonlight.dto.car.CarResponse;
 import com.aacademy.moonlight.dto.car.CarTransferRequest;
 import com.aacademy.moonlight.dto.car.CarTransferResponse;
-import com.aacademy.moonlight.dto.user.UserResponse;
 import com.aacademy.moonlight.entity.car.Car;
 import com.aacademy.moonlight.entity.car.CarTransfer;
 import com.aacademy.moonlight.entity.car.CarType;
@@ -74,6 +73,17 @@ public class CarTransferServiceImpl implements CarTransferService {
     }
 
     @Override
+    public List<CarTransferResponse> allCarReservations() {
+        List<CarTransfer> carList = repository.findAll();
+        List<CarTransferResponse> allCarReservations = new ArrayList<>();
+        for(CarTransfer carTransfer : carList){
+            CarTransferResponse response = converter.toResponse(carTransfer);
+            allCarReservations.add(response);
+        }
+        return allCarReservations;
+    }
+
+    @Override
     public List<CarResponse> getAvailableCarsByDateAndSeat(LocalDate date, int seats, CarType category, String brand) {
         List<CarTransfer> allTransfers = repository.findAll();
         List<Car> allCars = carRepository.findAll();
@@ -95,16 +105,5 @@ public class CarTransferServiceImpl implements CarTransferService {
             }
         }
         return availableCars;
-    }
-
-    @Override
-    public List<CarTransferResponse> allCarReservations() {
-        List<CarTransfer> carList = repository.findAll();
-        List<CarTransferResponse> allCarReservations = new ArrayList<>();
-        for (CarTransfer carTransfer : carList) {
-            CarTransferResponse response = converter.toResponse(carTransfer);
-            allCarReservations.add(response);
-        }
-        return allCarReservations;
     }
 }

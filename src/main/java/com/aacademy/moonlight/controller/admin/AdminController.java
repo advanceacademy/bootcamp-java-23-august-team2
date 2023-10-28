@@ -1,9 +1,10 @@
 package com.aacademy.moonlight.controller.admin;
-
-import com.aacademy.moonlight.dto.car.CarResponse;
 import com.aacademy.moonlight.dto.car.CarTransferResponse;
+import com.aacademy.moonlight.dto.hotel.RoomReservationResponse;
 import com.aacademy.moonlight.dto.restaurant.TableReservationResponse;
 import com.aacademy.moonlight.dto.user.UserResponse;
+import com.aacademy.moonlight.entity.hotel.RoomReservation;
+import com.aacademy.moonlight.service.hotel.RoomReservationService;
 import com.aacademy.moonlight.service.car.CarTransferService;
 import com.aacademy.moonlight.service.restaurant.TableReservationService;
 import com.aacademy.moonlight.service.user.UserService;
@@ -26,6 +27,9 @@ public class AdminController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    RoomReservationService roomReservationService;
 
     @Autowired
     TableReservationService tableReservationService;
@@ -58,6 +62,11 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findUserByPhoneNumber(number));
     }
 
+    @GetMapping(path = "/getAllRoomReservations")
+    public ResponseEntity<List<RoomReservationResponse>> getAllRoomReservations(){
+        return ResponseEntity.status(HttpStatus.OK).body(roomReservationService.getAllRoomReservations());
+    }
+
     @GetMapping(path = "/getAllTableReservations")
     public ResponseEntity<List<TableReservationResponse>> getAllTableReservations(){
         return ResponseEntity.status(HttpStatus.OK).body(tableReservationService.getAllTableReservations());
@@ -73,4 +82,5 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(carTransferService.allCarReservations());
     }
+
 }

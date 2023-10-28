@@ -1,6 +1,8 @@
 package com.aacademy.moonlight.service.hotel.impl;
 
+import com.aacademy.moonlight.converter.hotel.RoomReservationConverter;
 import com.aacademy.moonlight.dto.hotel.RoomReservationRequest;
+import com.aacademy.moonlight.dto.hotel.RoomReservationResponse;
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomReservation;
 import com.aacademy.moonlight.entity.user.User;
@@ -8,7 +10,6 @@ import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.hotel.RoomRepository;
 import com.aacademy.moonlight.repository.hotel.RoomReservationRepository;
 import com.aacademy.moonlight.service.hotel.RoomReservationService;
-import com.aacademy.moonlight.service.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,12 +29,15 @@ public class RoomReservationServiceImpl implements RoomReservationService {
 
     private final RoomReservationRepository roomReservationRepository;
     private final RoomRepository roomRepository;
+    private final RoomReservationConverter roomReservationConverter;
 
     public RoomReservationServiceImpl(RoomReservationRepository roomReservationRepository,
-                                      RoomRepository roomRepository) {
+                                      RoomRepository roomRepository, RoomReservationConverter roomReservationConverter) {
 
         this.roomReservationRepository = roomReservationRepository;
         this.roomRepository = roomRepository;
+
+        this.roomReservationConverter = roomReservationConverter;
     }
 
     @Override
@@ -75,6 +80,17 @@ public class RoomReservationServiceImpl implements RoomReservationService {
     @Override
     public Optional<RoomReservation> findRoomReservationById(Long id) {
         return roomReservationRepository.findById((id));
+    }
+
+    @Override
+    public List<RoomReservationResponse> getAllRoomReservations() {
+        List<RoomReservation> allRoomReservations = roomReservationRepository.findAll();
+        List<RoomReservationResponse> rooms = new ArrayList<>();
+        for (RoomReservation room : allRoomReservations) {
+            RoomReservationResponse response = roomReservationConverter.toResponse(room);
+            rooms.add(response);
+        }
+        return rooms;
     }
 
     @Override
