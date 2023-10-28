@@ -14,6 +14,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 
 public class TableReservationResponse {
+    private Long id;
 
     @NotNull
     private LocalDate date;
@@ -35,13 +36,15 @@ public class TableReservationResponse {
 
     private Boolean paymentStatus;
 
-    public TableReservationResponse(@NotNull LocalDate date,
+    public TableReservationResponse(Long id,
+                                    @NotNull LocalDate date,
                                     @NotNull LocalTime hour,
                                     @NotNull Integer countPeople,
                                     @NotNull Double totalPrice,
                                     @NotNull TableRestaurant tableRestaurant,
                                     @NotNull String userName, Boolean paymentStatus) {
 
+                                    this.id = id;
                                     this.date = date;
                                     this.hour = hour;
                                     this.countPeople = countPeople;
