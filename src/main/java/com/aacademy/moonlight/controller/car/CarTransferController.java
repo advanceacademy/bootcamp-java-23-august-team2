@@ -62,4 +62,10 @@ public class CarTransferController {
         return ResponseEntity.status(HttpStatus.FOUND).body(service.getTransfersByUser());
     }
 
+    @GetMapping(path = "/find-car-transfer-{id}")
+    public ResponseEntity<CarTransferResponse> getPersonalCarTransfer(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.FOUND).body(service.getPersonalCarTransferById(id));
+
+    }
+
 }
