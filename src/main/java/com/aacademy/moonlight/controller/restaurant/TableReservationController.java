@@ -47,6 +47,6 @@ public class TableReservationController {
     }
     @GetMapping(path = "/find-table-reservation-{id}")
     public ResponseEntity<TableReservationResponse> getTableReservationById(@PathVariable Long id){
-        return ResponseEntity.status(HttpStatus.FOUND).body(tableReservationService.getTableReservationById(id));
+        return ResponseEntity.status(HttpStatus.FOUND).body(tableReservationService.getPersonalTableReservationById(id));
     }
 }

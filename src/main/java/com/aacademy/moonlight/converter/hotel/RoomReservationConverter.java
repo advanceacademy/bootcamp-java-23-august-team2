@@ -9,6 +9,7 @@ public class RoomReservationConverter {
 
     public RoomReservationResponse toResponse(RoomReservation savedReservation) {
         return new RoomReservationResponse(
+                savedReservation.getId(),
                 savedReservation.getRoom().getId(),
                 savedReservation.getStartDate(),
                 savedReservation.getEndDate(),

@@ -21,6 +21,7 @@ public interface RoomReservationService {
     RoomReservation updateRoomReservation(Long id, RoomReservationRequest request);
 
     Optional<RoomReservation> findRoomReservationById(Long id);
+    RoomReservationResponse findPersonalRoomReservationById(Long id);
     List<RoomReservationResponse> getReservationsByUser();
 
     List<RoomReservationResponse> getAllRoomReservations();

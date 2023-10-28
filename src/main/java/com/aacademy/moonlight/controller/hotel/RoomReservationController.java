@@ -48,4 +48,8 @@ public class RoomReservationController {
     public ResponseEntity<List<RoomReservationResponse>> getAllUserReservations(){
         return ResponseEntity.status(HttpStatus.FOUND).body(service.getReservationsByUser());
     }
+    @GetMapping(path = "/find-room-reservation-{id}")
+    public ResponseEntity<RoomReservationResponse> getPersonalRoomReservationById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.FOUND).body(service.findPersonalRoomReservationById(id));
+    }
 }
