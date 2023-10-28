@@ -87,6 +87,22 @@ public class RoomReservationServiceImpl implements RoomReservationService {
     }
 
     @Override
+    public RoomReservationResponse findPersonalRoomReservationById(Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+
+        RoomReservation roomReservation = roomReservationRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Room reservation with this id not found")
+        );
+
+        if (!roomReservation.getUser().getId().equals(user.getId())){
+            throw new BadRequestException("You don't have a reservation with this id.");
+        }else {
+            return converter.toResponse(roomReservation);
+        }
+    }
+
+    @Override
     public List<RoomReservationResponse> getReservationsByUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
