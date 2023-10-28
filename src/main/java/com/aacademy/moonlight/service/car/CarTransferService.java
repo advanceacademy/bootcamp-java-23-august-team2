@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Service
 public interface CarTransferService {
     CarTransferResponse saveCarTransfer(CarTransferRequest request);
-    CarTransfer getCarTransferById(Long id);
+    CarTransferResponse getPersonalCarTransferById(Long id);
     CarTransfer updateCarTransfer(CarTransferRequest request, Long id);
     void deleteCarTransferById(Long id);
 

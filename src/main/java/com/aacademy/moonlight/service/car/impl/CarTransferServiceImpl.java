@@ -9,6 +9,7 @@ import com.aacademy.moonlight.entity.car.Car;
 import com.aacademy.moonlight.entity.car.CarTransfer;
 import com.aacademy.moonlight.entity.car.CarType;
 import com.aacademy.moonlight.entity.user.User;
+import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.car.CarRepository;
 import com.aacademy.moonlight.repository.car.CarTransferRepository;
 import com.aacademy.moonlight.service.car.CarTransferService;
@@ -52,10 +53,20 @@ public class CarTransferServiceImpl implements CarTransferService {
     }
 
     @Override
-    public CarTransfer getCarTransferById(Long id) {
-        return repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Car transfer with this id not found.")
+    public CarTransferResponse getPersonalCarTransferById(Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+
+        CarTransfer transfer = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Room reservation with this id not found")
         );
+
+        if (!transfer.getUser().getId().equals(user.getId())){
+            throw new BadRequestException("You don't have a reservation with this id.");
+        }else {
+            return converter.toResponse(transfer);
+        }
+
     }
 
     @Override
