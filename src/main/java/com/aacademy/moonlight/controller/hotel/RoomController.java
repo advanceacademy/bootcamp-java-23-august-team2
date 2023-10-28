@@ -4,6 +4,7 @@ import com.aacademy.moonlight.dto.hotel.RoomResponse;
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomType;
 import com.aacademy.moonlight.entity.hotel.RoomView;
+import com.aacademy.moonlight.service.hotel.RoomReservationService;
 import com.aacademy.moonlight.service.hotel.RoomService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -19,38 +21,51 @@ public class RoomController {
 
     @Autowired
     RoomService roomService;
+    @Autowired
+    RoomReservationService reservationService;
 
     @GetMapping("/find-room-by-id/{id}")
-    public ResponseEntity<RoomResponse> findRoomById (@Valid @PathVariable Long id) {
-     return ResponseEntity.status(HttpStatus.FOUND).body(roomService.getRoomById(id));
+    public ResponseEntity<RoomResponse> findRoomById(@Valid @PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.FOUND).body(roomService.getRoomById(id));
     }
 
     @GetMapping("/find-room-by-room-number/{roomNumber}")
-    public ResponseEntity<List<RoomResponse>> findRoomByRoomNumber(@Valid @PathVariable Long roomNumber){
-        List<RoomResponse>list = roomService.findByRoomNumber(roomNumber);
+    public ResponseEntity<List<RoomResponse>> findRoomByRoomNumber(@Valid @PathVariable Long roomNumber) {
+        List<RoomResponse> list = roomService.findByRoomNumber(roomNumber);
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
 
     @GetMapping("/all-rooms")
-    public ResponseEntity<List<RoomResponse>> findAllRooms(){
+    public ResponseEntity<List<RoomResponse>> findAllRooms() {
         List<RoomResponse> list = roomService.getAllRooms();
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
 
     @GetMapping("/get-rooms-by-type/{roomType}")
-    public ResponseEntity<List<RoomResponse>> getRoomsByRoomType(@Valid @PathVariable RoomType roomType){
+    public ResponseEntity<List<RoomResponse>> getRoomsByRoomType(@Valid @PathVariable RoomType roomType) {
         List<RoomResponse> list = roomService.findByRoomType(roomType);
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
 
     @GetMapping("/get-rooms-by-view/{roomView}")
-    public ResponseEntity<List<RoomResponse>> getRoomsByRoomView(@Valid @PathVariable RoomView roomView){
+    public ResponseEntity<List<RoomResponse>> getRoomsByRoomView(@Valid @PathVariable RoomView roomView) {
         List<RoomResponse> list = roomService.findByRoomView(roomView);
-        return  ResponseEntity.status(HttpStatus.FOUND).body(list);
+        return ResponseEntity.status(HttpStatus.FOUND).body(list);
     }
+
     @GetMapping("get-rooms-by-roomPrice/{roomPrice}")
-    public ResponseEntity<List<RoomResponse>> getRoomsByRoomPrice (@Valid @PathVariable Long roomPrice){
+    public ResponseEntity<List<RoomResponse>> getRoomsByRoomPrice(@Valid @PathVariable Long roomPrice) {
         List<RoomResponse> list = roomService.findByRoomPrice(roomPrice);
         return ResponseEntity.status(HttpStatus.FOUND).body(list);
+    }
+
+    @GetMapping("/available-rooms")
+    public ResponseEntity<List<RoomResponse>> getAvailableRooms(
+            @RequestParam("startDate") LocalDate startDate,
+            @RequestParam("endDate")LocalDate endDate,
+            @RequestParam("adults")Integer adults,
+            @RequestParam("children")Integer children
+    ){
+        return ResponseEntity.status(HttpStatus.FOUND).body(reservationService.getAvailableRooms(startDate,endDate,adults,children));
     }
 }

@@ -45,15 +45,6 @@ public class RoomReservationController {
         service.deleteRoomReservation(id);
         return ResponseEntity.status(HttpStatus.OK).body("Reservation has been deleted");
     }
-    @GetMapping("/available-rooms")
-    public ResponseEntity<List<RoomResponse>> getAvailableRooms(
-            @RequestParam("startDate")LocalDate startDate,
-            @RequestParam("endDate")LocalDate endDate,
-            @RequestParam("adults")Integer adults,
-            @RequestParam("children")Integer children
-            ){
-        return ResponseEntity.status(HttpStatus.FOUND).body(service.getAvailableRooms(startDate,endDate,adults,children));
-    }
 
  //   @PutMapping("/updating-reservation")
 }
