@@ -14,4 +14,5 @@ public interface TableReservationService {
     void deleteById(Long id);
     List<TableReservationResponse> getAllTableReservations();
     List<TableReservationResponse> getTableReservationsByUser();
+    TableReservationResponse getTableReservationById(Long id);
 }

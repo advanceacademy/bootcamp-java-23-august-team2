@@ -21,6 +21,7 @@ public class TableReservationConverter {
 
     public TableReservationResponse toTableReservationResponse (TableReservation tableReservation){
         return new TableReservationResponse(
+                tableReservation.getId(),
                 tableReservation.getDate(),
                 tableReservation.getHour(),
                 tableReservation.getCountPeople(),

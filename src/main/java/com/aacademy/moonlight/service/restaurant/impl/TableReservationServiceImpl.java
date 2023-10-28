@@ -134,4 +134,20 @@ public class TableReservationServiceImpl implements TableReservationService {
         }
         return userReservations;
     }
+
+    @Override
+    public TableReservationResponse getTableReservationById(Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+
+        TableReservation reservation = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Table reservation with this id not found")
+        );
+
+        if (!reservation.getUser().getId().equals(user.getId())){
+            throw new BadRequestException("You don't have a reservation with this id.");
+        } else {
+            return converter.toTableReservationResponse(reservation);
+        }
+    }
 }
