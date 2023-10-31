@@ -1,10 +1,15 @@
 package com.aacademy.moonlight.service.hotel.impl;
 
 import com.aacademy.moonlight.converter.hotel.RoomConverter;
+<<<<<<< HEAD
 import com.aacademy.moonlight.converter.hotel.RoomReservationConverter;
 import com.aacademy.moonlight.dto.hotel.RoomReservationRequest;
 import com.aacademy.moonlight.dto.hotel.RoomResponse;
 import com.aacademy.moonlight.dto.hotel.RoomReservationResponse;
+=======
+import com.aacademy.moonlight.dto.hotel.RoomReservationRequest;
+import com.aacademy.moonlight.dto.hotel.RoomResponse;
+>>>>>>> ef8369140f71898d127cfdc93375dc4fcf2eab51
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomReservation;
 import com.aacademy.moonlight.entity.user.User;
@@ -42,8 +47,7 @@ public class RoomReservationServiceImpl implements RoomReservationService {
         this.roomConverter = roomConverter;
     }
 
-    @Override
-    public RoomReservation createRoomReservation( @Valid  RoomReservationRequest reservationRequest) {
+    public RoomReservation createRoomReservation(@Valid RoomReservationRequest reservationRequest) {
         Room room = roomRepository.findById(reservationRequest.getRoomId())
                 .orElseThrow(() -> new RuntimeException("Room not found"));
 
