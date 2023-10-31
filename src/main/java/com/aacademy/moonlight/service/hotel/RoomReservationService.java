@@ -18,6 +18,8 @@ public interface RoomReservationService {
     Optional<RoomReservation> findRoomReservationById(Long id);
     RoomReservationResponse findPersonalRoomReservationById(Long id);
     List<RoomReservationResponse> getReservationsByUser();
+
     List<RoomReservationResponse> getAllRoomReservations();
+
 
 }

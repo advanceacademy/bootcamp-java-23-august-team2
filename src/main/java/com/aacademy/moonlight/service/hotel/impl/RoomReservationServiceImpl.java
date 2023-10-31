@@ -11,7 +11,7 @@ import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.hotel.RoomRepository;
 import com.aacademy.moonlight.repository.hotel.RoomReservationRepository;
 import com.aacademy.moonlight.service.hotel.RoomReservationService;
-import com.aacademy.moonlight.service.user.UserService;
+
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
@@ -98,6 +98,7 @@ public class RoomReservationServiceImpl implements RoomReservationService {
         if (!roomReservation.getUser().getId().equals(user.getId())){
             throw new BadRequestException("You don't have a reservation with this id.");
         }else {
+
             return roomReservationConverter.toResponse(roomReservation);
         }
     }
@@ -113,6 +114,7 @@ public class RoomReservationServiceImpl implements RoomReservationService {
         for (RoomReservation reservation : allReservations){
             if (Objects.equals(reservation.getUser().getId(), user.getId())){
                 userReservations.add(roomReservationConverter.toResponse(reservation));
+
             }
         }
         if (userReservations.isEmpty()){
@@ -133,6 +135,7 @@ public class RoomReservationServiceImpl implements RoomReservationService {
     }
 
     @Override
+
     public void deleteRoomReservation(Long id) {
         roomReservationRepository.deleteById(id);
     }
