@@ -98,7 +98,7 @@ public class RoomReservationServiceImpl implements RoomReservationService {
         if (!roomReservation.getUser().getId().equals(user.getId())){
             throw new BadRequestException("You don't have a reservation with this id.");
         }else {
-            return converter.toResponse(roomReservation);
+            return roomReservationConverter.toResponse(roomReservation);
         }
     }
 

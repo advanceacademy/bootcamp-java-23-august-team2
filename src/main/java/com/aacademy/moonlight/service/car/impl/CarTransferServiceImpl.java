@@ -141,23 +141,4 @@ public class CarTransferServiceImpl implements CarTransferService {
         }
         return userTransfers;
     }
-
-    @Override
-    public List<CarTransferResponse> getTransfersByUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-       User user = (User) auth.getPrincipal();
-
-        List<CarTransfer> allTransfers = repository.findAll();
-        List<CarTransferResponse> userTransfers = new ArrayList<>();
-
-        for (CarTransfer transfer : allTransfers){
-            if (Objects.equals(transfer.getUser().getId(), user.getId())){
-                userTransfers.add(converter.toResponse(transfer));
-            }
-        }
-        if (userTransfers.isEmpty()){
-            throw new EntityNotFoundException("You don't have any car reservations.");
-        }
-        return userTransfers;
-    }
 }
