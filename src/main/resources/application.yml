@@ -26,12 +26,11 @@ spring:
       mail.smtp.timeout: 5000
       mail.smtp.writetimeout: 5000
 
-
+paypal.mode: sandbox
+paypal.client.id: "AZ5qsPJOXTN0b7BtoXK8ZvXaZL5pGWygKH8UG3ANIpfRtR0ozZ2RZECtB4cU7P9QMoN2VztoUJCZMpP4"
+paypal.client.secret: "EGcYuLhgRsgUyVpkeJ5-ueiOuc4dLMt4VlcaRA7-qMiMm4bTqVvGnyCnIir526wa-sAFNW1NPsWvy1bC"
 
               # For testing purposes
 #    url: jdbc:mysql://localhost:3306/moonlight_hotel_test?createDatabaseIfNotExist=true
 #    username: root
 #    password: root
-
-
-
