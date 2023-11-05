@@ -13,5 +13,5 @@ public class RoomReservationResponse {
     private Long roomId;
     private LocalDate startDate;
     private LocalDate endDate;
-
+    private Double totalCharge;
 }

@@ -1,65 +1,58 @@
 package com.aacademy.moonlight.controller.paypal;
-
-import com.aacademy.moonlight.dto.paypal.PaypalOrder;
+import com.aacademy.moonlight.service.hotel.RoomReservationService;
 import com.aacademy.moonlight.service.paypal.PaypalService;
-import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import lombok.AllArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/v1/paypal")
 public class PaypalController {
-    @Autowired
-    PaypalService service;
 
-    public static final String SUCCESS_URL = "pay/success";
-    public static final String CANCEL_URL = "pay/cancel";
+    private final PaypalService payPalService;
+    private final RoomReservationService roomReservationService;
 
-    @GetMapping("/")
-    public String home() {
-        return "home";
-    }
 
-    @PostMapping("/pay")
-    public String payment(@ModelAttribute("order") PaypalOrder order) {
+    @Secured("USER")
+    @PostMapping("/payment")
+    public String makePayment (@RequestParam("reservationId") Long reservationId,
+                               @RequestParam("entityType") String entityType,
+                               @RequestParam("cancelUrl") String cancelUrl,
+                               @RequestParam("successUrl") String successUrl) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+
+        if (authentication.getAuthorities().stream().noneMatch(role -> role.getAuthority().equals("USER"))) {
+            System.out.println("Unauthorized: User does not have the required role to make a payment.");
+        }
+
         try {
-            Payment payment = service.createPayment(order.getPrice(), order.getCurrency(), order.getMethod(),
-                    order.getIntent(), order.getDescription(), "http://localhost:8080/" + CANCEL_URL,
-                    "http://localhost:8080/" + SUCCESS_URL);
-            for(Links link:payment.getLinks()) {
-                if(link.getRel().equals("approval_url")) {
-                    return "redirect:"+link.getHref();
-                }
+            Object reservation = null;
+
+            if ("room".equals(entityType)) {
+                reservation = roomReservationService.findRoomReservationById(reservationId);
             }
 
-        } catch (PayPalRESTException e) {
+            if (reservation == null) {
+                System.out.println("Reservation not found");
+            }
 
+            double totalAmount = payPalService.getTotalAmount(reservation);
+            System.out.println("Total amount in controller " + totalAmount);
+
+            Payment payment = payPalService.createPayment(totalAmount, "USD", "PAYPAL", cancelUrl, successUrl);
+            return payment.getLinks().get(1).getHref();
+
+        } catch (PayPalRESTException e) {
             e.printStackTrace();
+            return "redirect:/error";
         }
-        return "redirect:/";
-    }
-
-    @GetMapping(value = CANCEL_URL)
-    public String cancelPay() {
-        return "cancel";
-    }
-
-    @GetMapping(value = SUCCESS_URL)
-    public String successPay(@RequestParam("paymentId") String paymentId, @RequestParam("PayerID") String payerId) {
-        try {
-            Payment payment = service.executePayment(paymentId, payerId);
-            System.out.println(payment.toJSON());
-            if (payment.getState().equals("approved")) {
-                return "success";
-            }
-        } catch (PayPalRESTException e) {
-            System.out.println(e.getMessage());
-        }
-        return "redirect:/";
     }
 }

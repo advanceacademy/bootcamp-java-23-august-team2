@@ -11,7 +11,8 @@ public class RoomReservationConverter {
         return new RoomReservationResponse(
                 savedReservation.getRoom().getId(),
                 savedReservation.getStartDate(),
-                savedReservation.getEndDate()
+                savedReservation.getEndDate(),
+                savedReservation.getTotalPrice()
         );
     }
 }

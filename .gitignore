@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Customs ###
+email-credentials.yml
+paypal-credentials.yml
