@@ -10,7 +10,6 @@ import com.aacademy.moonlight.entity.car.CarTransfer;
 import com.aacademy.moonlight.entity.car.CarType;
 import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.exceptions.BadRequestException;
-import com.aacademy.moonlight.entity.user.User;
 import com.aacademy.moonlight.repository.car.CarRepository;
 import com.aacademy.moonlight.repository.car.CarTransferRepository;
 import com.aacademy.moonlight.service.car.CarTransferService;

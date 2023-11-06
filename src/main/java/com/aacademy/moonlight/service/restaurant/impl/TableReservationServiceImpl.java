@@ -142,6 +142,7 @@ public class TableReservationServiceImpl implements TableReservationService {
 
         TableReservation reservation = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("Table reservation with this id not found")
+
         );
 
         if (!reservation.getUser().getId().equals(user.getId())){

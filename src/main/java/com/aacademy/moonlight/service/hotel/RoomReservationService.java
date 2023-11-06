@@ -28,4 +28,5 @@ public interface RoomReservationService {
 
     List<RoomResponse> getAvailableRooms(LocalDate startDate, LocalDate endDate, Integer adults, Integer children);
 
+
 }
