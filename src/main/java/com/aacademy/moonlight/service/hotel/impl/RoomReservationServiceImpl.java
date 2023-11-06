@@ -1,8 +1,11 @@
 package com.aacademy.moonlight.service.hotel.impl;
 
+import com.aacademy.moonlight.converter.hotel.RoomConverter;
 import com.aacademy.moonlight.converter.hotel.RoomReservationConverter;
 import com.aacademy.moonlight.dto.hotel.RoomReservationRequest;
+import com.aacademy.moonlight.dto.hotel.RoomResponse;
 import com.aacademy.moonlight.dto.hotel.RoomReservationResponse;
+
 import com.aacademy.moonlight.entity.hotel.Room;
 import com.aacademy.moonlight.entity.hotel.RoomReservation;
 import com.aacademy.moonlight.entity.user.User;
@@ -17,10 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 //import static sun.security.krb5.Confounder.intValue;
 
@@ -30,18 +30,20 @@ public class RoomReservationServiceImpl implements RoomReservationService {
     private final RoomReservationRepository roomReservationRepository;
     private final RoomRepository roomRepository;
     private final RoomReservationConverter roomReservationConverter;
+    private final RoomConverter roomConverter;
+
 
     public RoomReservationServiceImpl(RoomReservationRepository roomReservationRepository,
-                                      RoomRepository roomRepository, RoomReservationConverter roomReservationConverter) {
+                                      RoomRepository roomRepository, RoomReservationConverter roomReservationConverter, RoomConverter roomConverter) {
 
         this.roomReservationRepository = roomReservationRepository;
         this.roomRepository = roomRepository;
 
         this.roomReservationConverter = roomReservationConverter;
+        this.roomConverter = roomConverter;
     }
 
-    @Override
-    public RoomReservation createRoomReservation( @Valid  RoomReservationRequest reservationRequest) {
+    public RoomReservation createRoomReservation(@Valid RoomReservationRequest reservationRequest) {
         Room room = roomRepository.findById(reservationRequest.getRoomId())
                 .orElseThrow(() -> new RuntimeException("Room not found"));
 
@@ -70,7 +72,7 @@ public class RoomReservationServiceImpl implements RoomReservationService {
                 reservation.getEndDate()
         );
 
-        if (!overlappingReservations.isEmpty()){
+        if (!overlappingReservations.isEmpty()) {
             throw new BadRequestException("This room is not available for your chosen dates.");
         }
 
@@ -91,6 +93,29 @@ public class RoomReservationServiceImpl implements RoomReservationService {
             rooms.add(response);
         }
         return rooms;
+    }
+
+    @Override
+    public List<RoomResponse> getAvailableRooms(LocalDate startDate, LocalDate endDate, Integer adults, Integer children) {
+        List<Room> allRooms = roomRepository.findAll();
+        List<Room> availableRooms = new ArrayList<>();
+
+        for (Room room : allRooms) {
+            Long roomId = room.getId();
+            List<RoomReservation> overlappingReservations = roomReservationRepository.findOverlappingReservations(roomId, startDate, endDate);
+
+            if (overlappingReservations.isEmpty()) {
+                if (room.getRoomCapacity() >= (adults + children)) {
+                    availableRooms.add(room);
+                }
+            }
+        }
+
+        List<RoomResponse> roomResponses = availableRooms.stream()
+                .map(roomConverter::toRoomResponse)
+                .toList();
+
+        return roomResponses;
     }
 
     @Override

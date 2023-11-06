@@ -7,11 +7,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class RoomReservationConverter {
 
-    public RoomReservationResponse toResponse(RoomReservation savedReservation){
+    public RoomReservationResponse toResponse(RoomReservation savedReservation) {
         return new RoomReservationResponse(
                 savedReservation.getRoom().getId(),
                 savedReservation.getStartDate(),
                 savedReservation.getEndDate(),
+                savedReservation.getUser().getFirstName() + " " + savedReservation.getUser().getLastName(),
                 savedReservation.getTotalPrice()
         );
     }

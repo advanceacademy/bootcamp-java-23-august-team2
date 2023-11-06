@@ -12,11 +12,10 @@ import java.util.List;
 @Repository
 public interface RoomReservationRepository extends JpaRepository<RoomReservation, Long> {
 
-    @Query(nativeQuery = true,
-            value =
-                    "SELECT * FROM reservations " +
-                            "WHERE room_id = :roomId " +
-                            "AND ((start_date <= :endDate) AND (end_date >= :startDate))")
+    @Query("SELECT r FROM RoomReservation r " +
+            "WHERE r.room.id = :roomId " +
+            "AND (r.startDate <= :endDate) " +
+            "AND (r.endDate >= :startDate)")
     List<RoomReservation> findOverlappingReservations(@Param("roomId") Long roomId,
                                                       @Param("startDate") LocalDate startDate,
                                                       @Param("endDate") LocalDate endDate);
