@@ -71,7 +71,7 @@ public class User implements UserDetails {
     private LocalDateTime createdDate = LocalDateTime.now();
 
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_role_id")
 //    inverseJoinColumns = @JoinColumn(name = "user_role_id"))
     private UserRole userRole;
