@@ -1,0 +1,9 @@
+version: '3'
+services:
+  your-service:
+    image: hotel-application-image
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8080:8080"
+    container_name: bootcamp-hotel-team2
