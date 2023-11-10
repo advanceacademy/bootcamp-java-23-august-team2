@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/client/room-reservation")
@@ -42,6 +43,12 @@ public class RoomReservationController {
         service.deleteRoomReservation(id);
         return ResponseEntity.status(HttpStatus.OK).body("Reservation has been deleted");
     }
-
- //   @PutMapping("/updating-reservation")
+    @GetMapping(path = "/find-user-room-reservations")
+    public ResponseEntity<List<RoomReservationResponse>> getAllUserReservations(){
+        return ResponseEntity.status(HttpStatus.FOUND).body(service.getReservationsByUser());
+    }
+    @GetMapping(path = "/find-room-reservation-{id}")
+    public ResponseEntity<RoomReservationResponse> getPersonalRoomReservationById(@PathVariable Long id){
+        return ResponseEntity.status(HttpStatus.FOUND).body(service.findPersonalRoomReservationById(id));
+    }
 }

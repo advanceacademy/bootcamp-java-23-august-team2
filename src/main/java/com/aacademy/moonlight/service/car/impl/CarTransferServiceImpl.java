@@ -8,10 +8,15 @@ import com.aacademy.moonlight.dto.car.CarTransferResponse;
 import com.aacademy.moonlight.entity.car.Car;
 import com.aacademy.moonlight.entity.car.CarTransfer;
 import com.aacademy.moonlight.entity.car.CarType;
+import com.aacademy.moonlight.entity.user.User;
+import com.aacademy.moonlight.exceptions.BadRequestException;
 import com.aacademy.moonlight.repository.car.CarRepository;
 import com.aacademy.moonlight.repository.car.CarTransferRepository;
 import com.aacademy.moonlight.service.car.CarTransferService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -48,10 +53,20 @@ public class CarTransferServiceImpl implements CarTransferService {
     }
 
     @Override
-    public CarTransfer getCarTransferById(Long id) {
-        return repository.findById(id).orElseThrow(
-                () -> new RuntimeException("Car transfer with this id not found.")
+    public CarTransferResponse getPersonalCarTransferById(Long id) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) auth.getPrincipal();
+
+        CarTransfer transfer = repository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Room reservation with this id not found")
         );
+
+        if (!transfer.getUser().getId().equals(user.getId())){
+            throw new BadRequestException("You don't have a reservation with this id.");
+        }else {
+            return converter.toResponse(transfer);
+        }
+
     }
 
     @Override
@@ -105,5 +120,24 @@ public class CarTransferServiceImpl implements CarTransferService {
             }
         }
         return availableCars;
+    }
+
+    @Override
+    public List<CarTransferResponse> getTransfersByUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+       User user = (User) auth.getPrincipal();
+
+        List<CarTransfer> allTransfers = repository.findAll();
+        List<CarTransferResponse> userTransfers = new ArrayList<>();
+
+        for (CarTransfer transfer : allTransfers){
+            if (Objects.equals(transfer.getUser().getId(), user.getId())){
+                userTransfers.add(converter.toResponse(transfer));
+            }
+        }
+        if (userTransfers.isEmpty()){
+            throw new EntityNotFoundException("You don't have any car reservations.");
+        }
+        return userTransfers;
     }
 }

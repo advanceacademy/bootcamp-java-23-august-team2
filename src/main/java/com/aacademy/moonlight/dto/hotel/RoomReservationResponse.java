@@ -10,6 +10,7 @@ import java.time.LocalDate;
 @Setter
 @Builder
 public class RoomReservationResponse {
+    private Long id;
     private Long roomId;
     private LocalDate startDate;
     private LocalDate endDate;
