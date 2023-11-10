@@ -11,6 +11,7 @@ import java.util.List;
 public interface TableReservationService {
     TableReservation bookReservation(TableReservationRequest request);
     TableReservation updateReservation(Long id, TableReservationRequest request);
+
     void deleteById(Long id);
     List<TableReservationResponse> getAllTableReservations();
     List<TableReservationResponse> getTableReservationsByUser();
