@@ -26,7 +26,8 @@ public class UserRoleServiceImpl implements UserRoleService {
     @Override
     public UserRole createUserRole(UserRoleRequest roleRequest) {
             UserRole userRole = converter.toUserRole(roleRequest);
-            return repository.save(userRole);
+            userRole = repository.save(userRole);
+            return userRole;
     }
 
     @Override
